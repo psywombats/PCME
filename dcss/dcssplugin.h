@@ -30,66 +30,26 @@ namespace Tiled {
 class Map;
 }
 
-namespace Json {
+namespace Dcss {
 
-class JSONSHARED_EXPORT JsonPlugin : public Tiled::Plugin
+class DCSSSHARED_EXPORT DcssPlugin : public Tiled::Plugin
 {
     Q_OBJECT
-    Q_INTERFACES(Tiled::Plugin)
-    Q_PLUGIN_METADATA(IID "org.mapeditor.Plugin" FILE "plugin.json")
+    Q_PLUGIN_METADATA(IID "org.mapeditor.MapFormat" FILE "plugin.json")
 
 public:
-    void initialize() override;
-};
-
-
-class JSONSHARED_EXPORT JsonMapFormat : public Tiled::MapFormat
-{
-    Q_OBJECT
-    Q_INTERFACES(Tiled::MapFormat)
-
-public:
-    enum SubFormat {
-        Json,
-        JavaScript,
-    };
-
-    JsonMapFormat(SubFormat subFormat, QObject *parent = nullptr);
-
-    Tiled::Map *read(const QString &fileName) override;
-    bool supportsFile(const QString &fileName) const override;
+    DcssPlugin();
 
     bool write(const Tiled::Map *map, const QString &fileName) override;
-
-    QString nameFilter() const override;
-    QString shortName() const override;
     QString errorString() const override;
+    QString shortName() const override;
+    QStringList outputFiles(const Tiled::Map *, const QString &fileName) const override;
 
 protected:
-    QString mError;
-    SubFormat mSubFormat;
-};
-
-
-class JSONSHARED_EXPORT JsonTilesetFormat : public Tiled::TilesetFormat
-{
-    Q_OBJECT
-    Q_INTERFACES(Tiled::TilesetFormat)
-
-public:
-    JsonTilesetFormat(QObject *parent = nullptr);
-
-    Tiled::SharedTileset read(const QString &fileName) override;
-    bool supportsFile(const QString &fileName) const override;
-
-    bool write(const Tiled::Tileset &tileset, const QString &fileName) override;
-
     QString nameFilter() const override;
-    QString shortName() const override;
-    QString errorString() const override;
 
-protected:
+private:
     QString mError;
 };
 
-} // namespace Json
+} // namespace Dcss

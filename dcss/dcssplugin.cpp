@@ -16,303 +16,120 @@
  * this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "jsonplugin.h"
 
-#include "maptovariantconverter.h"
-#include "varianttomapconverter.h"
+#include "defoldplugin.h"
+
+#include "tokendefines.h"
+
+#include "layer.h"
+#include "map.h"
+#include "mapobject.h"
+#include "objectgroup.h"
 #include "savefile.h"
+#include "tile.h"
+#include "tilelayer.h"
 
-#include "qjsonparser/json.h"
-
-#include <QFile>
-#include <QFileInfo>
-#include <QJsonDocument>
-#include <QJsonObject>
 #include <QTextStream>
 
-namespace Json {
+#include <cmath>
 
-void JsonPlugin::initialize()
+namespace Dcss {
+
+QStringList DcssPlugin::outputFiles(const Tiled::Map *, const QString &fileName) const
 {
-    addObject(new JsonMapFormat(JsonMapFormat::Json, this));
-    addObject(new JsonMapFormat(JsonMapFormat::JavaScript, this));
-    addObject(new JsonTilesetFormat(this));
+    return QStringList() << fileName;
 }
 
-
-JsonMapFormat::JsonMapFormat(SubFormat subFormat, QObject *parent)
-    : Tiled::MapFormat(parent)
-    , mSubFormat(subFormat)
-{}
-
-Tiled::Map *JsonMapFormat::read(const QString &fileName)
+QString DcssPlugin::nameFilter() const
 {
-    QFile file(fileName);
-    if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-        mError = tr("Could not open file for reading.");
-        return nullptr;
-    }
-
-    JsonReader reader;
-    QByteArray contents = file.readAll();
-    if (mSubFormat == JavaScript && contents.size() > 0 && contents[0] != '{') {
-        // Scan past JSONP prefix; look for an open curly at the start of the line
-        int i = contents.indexOf(QLatin1String("\n{"));
-        if (i > 0) {
-            contents.remove(0, i);
-            contents = contents.trimmed(); // potential trailing whitespace
-            if (contents.endsWith(';')) contents.chop(1);
-            if (contents.endsWith(')')) contents.chop(1);
-        }
-    }
-    reader.parse(contents);
-
-    const QVariant variant = reader.result();
-
-    if (!variant.isValid()) {
-        mError = tr("Error parsing file.");
-        return nullptr;
-    }
-
-    Tiled::VariantToMapConverter converter;
-    Tiled::Map *map = converter.toMap(variant, QFileInfo(fileName).dir());
-
-    if (!map)
-        mError = converter.errorString();
-
-    return map;
+    return tr("psy crawlmap files (*.pcme)");
 }
 
-bool JsonMapFormat::write(const Tiled::Map *map, const QString &fileName)
+QString DefoldPlugin::shortName() const
 {
-    Tiled::SaveFile file(fileName);
-
-    if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
-        mError = tr("Could not open file for writing.");
-        return false;
-    }
-
-    Tiled::MapToVariantConverter converter;
-    QVariant variant = converter.toVariant(*map, QFileInfo(fileName).dir());
-
-    JsonWriter writer;
-    writer.setAutoFormatting(true);
-
-    if (!writer.stringify(variant)) {
-        // This can only happen due to coding error
-        mError = writer.errorString();
-        return false;
-    }
-
-    QTextStream out(file.device());
-    if (mSubFormat == JavaScript) {
-        // Trim and escape name
-        JsonWriter nameWriter;
-        QString baseName = QFileInfo(fileName).baseName();
-        nameWriter.stringify(baseName);
-        out << "(function(name,data){\n if(typeof onTileMapLoaded === 'undefined') {\n";
-        out << "  if(typeof TileMaps === 'undefined') TileMaps = {};\n";
-        out << "  TileMaps[name] = data;\n";
-        out << " } else {\n";
-        out << "  onTileMapLoaded(name,data);\n";
-        out << " }\n";
-        out << " if(typeof module === 'object' && module && module.exports) {\n";
-        out << "  module.exports = data;\n";
-        out << " }})(" << nameWriter.result() << ",\n";
-    }
-    out << writer.result();
-    if (mSubFormat == JavaScript) {
-        out << ");";
-    }
-    out.flush();
-
-    if (file.error() != QFileDevice::NoError) {
-        mError = tr("Error while writing file:\n%1").arg(file.errorString());
-        return false;
-    }
-
-    if (!file.commit()) {
-        mError = file.errorString();
-        return false;
-    }
-
-    return true;
+    return QLatin1String("dcss");
 }
 
-QString JsonMapFormat::nameFilter() const
+QString DefoldPlugin::errorString() const
 {
-    if (mSubFormat == Json)
-        return tr("Json map files (*.json)");
-    else
-        return tr("JavaScript map files (*.js)");
+    return mError;
 }
 
-QString JsonMapFormat::shortName() const
+DefoldPlugin::DefoldPlugin()
 {
-    if (mSubFormat == Json)
-        return QLatin1String("json");
-    else
-        return QLatin1String("js");
 }
 
-bool JsonMapFormat::supportsFile(const QString &fileName) const
+bool DefoldPlugin::write(const Tiled::Map *map, const QString &fileName)
 {
-    if (mSubFormat == Json) {
-        if (!fileName.endsWith(QLatin1String(".json"), Qt::CaseInsensitive))
-            return false;
-    } else {
-        if (!fileName.endsWith(QLatin1String(".js"), Qt::CaseInsensitive))
-            return false;
-    }
+    QVariantHash map_h;
 
-    QFile file(fileName);
-    if (file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-        QByteArray contents = file.readAll();
+    QList<QList<QString>> types;
 
-        if (mSubFormat == JavaScript && contents.size() > 0 && contents[0] != '{') {
-            // Scan past JSONP prefix; look for an open curly at the start of the line
-            int i = contents.indexOf(QLatin1String("\n{"));
-            if (i > 0) {
-                contents.remove(0, i);
-                contents = contents.trimmed(); // potential trailing whitespace
-                if (contents.endsWith(';')) contents.chop(1);
-                if (contents.endsWith(')')) contents.chop(1);
+    int layerWidth = 0;
+    int layerHeight = 0;
+
+    QString layers = "";
+    foreach (Tiled::TileLayer *tileLayer, map->tileLayers()) {
+        QVariantHash layer_h;
+        layer_h["id"] = tileLayer->name();
+        layer_h["z"] = 0;
+        layer_h["is_visible"] = tileLayer->isVisible() ? 1 : 0;
+        QString cells = "";
+
+        layerWidth = std::max(tileLayer->width(), layerWidth);
+        layerHeight = std::max(tileLayer->height(), layerHeight);
+
+        for (int x = 0; x < tileLayer->width(); ++x) {
+            QList<QString> t;
+            if (types.size() < tileLayer->width())
+                types.append(t);
+            for (int y = 0; y < tileLayer->height(); ++y) {
+                const Tiled::Cell &cell = tileLayer->cellAt(x, y);
+                if (cell.isEmpty())
+                    continue;
+                QVariantHash cell_h;
+                cell_h["x"] = x;
+                cell_h["y"] = tileLayer->height() - y - 1;
+                cell_h["tile"] = cell.tileId();
+                cell_h["h_flip"] = cell.flippedHorizontally() ? 1 : 0;
+                cell_h["v_flip"] = cell.flippedVertically() ? 1 : 0;
+                cells.append(replaceTags(QLatin1String(cell_t), cell_h));
+                if (const Tiled::Tile *tile = cell.tile()) {
+                    if (types[x].size() < tileLayer->height())
+                        types[x].append(tile->property("Type").toString());
+                    else if (!tile->property("Type").toString().isEmpty())
+                        types[x][tileLayer->height() - y - 1] = tile->property("Type").toString();
+                }
             }
         }
-
-        const QJsonObject object = QJsonDocument::fromJson(contents).object();
-
-        // This is a good indication, but not present in older map files
-        if (object.value(QLatin1String("type")).toString() == QLatin1String("map"))
-            return true;
-
-        // Guess based on expected property
-        if (object.contains(QLatin1String("orientation")))
-            return true;
+        layer_h["cells"] = cells;
+        layers.append(replaceTags(QLatin1String(layer_t), layer_h));
     }
+    map_h["layers"] = layers;
+    map_h["material"] = "/builtins/materials/tile_map.material";
+    map_h["blend_mode"] = "BLEND_MODE_ALPHA";
+    map_h["tile_set"] = "";
 
-    return false;
-}
-
-QString JsonMapFormat::errorString() const
-{
-    return mError;
-}
-
-
-JsonTilesetFormat::JsonTilesetFormat(QObject *parent)
-    : Tiled::TilesetFormat(parent)
-{
-}
-
-Tiled::SharedTileset JsonTilesetFormat::read(const QString &fileName)
-{
-    QFile file(fileName);
-
-    if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-        mError = tr("Could not open file for reading.");
-        return Tiled::SharedTileset();
-    }
-
-    JsonReader reader;
-    QByteArray contents = file.readAll();
-
-    reader.parse(contents);
-
-    const QVariant variant = reader.result();
-
-    if (!variant.isValid()) {
-        mError = tr("Error parsing file.");
-        return Tiled::SharedTileset();
-    }
-
-    Tiled::VariantToMapConverter converter;
-    Tiled::SharedTileset tileset = converter.toTileset(variant,
-                                                       QFileInfo(fileName).dir());
-
-    if (!tileset)
-        mError = converter.errorString();
-    else
-        tileset->setFileName(fileName);
-
-    return tileset;
-}
-
-bool JsonTilesetFormat::supportsFile(const QString &fileName) const
-{
-    if (fileName.endsWith(QLatin1String(".json"), Qt::CaseInsensitive)) {
-        QFile file(fileName);
-
-        if (file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-            const QJsonObject object = QJsonDocument::fromJson(file.readAll()).object();
-
-            // This is a good indication, but not present in older external tilesets
-            if (object.value(QLatin1String("type")).toString() == QLatin1String("tileset"))
-                return true;
-
-            // Guess based on some expected properties
-            if (object.contains(QLatin1String("name")) &&
-                object.contains(QLatin1String("tilewidth")) &&
-                object.contains(QLatin1String("tileheight")))
-                return true;
-        }
-    }
-
-    return false;
-}
-
-bool JsonTilesetFormat::write(const Tiled::Tileset &tileset,
-                              const QString &fileName)
-{
-    Tiled::SaveFile file(fileName);
-
-    if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+    QString result = replaceTags(QLatin1String(map_t), map_h);
+    Tiled::SaveFile mapFile(fileName);
+    if (!mapFile.open(QIODevice::WriteOnly | QIODevice::Text)) {
         mError = tr("Could not open file for writing.");
         return false;
     }
+    QTextStream stream(mapFile.device());
+    stream << result;
 
-    Tiled::MapToVariantConverter converter;
-    QVariant variant = converter.toVariant(tileset, QFileInfo(fileName).dir());
-
-    JsonWriter writer;
-    writer.setAutoFormatting(true);
-
-    if (!writer.stringify(variant)) {
-        // This can only happen due to coding error
-        mError = writer.errorString();
+    if (mapFile.error() != QFileDevice::NoError) {
+        mError = mapFile.errorString();
         return false;
     }
 
-    QTextStream out(file.device());
-    out << writer.result();
-    out.flush();
-
-    if (file.error() != QFileDevice::NoError) {
-        mError = tr("Error while writing file:\n%1").arg(file.errorString());
-        return false;
-    }
-
-    if (!file.commit()) {
-        mError = file.errorString();
+    if (!mapFile.commit()) {
+        mError = mapFile.errorString();
         return false;
     }
 
     return true;
 }
 
-QString JsonTilesetFormat::nameFilter() const
-{
-    return tr("Json tileset files (*.json)");
-}
-
-QString JsonTilesetFormat::shortName() const
-{
-    return QLatin1String("json");
-}
-
-QString JsonTilesetFormat::errorString() const
-{
-    return mError;
-}
-
-} // namespace Json
+} // namespace Dcss

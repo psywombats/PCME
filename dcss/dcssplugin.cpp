@@ -17,9 +17,7 @@
  */
 
 
-#include "defoldplugin.h"
-
-#include "tokendefines.h"
+#include "dcssplugin.h"
 
 #include "layer.h"
 #include "map.h"
@@ -45,21 +43,21 @@ QString DcssPlugin::nameFilter() const
     return tr("psy crawlmap files (*.pcme)");
 }
 
-QString DefoldPlugin::shortName() const
+QString DcssPlugin::shortName() const
 {
     return QLatin1String("dcss");
 }
 
-QString DefoldPlugin::errorString() const
+QString DcssPlugin::errorString() const
 {
     return mError;
 }
 
-DefoldPlugin::DefoldPlugin()
+DcssPlugin::DcssPlugin()
 {
 }
 
-bool DefoldPlugin::write(const Tiled::Map *map, const QString &fileName)
+bool DcssPlugin::write(const Tiled::Map *map, const QString &fileName)
 {
     QVariantHash map_h;
 
@@ -93,7 +91,9 @@ bool DefoldPlugin::write(const Tiled::Map *map, const QString &fileName)
                 cell_h["tile"] = cell.tileId();
                 cell_h["h_flip"] = cell.flippedHorizontally() ? 1 : 0;
                 cell_h["v_flip"] = cell.flippedVertically() ? 1 : 0;
-                cells.append(replaceTags(QLatin1String(cell_t), cell_h));
+                for (QVariantHash::iterator i = cell_h.begin(); i != cell_h.end(); i += 1) {
+                	cells.append(QLatin1String("yabba\n"));
+                }
                 if (const Tiled::Tile *tile = cell.tile()) {
                     if (types[x].size() < tileLayer->height())
                         types[x].append(tile->property("Type").toString());
@@ -103,14 +103,14 @@ bool DefoldPlugin::write(const Tiled::Map *map, const QString &fileName)
             }
         }
         layer_h["cells"] = cells;
-        layers.append(replaceTags(QLatin1String(layer_t), layer_h));
+        layers.append(QLatin1String("yabba\n"));
     }
     map_h["layers"] = layers;
     map_h["material"] = "/builtins/materials/tile_map.material";
     map_h["blend_mode"] = "BLEND_MODE_ALPHA";
     map_h["tile_set"] = "";
 
-    QString result = replaceTags(QLatin1String(map_t), map_h);
+    QString result = QLatin1String("yabbaa\n");
     Tiled::SaveFile mapFile(fileName);
     if (!mapFile.open(QIODevice::WriteOnly | QIODevice::Text)) {
         mError = tr("Could not open file for writing.");

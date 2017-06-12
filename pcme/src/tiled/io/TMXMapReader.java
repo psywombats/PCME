@@ -224,7 +224,7 @@ public class TMXMapReader {
         return img;
     }
 
-    private TileSet unmarshalTilesetFile(InputStream in, String filename)
+    private TileSet unmarshalTilesetFile(InputStream in, String filename, int firstGid)
             throws Exception {
         TileSet set = null;
         Node tsNode;
@@ -246,7 +246,7 @@ public class TMXMapReader {
             // There can be only one tileset in a .tsx file.
             tsNode = tsNodeList.item(0);
             if (tsNode != null) {
-                set = unmarshalTileset(tsNode);
+                set = unmarshalTileset(tsNode, filename, firstGid);
                 if (set.getSource() != null) {
                     System.out.println("Recursive external tilesets are not supported.");
                 }
@@ -262,10 +262,12 @@ public class TMXMapReader {
         return set;
     }
 
-    private TileSet unmarshalTileset(Node t) throws Exception {
+    private TileSet unmarshalTileset(Node t, String baseTilesetPath, int firstGid) throws Exception {
         String source = getAttributeValue(t, "source");
         String basedir = getAttributeValue(t, "basedir");
-        int firstGid = getAttribute(t, "firstgid", 1);
+        if (firstGid == -1) {
+        	firstGid = getAttribute(t, "firstgid", 1);
+        }
 
         String tilesetBaseDir = "";
         if (source != null) {
@@ -277,7 +279,7 @@ public class TMXMapReader {
         }
 
         if (source != null) {
-            String filename = tilesetBaseDir + source;
+            String filename = xmlPath + source;
             //if (checkRoot(source)) {
             //    filename = makeUrl(source);
             //}
@@ -286,7 +288,7 @@ public class TMXMapReader {
 
             try {
                 InputStream in = new URL(makeUrl(filename)).openStream();
-                ext = unmarshalTilesetFile(in, filename);
+                ext = unmarshalTilesetFile(in, filename, firstGid);
                 setFirstGidForTileset(ext, firstGid);
             } catch (FileNotFoundException fnf) {
                 error = "Could not find external tileset file " + filename;
@@ -345,8 +347,8 @@ public class TMXMapReader {
 
                         // FIXME: importTileBitmap does not fully support URLs
                         String sourcePath = imgSource;
-                        if (!new File(imgSource).isAbsolute()) {
-                            sourcePath = tilesetBaseDir + imgSource;
+                        if (baseTilesetPath != null) {
+                        	sourcePath = baseTilesetPath.substring(0, baseTilesetPath.lastIndexOf('/')) + "/" + sourcePath;
                         }
 
                         if (transStr != null) {
@@ -726,6 +728,9 @@ public class TMXMapReader {
      */
     private Tile getTileForTileGID(int tileId) {
         Tile tile = null;
+        if (tileId == 158) {
+        	System.out.print("");
+        }
         java.util.Map.Entry<Integer, TileSet> ts = findTileSetForTileGID(tileId);
         if (ts != null) {
             tile = ts.getValue().getTile(tileId - ts.getKey());
@@ -806,7 +811,7 @@ public class TMXMapReader {
         tilesetPerFirstGid = new TreeMap<>();
         NodeList l = doc.getElementsByTagName("tileset");
         for (int i = 0; (item = l.item(i)) != null; i++) {
-            map.addTileset(unmarshalTileset(item));
+            map.addTileset(unmarshalTileset(item, null, -1));
         }
 
         // Load the layers and objectgroups
@@ -916,7 +921,7 @@ public class TMXMapReader {
         xmlPath = makeUrl(xmlPath);
 
         URL url = new URL(xmlFile);
-        return unmarshalTilesetFile(url.openStream(), filename);
+        return unmarshalTilesetFile(url.openStream(), filename, -1);
     }
 
     /**
@@ -927,7 +932,7 @@ public class TMXMapReader {
      * @throws java.lang.Exception if any.
      */
     public TileSet readTileset(InputStream in) throws Exception {
-        return unmarshalTilesetFile(in, ".");
+        return unmarshalTilesetFile(in, ".", -1);
     }
 
     /**

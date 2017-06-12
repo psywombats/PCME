@@ -113,6 +113,26 @@ public class PcmeConverter {
 		}
 		
 		String result = "";
+		result += "##############################################################################";
+		result += "\n";
+		result += "NAME:       ";
+		if (map.getProperties().getProperty("name") != null) {
+			result += map.getProperties().getProperty("name");
+		} else {
+			result += map.getFilename().substring(map.getFilename().lastIndexOf('\\') + 1,
+					map.getFilename().indexOf('.'));
+		}
+		result += "\n";
+		result = appendPropertyIfExists(result, map, "place");
+		result = appendPropertyIfExists(result, map, "tags");
+		result = appendPropertyIfExists(result, map, "weight");
+		result = appendPropertyIfExists(result, map, "chance");
+		result = appendPropertyIfExists(result, map, "orient");
+		if (map.getProperties().getProperty("code") != null) {
+			result += map.getProperties().getProperty("code") + "\n";
+		}
+		
+		result += "MAP\n";
 		for (ArrayList<Character> row : glyphs) {
 			String line = "";
 			for (Character glyph : row) {
@@ -120,6 +140,7 @@ public class PcmeConverter {
 			}
 			result += line + "\n";
 		}
+		result += "ENDMAP\n";
 		
 		return result;
 	}
@@ -130,5 +151,33 @@ public class PcmeConverter {
 	 */
 	protected void reportError(String errorMessage) {
 		System.err.println(inputFile + ": " + errorMessage);
+	}
+	
+	/**
+	 * If a property with the given name exists, appends it to the result string. The property name
+	 * is automatically converted to uppercase in the result string, but is case-insensitive in the
+	 * reading.
+	 * @param	result			The current result string
+	 * @param	map				The map with the properties to read from
+	 * @param	propertyName	The name of the property to append
+	 * @return					The result string possibly with the property value appended
+	 */
+	protected String appendPropertyIfExists(String result, Map map, String propertyName) {
+		String value = null;
+		if (map.getProperties().getProperty(propertyName.toLowerCase()) != null) {
+			value = map.getProperties().getProperty(propertyName.toLowerCase());
+		} else if (map.getProperties().getProperty(propertyName.toUpperCase()) != null) {
+			value = map.getProperties().getProperty(propertyName.toUpperCase());
+		}
+		if (value != null) {
+			String newResult = result + propertyName.toUpperCase() + ":";
+			for (int i = propertyName.length(); i < 12 - 1; i += 1) {
+				newResult += " ";
+			}
+			newResult += value + "\n";
+			return newResult;
+		} else {
+			return result;
+		}
 	}
 }

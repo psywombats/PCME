@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="2017.05.26" orientation="orthogonal" renderorder="right-down" width="17" height="17" tilewidth="32" tileheight="32" backgroundcolor="#000000" nextobjectid="1">
+ <properties>
+  <property name="code">SHUFFLE:    pqr
+SUBST:      p:x, q:x, r:@</property>
+  <property name="orient" value="float"/>
+  <property name="tags" value="arrival no_monster_gen"/>
+ </properties>
  <tileset firstgid="1" source="../tilesets/features.tsx"/>
  <tileset firstgid="181" source="../tilesets/basic.tsx"/>
  <layer name="TIle Layer" width="17" height="17">

@@ -1,3 +1,8 @@
+##############################################################################
+NAME:       psy_arrival01
+TAGS:       arrival
+ORIENT:     float
+MAP
 xxxxxxxxxxxxm@
 x............@
 x.x.x.x...xxG@
@@ -7,7 +12,14 @@ x.xxxxx...xxx
 x.x.x.x...xxG@
 x............@
 xxxxxxxxxxxxm@
+ENDMAP
 
+##############################################################################
+NAME:       psy_arrival_heroes
+TAGS:       arrival no_monster_gen
+ORIENT:     float
+SUBST:      p : c@
+MAP
         ppp                  
         cGc                  
         c.c                  
@@ -27,7 +39,15 @@ pccc........................@
         c.c                  
         cGc                  
         ppp                  
+ENDMAP
 
+##############################################################################
+NAME:       psy_arrival_radial01
+TAGS:       arrival no_monster_gen
+ORIENT:     float
+SHUFFLE:    pqr
+SUBST:      p:x, q:x, r:@
+MAP
 pxxxqqq rrxxxxxpp
 p..xx.xxx.x...x.x
 xx.x..x...x.x...x
@@ -45,4 +65,5 @@ xxxxx.xxx.xx.x..x
 x...x.x...x..x.xx
 x.x...x.xxx.xx..p
 ppxxxxxrr qqqxxxp
+ENDMAP
 

@@ -267,7 +267,10 @@ public class TMXMapReader {
         String basedir = getAttributeValue(t, "basedir");
         int firstGid = getAttribute(t, "firstgid", 1);
 
-        String tilesetBaseDir = xmlPath;
+        String tilesetBaseDir = "";
+        if (source != null) {
+        	tilesetBaseDir = source.substring(0, source.lastIndexOf('/'));
+        }
 
         if (basedir != null) {
             tilesetBaseDir = basedir; //makeUrl(basedir);

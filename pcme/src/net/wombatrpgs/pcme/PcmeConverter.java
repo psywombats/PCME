@@ -7,7 +7,6 @@
 package net.wombatrpgs.pcme;
 
 import java.io.File;
-import java.io.InputStream;
 import java.util.ArrayList;
 
 import tiled.core.Map;
@@ -112,6 +111,17 @@ public class PcmeConverter {
 				}
 			}
 		}
+		
+		String result = "";
+		for (ArrayList<Character> row : glyphs) {
+			String line = "";
+			for (Character glyph : row) {
+				line += glyph;
+			}
+			result += line + "\n";
+		}
+		
+		return result;
 	}
 	
 	/**

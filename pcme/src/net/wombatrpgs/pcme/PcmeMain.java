@@ -25,12 +25,13 @@ public class PcmeMain {
 	 */
 	public static void main(String[] args) {
 		ArrayList<String> argsArray = new ArrayList<String>(Arrays.asList(args));
-		if (argsArray.size() != 3) {
+		if (argsArray.size() != 2) {
 			printHelp();
+			return;
 		}
 		
-		String inputDirectoryPath = argsArray.get(1);
-		String outputFilePath = argsArray.get(2);
+		String inputDirectoryPath = argsArray.get(0);
+		String outputFilePath = argsArray.get(1);
 		
 		File inputDirectory = new File(inputDirectoryPath);
 		if (!inputDirectory.exists()) {

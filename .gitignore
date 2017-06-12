@@ -42,12 +42,6 @@ Network Trash Folder
 Temporary Items
 .apdisk
 
-# Toolless version
-Tiled2UnityTest/*
-*.meta
-tool/Tiled2Unity/Tiled2UnityLib/obj/*
-tool/Tiled2Unity/Tiled2UnityLib/bin/*
-tool/Tiled2Unity/src/obj/*
-tool/Tiled2Unity/src/bin/*
-*.opendb
+# PCME
+*.class
 

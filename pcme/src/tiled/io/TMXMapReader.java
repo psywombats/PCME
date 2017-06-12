@@ -180,7 +180,6 @@ public class TMXMapReader {
     private <T> T unmarshalClass(Class<T> clazz, Node node) throws JAXBException {
         JAXBContext context = JAXBContext.newInstance(clazz);
         Unmarshaller unmarshaller = context.createUnmarshaller();
-
         return (T) unmarshaller.unmarshal(node);
     }
 
@@ -399,9 +398,9 @@ public class TMXMapReader {
             if (tileId > Integer.MAX_VALUE) {
                 // Read out the flags
                 // TODO: Save these flags somewhere
-                long flippedHorizontally = tileId & FLIPPED_HORIZONTALLY_FLAG;
-                long flippedVertically = tileId & FLIPPED_VERTICALLY_FLAG;
-                long flippedDiagonally = tileId & FLIPPED_DIAGONALLY_FLAG;
+//                long flippedHorizontally = tileId & FLIPPED_HORIZONTALLY_FLAG;
+//                long flippedVertically = tileId & FLIPPED_VERTICALLY_FLAG;
+//                long flippedDiagonally = tileId & FLIPPED_DIAGONALLY_FLAG;
 
                 // Clear the flags
                 tileId &= ~(FLIPPED_HORIZONTALLY_FLAG |
@@ -626,6 +625,8 @@ public class TMXMapReader {
                                 setTileAtFromTileId(ml, y, x, tileId);
                             }
                         }
+                        
+                        bais.close();
                     }
                 } else if ("csv".equalsIgnoreCase(encoding)) {
                     String csvText = child.getTextContent();

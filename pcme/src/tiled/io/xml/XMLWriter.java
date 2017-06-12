@@ -305,7 +305,7 @@ public class XMLWriter {
 
     private void writeIndent() throws IOException {
         if (bIndent) {
-            for (String openElement : openElements) {
+            for (int i = 0; i < openElements.size(); i += 1) {
                 w.write(indentString);
             }
         }

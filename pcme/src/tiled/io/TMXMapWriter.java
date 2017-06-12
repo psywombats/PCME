@@ -191,6 +191,11 @@ public class TMXMapWriter {
             case STAGGERED:
                 w.writeAttribute("staggeraxis", String.valueOf(map.getStaggerAxis()));
                 w.writeAttribute("staggerindex", String.valueOf(map.getStaggerIndex()));
+                break;
+            case ISOMETRIC:
+            	break;
+            case ORTHOGONAL:
+            	break;
         }
 
         writeProperties(map.getProperties(), w);
@@ -441,6 +446,10 @@ public class TMXMapWriter {
                 }
 
                 w.writeCDATA(Base64.encodeToString(baos.toByteArray(), true));
+                
+                if (dos != null) {
+                	dos.close();
+                }
             } else {
                 for (int y = 0; y < l.getHeight(); y++) {
                     for (int x = 0; x < l.getWidth(); x++) {

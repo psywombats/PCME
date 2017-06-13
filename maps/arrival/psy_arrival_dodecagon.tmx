@@ -4,7 +4,7 @@
   <property name="code">SUBST:      p:Wmvb
 SUBST:      q:..xlm</property>
   <property name="orient" value="float"/>
-  <property name="tags" value="arrival no_monster_gen"/>
+  <property name="tags" value="arrival no_monster_gen transparent"/>
  </properties>
  <tileset firstgid="1" source="../tilesets/features.tsx"/>
  <tileset firstgid="181" source="../tilesets/basic.tsx"/>

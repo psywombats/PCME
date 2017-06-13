@@ -15,6 +15,63 @@ xxxxxxxxxxxxm@
 ENDMAP
 
 ##############################################################################
+NAME:       psy_arrival_arrows
+TAGS:       arrival no_monster_gen
+ORIENT:     float
+SUBST:      p:ccx., q:+.
+MAP
+               p.....
+                p....
+                 pq..
+                 .p..
+                .  p.
+               .    p
+              .      
+             .       
+            .        
+         cc.         
+         c{c         
+         .cc         
+        .            
+       .             
+      .              
+p    .               
+.p  .                
+..pq                 
+...p                 
+....p                
+.....p               
+ENDMAP
+
+##############################################################################
+NAME:       psy_arrival_crosshairs
+TAGS:       arrival no_monster_gen
+ORIENT:     float
+SUBST:      p : xxwWlcbvm
+SUBST:      q : xxwWlcbvm
+SUBST:      r : xxwWlcbvm
+SUBST:      s : xxwWlcbvm
+MAP
+rrrrrrrr@rrrrrrrr
+r...............r
+r.qqqqqq.qqqqqq.r
+r.q...........q.r
+r.q.ssss.ssss.q.r
+r.q.s.......s.q.r
+r.q.s.pp.pp.s.q.r
+r.q.s.p...p.s.q.r
+@.......{.......@
+r.q.s.p...p.s.q.r
+r.q.s.pp.pp.s.q.r
+r.q.s.......s.q.r
+r.q.ssss.ssss.q.r
+r.q...........q.r
+r.qqqqqq.qqqqqq.r
+r...............r
+rrrrrrrr@rrrrrrrr
+ENDMAP
+
+##############################################################################
 NAME:       psy_arrival_heroes
 TAGS:       arrival no_monster_gen
 ORIENT:     float
@@ -65,5 +122,68 @@ xxxxx.xxx.xx.x..x
 x...x.x...x..x.xx
 x.x...x.xxx.xx..p
 ppxxxxxrr qqqxxxp
+ENDMAP
+
+##############################################################################
+NAME:       psy_arrival_radial02
+TAGS:       arrival no_monster_gen no_pool_fixup
+ORIENT:     float
+SHUFFLE:    JKLM
+SUBST:      J:x, K:x, L:x, M:@
+SUBST:      p:llWWmvbx
+MAP
+pJxKxxxLxxxxMpppppppp
+p.x.x...x....p......J
+p.x.x.xxx.pppp.xxxxxx
+p.x.x.x...p.........K
+p.x.x.x.ppp.xxxxxxxxx
+p.x.x...p...........x
+p...x.ppp.ppppp.xxx.x
+ppp.x.p...p...p...x.L
+M.p.x.p.ppp.p.ppp.xxx
+x.p...p.....p...p...x
+x.ppp.ppp.{.ppp.ppp.x
+x...p...p.....p...p.x
+xxx.ppp.p.ppp.p.x.p.M
+L.x...p...p...p.x.ppp
+x.xxx.ppppp.ppp.x...p
+x...........p...x.x.p
+xxxxxxxxx.ppp.x.x.x.p
+K.........p...x.x.x.p
+xxxxxx.pppp.xxx.x.x.p
+J......p....x...x.x.p
+ppppppppMxxxxLxxxKxJp
+ENDMAP
+
+##############################################################################
+NAME:       psy_arrival_star
+TAGS:       arrival no_monster_gen
+ORIENT:     float
+SUBST:      p:Wmvb
+SUBST:      q:..xlm
+MAP
+           .           
+          .x.          
+         .x.x.         
+   ......x...x......   
+   .xxxxxxx.xxxxxxx.   
+   .xppx.......xppx.   
+   .xpx.........xpx.   
+   .xx...........xx.   
+   .x.............x.   
+  .xx.............xx.  
+ .xqx.............xqx. 
+.xqqq......{......qqqx.
+ .xqx.............xqx. 
+  .xx.............xx.  
+   .x.............x.   
+   .xx...........xx.   
+   .xpx.........xpx.   
+   .xppx.......xppx.   
+   .xxxxxxxqxxxxxxx.   
+   ......xqqqx......   
+         .xqx.         
+          .x.          
+           .           
 ENDMAP
 

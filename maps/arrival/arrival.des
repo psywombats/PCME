@@ -72,6 +72,38 @@ rrrrrrrr@rrrrrrrr
 ENDMAP
 
 ##############################################################################
+NAME:       psy_arrival_dodecagon
+TAGS:       arrival no_monster_gen transparent
+ORIENT:     float
+SUBST:      p:Wmvb
+SUBST:      q:..xlm
+MAP
+           .           
+          .x.          
+         .x.x.         
+   ......x...x......   
+   .xxxxxxx.xxxxxxx.   
+   .xppx.......xppx.   
+   .xpx.........xpx.   
+   .xx...........xx.   
+   .x.............x.   
+  .xx.............xx.  
+ .xqx.............xqx. 
+.xqqq......{......qqqx.
+ .xqx.............xqx. 
+  .xx.............xx.  
+   .x.............x.   
+   .xx...........xx.   
+   .xpx.........xpx.   
+   .xppx.......xppx.   
+   .xxxxxxxqxxxxxxx.   
+   ......xqqqx......   
+         .xqx.         
+          .x.          
+           .           
+ENDMAP
+
+##############################################################################
 NAME:       psy_arrival_heroes
 TAGS:       arrival no_monster_gen
 ORIENT:     float
@@ -156,13 +188,46 @@ ppppppppMxxxxLxxxKxJp
 ENDMAP
 
 ##############################################################################
+NAME:       psy_arrival_solomon
+TAGS:       arrival no_monster_gen no_rotate no_item_gen
+ORIENT:     float
+SHUFFLE:    s/r
+SUBST:      s = +, r = x
+SUBST:      p : tvGGd
+SUBST:      q : wwlx'''
+KFEAT:      '" = .
+FTILE:      ' = floor_pebble_darkgray
+FTILE:      G = statue_orb
+COLOUR:     ' : darkgrey
+ITEM:       stone
+MAP
+    x+xxxxx+x    
+  xxx...q...xxx  
+ xx.p..q.q..p.xx 
+xx....q...q....xx
+xqqqqqqqqqqqqqqqx
++.q..q.....q..q.+
+x..q.q.....q.q..x
+x..qq.......qq..x
+xp..q...{...q..px
+x..qq.......qq..x
+x..q.q.....q.q..x
++.q..q.....q..q.+
+xqqqqqqqqqqqqqqqx
+xx....q...q....xx
+ xx.p..q.q..p.xx 
+  xxx...q...xxx  
+    x+xxxxx+x    
+ENDMAP
+
+##############################################################################
 NAME:       psy_arrival_spokes
 TAGS:       arrival no_monster_gen
+ORIENT:     float
 : if crawl.coinflip() then
 SUBST:      q : @, r : x, p : .
 :end
 CLEAR:      pqr
-ORIENT:     float
 MAP
      rqx@@@xqr     
      rpx...xpr     
@@ -183,37 +248,5 @@ x.....xxprpxx.....x
 @@...xxprrrpxx...@@
  @@.xxprr rrpxx.@@ 
   @xxqrr   rrqxx@  
-ENDMAP
-
-##############################################################################
-NAME:       psy_arrival_star
-TAGS:       arrival no_monster_gen
-ORIENT:     float
-SUBST:      p:Wmvb
-SUBST:      q:..xlm
-MAP
-           .           
-          .x.          
-         .x.x.         
-   ......x...x......   
-   .xxxxxxx.xxxxxxx.   
-   .xppx.......xppx.   
-   .xpx.........xpx.   
-   .xx...........xx.   
-   .x.............x.   
-  .xx.............xx.  
- .xqx.............xqx. 
-.xqqq......{......qqqx.
- .xqx.............xqx. 
-  .xx.............xx.  
-   .x.............x.   
-   .xx...........xx.   
-   .xpx.........xpx.   
-   .xppx.......xppx.   
-   .xxxxxxxqxxxxxxx.   
-   ......xqqqx......   
-         .xqx.         
-          .x.          
-           .           
 ENDMAP
 

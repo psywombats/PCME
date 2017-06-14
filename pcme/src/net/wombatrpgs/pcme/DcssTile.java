@@ -13,6 +13,9 @@ public class DcssTile {
 
 	protected Character glyph;
 	protected Character kfeatGlyph;
+	protected String ftileName;
+	protected String rtileName;
+	protected String tileName;
 	
 	/**
 	 * Creates a new tile with the given glyph.
@@ -20,6 +23,32 @@ public class DcssTile {
 	 */
 	public DcssTile(Character glyph) {
 		this.glyph = glyph;
+	}
+	
+	/**
+	 * Gives this tile a cosmetic appearance, separate from glyph. The exact command used to set the
+	 * cosmetic tile varies by initial glyph -- rocks are given rtile, floors ftile, etc.
+	 * @param	tileName		The cosmetic tilename used by this tile
+	 */
+	public void setCosmeticTile(String tileName) {
+		if (glyph == '.') {
+			this.ftileName = tileName;
+		} else if (glyph == 'x') {
+			this.rtileName = tileName;
+		} else {
+			this.tileName = tileName;
+		}
+	}
+	
+	/**
+	 * Returns the cosmetic tile name of this tile, regardless of which command it will be set with.
+	 * @return					The ftile/tile/rtile cosmetic tile of this tile, or null if none
+	 */
+	public String getCosmeticTile() {
+		if (ftileName != null) return ftileName;
+		if (rtileName != null) return rtileName;
+		if (tileName != null) return tileName;
+		return null;
 	}
 	
 	/**

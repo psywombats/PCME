@@ -1,29 +1,29 @@
 ##############################################################################
 NAME:       psy_arrival01
-TAGS:       arrival
-ORIENT:     float
+TAGS:    arrival
+ORIENT:      float
 MAP
-xxxxxxxxxxxxm@
-x............@
-x.x.x.x...xxG@
-x.xxxxx...xxx 
-x<xxxxx.{.xxx 
-x.xxxxx...xxx 
-x.x.x.x...xxG@
-x............@
-xxxxxxxxxxxxm@
+xxxxxxxxx
+x........
+x.xxxxx..
+x.xxxx...
+x.xxxxx.{
+x.xxxx...
+x.xxxxx..
+x........
+xxxxxxxxx
 ENDMAP
 
 ##############################################################################
 NAME:       psy_arrival_arrows
-TAGS:       arrival no_monster_gen
-ORIENT:     float
+TAGS:arrival no_monster_gen
+ORIENT:      float
 SUBST:      p:ccx., q:+.
 MAP
                p.....
                cp....
-               ccpq..
-               cp.p..
+               ccp...
+               cpqp..
                p.pcp.
               p.pcccp
              p.p     
@@ -45,8 +45,8 @@ ENDMAP
 
 ##############################################################################
 NAME:       psy_arrival_crosshairs
-TAGS:       arrival no_monster_gen
-ORIENT:     float
+TAGS:arrival no_monster_gen
+ORIENT:      float
 SUBST:      p : xxwWlcbvm
 SUBST:      q : xxwWlcbvm
 SUBST:      r : xxwWlcbvm
@@ -73,8 +73,8 @@ ENDMAP
 
 ##############################################################################
 NAME:       psy_arrival_dodecagon
-TAGS:       arrival no_monster_gen transparent
-ORIENT:     float
+TAGS:arrival no_monster_gen transparent
+ORIENT:      float
 SUBST:      p:Wmvb
 SUBST:      q:..xlm
 MAP
@@ -105,35 +105,35 @@ ENDMAP
 
 ##############################################################################
 NAME:       psy_arrival_heroes
-TAGS:       arrival no_monster_gen
-ORIENT:     float
+TAGS:arrival no_monster_gen
+ORIENT:      float
 SUBST:      p : c@
 MAP
-        ppp                  
-        cGc                  
-        c.c                  
-      ccc.ccc                
-    ccc.....ccc              
-    c.........c cccccccccccc 
-   cc.........cccGccGccGccGc 
-   c........................@
-pccc........................@
-pG.......{..................@
-pccc........................@
-   c........................@
-   cc.........cccGccGccGccGc 
-    c.........c cccccccccccc 
-    ccc.....ccc              
-      ccc.ccc                
-        c.c                  
-        cGc                  
-        ppp                  
+        ppp        
+        cGc        
+        c.c        
+      ccc.ccc      
+    ccc.....ccc    
+    c.........c ccc
+   cc.........cccGc
+   c...............
+pccc...............
+pG.......{.........
+pccc...............
+   c...............
+   cc.........cccGc
+    c.........c ccc
+    ccc.....ccc    
+      ccc.ccc      
+        c.c        
+        cGc        
+        ppp        
 ENDMAP
 
 ##############################################################################
 NAME:       psy_arrival_radial01
-TAGS:       arrival no_monster_gen
-ORIENT:     float
+TAGS:arrival no_monster_gen
+ORIENT:      float
 SHUFFLE:    pqr
 SUBST:      p:x, q:x, r:@
 MAP
@@ -158,10 +158,10 @@ ENDMAP
 
 ##############################################################################
 NAME:       psy_arrival_radial02
-TAGS:       arrival no_monster_gen no_pool_fixup
-ORIENT:     float
+TAGS:arrival no_monster_gen no_pool_fixup
+ORIENT:      float
 SHUFFLE:    JKLM
-SUBST:      J:x, K:x, L:x, M:@
+SUBST:      JKL:x, M:@
 SUBST:      p:llWWmvbx
 MAP
 pJxKxxxLxxxxMpppppppp
@@ -189,15 +189,11 @@ ENDMAP
 
 ##############################################################################
 NAME:       psy_arrival_solomon
-TAGS:       arrival no_monster_gen no_rotate no_item_gen
-ORIENT:     float
-SHUFFLE:    s/r
-SUBST:      s = +, r = x
-SUBST:      p : tvGGd
-SUBST:      q : wwlx'''
+TAGS:arrival no_monster_gen no_rotate no_item_gen no_pool_fixup
+ORIENT:      float
+SUBST:      p : tvGGd, q : wwlx'''
 KFEAT:      '" = .
 FTILE:      ' = floor_pebble_darkgray
-FTILE:      G = statue_orb
 COLOUR:     ' : darkgrey
 ITEM:       stone
 MAP
@@ -222,8 +218,8 @@ ENDMAP
 
 ##############################################################################
 NAME:       psy_arrival_spokes
-TAGS:       arrival no_monster_gen
-ORIENT:     float
+TAGS:arrival no_monster_gen
+ORIENT:      float
 : if crawl.coinflip() then
 SUBST:      q : @, r : x, p : .
 :end
@@ -239,7 +235,7 @@ MAP
     rrpx...xprr    
    rrpxx.{.xxprr   
   rrpxx.....xxprr  
- rrpxx..<.G..xxprr 
+ rrpxx..{.G..xxprr 
 rrpxx.........xxprr
 rpxx.....x.....xxpr
 qxx.....xxx.....xxq

@@ -13,9 +13,8 @@ public class DcssTile {
 
 	protected Character glyph;
 	protected Character originalGlyph;
-	protected String ftileName;
-	protected String rtileName;
 	protected String tileName;
+	protected String color;
 	
 	/**
 	 * Creates a new tile with the given glyph.
@@ -32,13 +31,7 @@ public class DcssTile {
 	 * @param	tileName		The cosmetic tilename used by this tile
 	 */
 	public void setCosmeticTile(String tileName) {
-		if (glyph == '.') {
-			this.ftileName = tileName;
-		} else if (glyph == 'x') {
-			this.rtileName = tileName;
-		} else {
-			this.tileName = tileName;
-		}
+		this.tileName = tileName;
 	}
 	
 	/**
@@ -46,10 +39,7 @@ public class DcssTile {
 	 * @return					The ftile/tile/rtile cosmetic tile of this tile, or null if none
 	 */
 	public String getCosmeticTile() {
-		if (ftileName != null) return ftileName;
-		if (rtileName != null) return rtileName;
-		if (tileName != null) return tileName;
-		return null;
+		return tileName;
 	}
 	
 	/**
@@ -76,5 +66,22 @@ public class DcssTile {
 	 */
 	public void setGlyph(Character glyph) {
 		this.glyph = glyph;
+	}
+	
+	/**
+	 * Sets the named color of this tile, for tiles that will be colored in console mode. See
+	 * colour.h or something for the value list. Unabashedly American spelling.
+	 * @param	color			The color to use for this tile
+	 */
+	public void setColor(String color) {
+		this.color = color;
+	}
+	
+	/**
+	 * Returns the color used for this tile in console mode.
+	 * @return					The color used for console, or null if none
+	 */
+	public String getColor() {
+		return this.color;
 	}
 }

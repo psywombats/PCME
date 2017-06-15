@@ -25,14 +25,16 @@ public class PcmeConverter {
 	protected File inputFile;
 	protected Map map;
 	protected String result;
+	protected DcssTile[][] dcssMap;
 	
 	protected HashSet<Character> unusedGlyphs;
 	protected HashMap<Character, ArrayList<DcssTile>> cosmeticTiles;
-	protected DcssTile[][] dcssMap;
+	protected HashMap<Character, ArrayList<DcssTile>> colorTiles;
 	protected HashMap<Character, ArrayList<DcssTile>> tilesByGlyph;
 	protected HashMap<String, String> tileSubsByTarget;
 	protected HashMap<String, String> ftileSubsByTarget;
 	protected HashMap<String, String> rtileSubsByTarget;
+	protected HashMap<String, String> colorsByTarget;
 	
 	/**
 	 * Creates a new conversion job for a given file.
@@ -40,6 +42,19 @@ public class PcmeConverter {
 	 */
 	public PcmeConverter(File inputFile) {
 		this.inputFile = inputFile;
+		cosmeticTiles = new HashMap<Character, ArrayList<DcssTile>>();
+		colorTiles = new HashMap<Character, ArrayList<DcssTile>>();
+		tilesByGlyph = new HashMap<Character, ArrayList<DcssTile>>();
+		tileSubsByTarget = new HashMap<String, String>();
+		ftileSubsByTarget = new HashMap<String, String>();
+		rtileSubsByTarget = new HashMap<String, String>();
+		colorsByTarget = new HashMap<String, String>();
+		
+		String characterString = "`~!&-_:;\"'pqrsuyzDEFHJKLMNOQRSTZ?";
+		unusedGlyphs = new HashSet<Character>();
+		for (int i = 0; i < characterString.length(); i += 1) {
+			unusedGlyphs.add(characterString.charAt(i));
+		}
 	}
 
 	/**
@@ -75,18 +90,10 @@ public class PcmeConverter {
 		}
 		TileLayer tileLayer = (TileLayer) map.getLayer(0);
 		TileLayer featureLayer = (TileLayer) map.getLayer(1);
-		ObjectGroup objectLayer = (ObjectGroup) map.getLayer(2);
-		
-		String characterString = "`~!&-_:;\"'pqrsuyzDEFHJKLMNOQRSTZ?";
-		unusedGlyphs = new HashSet<Character>();
-		for (int i = 0; i < characterString.length(); i += 1) {
-			unusedGlyphs.add(characterString.charAt(i));
-		}
+		// ObjectGroup objectLayer = (ObjectGroup) map.getLayer(2);
 		
 		// Basic layer pass
 		dcssMap = new DcssTile[tileLayer.getHeight()][tileLayer.getWidth()];
-		cosmeticTiles = new HashMap<Character, ArrayList<DcssTile>>();
-		tilesByGlyph = new HashMap<>();
 		for (int y = 0; y < tileLayer.getHeight(); y += 1) {
 			for (int x = 0; x < tileLayer.getWidth(); x += 1) {
 				Tile tile = tileLayer.getTileAt(x, y);
@@ -115,6 +122,10 @@ public class PcmeConverter {
 				if (tile.getProperties().getProperty("tile") != null) {
 					dcssMap[y][x].setCosmeticTile(tile.getProperties().getProperty("tile"));
 					registerCosmeticTile(dcssMap[y][x]);
+				}
+				if (tile.getProperties().getProperty("color") != null) {
+					dcssMap[y][x].setColor(tile.getProperties().getProperty("color"));
+					registerColorTile(dcssMap[y][x]);
 				}
 			}
 		}
@@ -173,9 +184,6 @@ public class PcmeConverter {
 		appendPropertyIfExists("orient");
 		
 		// TILE fill-in-the-blank pass
-		tileSubsByTarget = new HashMap<String, String>();
-		ftileSubsByTarget = new HashMap<String, String>();
-		rtileSubsByTarget = new HashMap<String, String>();
 		for (Character glyph : cosmeticTiles.keySet()) {
 			HashMap<String, ArrayList<DcssTile>> cosmeticTypes = new HashMap<>();
 			for (DcssTile tile : cosmeticTiles.get(glyph)) {
@@ -206,6 +214,37 @@ public class PcmeConverter {
 				}
 			}
 		}
+		for (Character glyph : colorTiles.keySet()) {
+			HashMap<String, ArrayList<DcssTile>> colorTypes = new HashMap<>();
+			for (DcssTile tile : colorTiles.get(glyph)) {
+				if (tile.getOriginalGlyph() != tile.getGlyph()) {
+					// the color is only for the thing on top right now -- colored features not in
+					continue;
+				}
+				String colorName = tile.getColor();
+				ArrayList<DcssTile> sameColor = colorTypes.get(colorName);
+				if (sameColor == null) {
+					sameColor = new ArrayList<DcssTile>();
+					colorTypes.put(colorName, sameColor);
+				}
+				sameColor.add(tile);
+			}
+			if (colorTypes.size() == 1) {
+				// uniform substitution
+				DcssTile sampleTile = colorTiles.get(glyph).get(0);
+				registerColor(sampleTile.getGlyph(), sampleTile.getColor());
+			} else {
+				// nonuniform substitution
+				for (String colorName : colorTypes.keySet()) {
+					ArrayList<DcssTile> tiles = colorTypes.get(colorName);
+					Character subChar = consumeUnusedGlyph();
+					registerColor(subChar, colorName);
+					for (DcssTile tile : tiles) {
+						tile.setGlyph(subChar);
+					}
+				}
+			}
+		}
 		
 		// Tile combined printout
 		for (String target : tileSubsByTarget.keySet()) {
@@ -219,6 +258,10 @@ public class PcmeConverter {
 		for (String target : rtileSubsByTarget.keySet()) {
 			String subs = rtileSubsByTarget.get(target);
 			appendCode("rtile", subs + " : " + target);
+		}
+		for (String target : colorsByTarget.keySet()) {
+			String subs = colorsByTarget.get(target);
+			appendCode("colour", subs + " : " + target);
 		}
 		
 		// Custom stuffs
@@ -302,6 +345,19 @@ public class PcmeConverter {
 	}
 	
 	/**
+	 * Registers a given tile in the colored tile list. Assume the tile has already has its color.
+	 * @param	tile			The tile register
+	 */
+	protected void registerColorTile(DcssTile tile) {
+		ArrayList<DcssTile> sameGlyph = colorTiles.get(tile.getGlyph());
+		if (sameGlyph == null) {
+			sameGlyph = new ArrayList<DcssTile>();
+			colorTiles.put(tile.getGlyph(), sameGlyph);
+		}
+		sameGlyph.add(tile);
+	}
+	
+	/**
 	 * Registers a given tile in the cosmetic (tile, ftile, rtile) list. Assumes the tile already
 	 * has had its cosmetic tile set.
 	 * @param	tile			The tile register
@@ -361,5 +417,21 @@ public class PcmeConverter {
 			sameTarget += subGlyph;
 		}
 		subsByTarget.put(cosmeticName, sameTarget);
+	}
+	
+	/**
+	 * Registers a coloring to be combined into a color command later on. It's not printed out
+	 * immediately so as to condense multiple tiles using the same color.
+	 * @param	subGlyph		The glyph to be colored
+	 * @param	colorName		The name of the color to use
+	 */
+	protected void registerColor(Character subGlyph, String colorName) {
+		String sameTarget = colorsByTarget.get(colorName);
+		if (sameTarget == null) {
+			sameTarget = "" + subGlyph;
+		} else {
+			sameTarget += subGlyph;
+		}
+		colorsByTarget.put(colorName, sameTarget);
 	}
 }

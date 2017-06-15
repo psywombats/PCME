@@ -320,84 +320,98 @@
  </tile>
  <tile id="73">
   <properties>
+   <property name="color" value="brown"/>
    <property name="tile" value="floor_pebble_brown"/>
    <property name="glyph" value="."/>
   </properties>
  </tile>
  <tile id="74">
   <properties>
+   <property name="color" value="blue"/>
    <property name="tile" value="floor_pebble_blue"/>
    <property name="glyph" value="."/>
   </properties>
  </tile>
  <tile id="75">
   <properties>
+   <property name="color" value="green"/>
    <property name="tile" value="floor_pebble_green"/>
    <property name="glyph" value="."/>
   </properties>
  </tile>
  <tile id="76">
   <properties>
+   <property name="color" value="cyan"/>
    <property name="tile" value="floor_pebble_cyan"/>
    <property name="glyph" value="."/>
   </properties>
  </tile>
  <tile id="77">
   <properties>
+   <property name="color" value="red"/>
    <property name="tile" value="floor_pebble_red"/>
    <property name="glyph" value="."/>
   </properties>
  </tile>
  <tile id="78">
   <properties>
+   <property name="color" value="magenta"/>
    <property name="tile" value="floor_pebble_magenta"/>
    <property name="glyph" value="."/>
   </properties>
  </tile>
  <tile id="79">
   <properties>
+   <property name="color" value="darkgrey"/>
    <property name="tile" value="floor_pebble_darkgray"/>
    <property name="glyph" value="."/>
   </properties>
  </tile>
  <tile id="80">
   <properties>
+   <property name="color" value="lightblue"/>
    <property name="tile" value="floor_pebble_lightblue"/>
    <property name="glyph" value="."/>
   </properties>
  </tile>
  <tile id="81">
   <properties>
+   <property name="color" value="lightgreen"/>
    <property name="tile" value="floor_pebble_lightgreen"/>
    <property name="glyph" value="."/>
   </properties>
  </tile>
  <tile id="82">
   <properties>
+   <property name="color" value="lightcyan"/>
    <property name="tile" value="floor_pebble_lightcyan"/>
    <property name="glyph" value="."/>
   </properties>
  </tile>
  <tile id="83">
   <properties>
+   <property name="color" value="lightred"/>
    <property name="tile" value="floor_pebble_lightred"/>
    <property name="glyph" value="."/>
   </properties>
  </tile>
  <tile id="84">
   <properties>
+   <property name="color" value="lightmagenta"/>
    <property name="tile" value="floor_pebble_lightmagenta"/>
    <property name="glyph" value="."/>
   </properties>
  </tile>
  <tile id="85">
   <properties>
+   <property name="color" value="yellow"/>
    <property name="tile" value="floor_pebble_yellow"/>
    <property name="glyph" value="."/>
   </properties>
  </tile>
  <tile id="86">
   <properties>
+   <property name="color" value="white"/>
    <property name="tile" value="floor_pebble_white"/>
    <property name="glyph" value="."/>
   </properties>
@@ -668,90 +682,105 @@
  </tile>
  <tile id="156">
   <properties>
+   <property name="color" value="blue"/>
    <property name="tile" value="dngn_crystal_blue"/>
    <property name="glyph" value="b"/>
   </properties>
  </tile>
  <tile id="157">
   <properties>
+   <property name="color" value="brown"/>
    <property name="tile" value="dngn_crystal_brown"/>
    <property name="glyph" value="b"/>
   </properties>
  </tile>
  <tile id="158">
   <properties>
+   <property name="color" value="cyan"/>
    <property name="tile" value="dngn_crystal_cyan"/>
    <property name="glyph" value="b"/>
   </properties>
  </tile>
  <tile id="159">
   <properties>
+   <property name="color" value="darkgrey"/>
    <property name="tile" value="dngn_crystal_dark_gray"/>
    <property name="glyph" value="b"/>
   </properties>
  </tile>
  <tile id="160">
   <properties>
+   <property name="color" value="green"/>
    <property name="tile" value="dngn_crystal_green"/>
    <property name="glyph" value="b"/>
   </properties>
  </tile>
  <tile id="161">
   <properties>
+   <property name="color" value="lightblue"/>
    <property name="tile" value="dngn_crystal_lightblue"/>
    <property name="glyph" value="b"/>
   </properties>
  </tile>
  <tile id="162">
   <properties>
+   <property name="color" value="lightcyan"/>
    <property name="tile" value="dngn_crystal_lightcyan"/>
    <property name="glyph" value="b"/>
   </properties>
  </tile>
  <tile id="163">
   <properties>
+   <property name="color" value="lightgray"/>
    <property name="tile" value="dngn_crystal_lightgray"/>
    <property name="glyph" value="b"/>
   </properties>
  </tile>
  <tile id="164">
   <properties>
+   <property name="color" value="lightgreen"/>
    <property name="tile" value="dngn_crystal_lightgreen"/>
    <property name="glyph" value="b"/>
   </properties>
  </tile>
  <tile id="165">
   <properties>
+   <property name="color" value="lightmagenta"/>
    <property name="tile" value="dngn_crystal_lightmagenta"/>
    <property name="glyph" value="b"/>
   </properties>
  </tile>
  <tile id="166">
   <properties>
+   <property name="color" value="lightred"/>
    <property name="tile" value="dngn_crystal_lightred"/>
    <property name="glyph" value="b"/>
   </properties>
  </tile>
  <tile id="167">
   <properties>
+   <property name="color" value="magenta"/>
    <property name="tile" value="dngn_crystal_magenta"/>
    <property name="glyph" value="b"/>
   </properties>
  </tile>
  <tile id="168">
   <properties>
+   <property name="color" value="brown"/>
    <property name="tile" value="dngn_crystal_brown"/>
    <property name="glyph" value="b"/>
   </properties>
  </tile>
  <tile id="169">
   <properties>
+   <property name="color" value="white"/>
    <property name="tile" value="dngn_crystal_white"/>
    <property name="glyph" value="b"/>
   </properties>
  </tile>
  <tile id="170">
   <properties>
+   <property name="color" value="yellow"/>
    <property name="tile" value="dngn_crystal_yellow"/>
    <property name="glyph" value="b"/>
   </properties>

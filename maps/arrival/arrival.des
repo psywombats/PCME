@@ -1,5 +1,5 @@
 ##############################################################################
-NAME:       psy_arrival_courtyard
+NAME:       psy_arrival_statuary
 TAGS:       arrival no_monster_gen
 ORIENT:     float
 FTILE:      rqp{D : floor_pebble_darkgray

@@ -12,7 +12,7 @@ package net.wombatrpgs.pcme;
 public class DcssTile {
 
 	protected Character glyph;
-	protected Character kfeatGlyph;
+	protected Character originalGlyph;
 	protected String ftileName;
 	protected String rtileName;
 	protected String tileName;
@@ -23,6 +23,7 @@ public class DcssTile {
 	 */
 	public DcssTile(Character glyph) {
 		this.glyph = glyph;
+		this.originalGlyph = glyph;
 	}
 	
 	/**
@@ -61,44 +62,19 @@ public class DcssTile {
 	}
 	
 	/**
+	 * Returns the glyph this tile originally represented. For instance, for colored floors, returns
+	 * a '.' rather than the substitution character.
+	 * @return					The original glyph
+	 */
+	public Character getOriginalGlyph() {
+		return originalGlyph;
+	}
+	
+	/**
 	 * Overrides the currrent glyph and places something new in this tile.
 	 * @param	glyph			The new glyph to use
 	 */
 	public void setGlyph(Character glyph) {
 		this.glyph = glyph;
-	}
-	
-	/**
-	 * Attempts to put a glyph on top of this glyph of a different type. Because DCSS has no
-	 * concept of layers, we'll eventually have to use KFEAT to place the lower one. This is used
-	 * for stuff like shrubs in water, monsters on items, etc.
-	 * @param	glyph			The top glyph
-	 */
-	public void addOverlaidGlyph(Character glyph) {
-		if (this.kfeatGlyph != null) {
-			System.err.println("Too many glyphs on tile");
-			return;
-		}
-		this.kfeatGlyph = this.glyph;
-		this.glyph = glyph;
-	}
-	
-	/**
-	 * Returns the underlying glyph that needs to be placed via kfeat, if one exists. If none does,
-	 * returns null.
-	 * @return					The underlying kfeat glyph, or null if none
-	 */
-	public Character getUnderlaidGlyph() {
-		return kfeatGlyph;
-	}
-	
-	/**
-	 * Performs a substitution where this tile is now represented by a new glyph that will be
-	 * subst'd by kfeat at the output step.
-	 * @param	kfeatGlyph		The new glyph for this tile
-	 */
-	public void kfeatSubstitute(Character kfeatGlyph) {
-		this.glyph = kfeatGlyph;
-		this.kfeatGlyph = null;
 	}
 }

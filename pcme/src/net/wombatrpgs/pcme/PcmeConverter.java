@@ -8,8 +8,6 @@ package net.wombatrpgs.pcme;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Dictionary;
 import java.util.HashMap;
 import java.util.HashSet;
 
@@ -29,11 +27,12 @@ public class PcmeConverter {
 	protected String result;
 	
 	protected HashSet<Character> unusedGlyphs;
-	protected HashMap<String, ArrayList<DcssTile>> kfeatTiles;
 	protected HashMap<Character, ArrayList<DcssTile>> cosmeticTiles;
 	protected DcssTile[][] dcssMap;
 	protected HashMap<Character, ArrayList<DcssTile>> tilesByGlyph;
-	protected HashMap<String, Character> kfeatSubs;
+	protected HashMap<String, String> tileSubsByTarget;
+	protected HashMap<String, String> ftileSubsByTarget;
+	protected HashMap<String, String> rtileSubsByTarget;
 	
 	/**
 	 * Creates a new conversion job for a given file.
@@ -86,6 +85,7 @@ public class PcmeConverter {
 		
 		// Basic layer pass
 		dcssMap = new DcssTile[tileLayer.getHeight()][tileLayer.getWidth()];
+		cosmeticTiles = new HashMap<Character, ArrayList<DcssTile>>();
 		tilesByGlyph = new HashMap<>();
 		for (int y = 0; y < tileLayer.getHeight(); y += 1) {
 			for (int x = 0; x < tileLayer.getWidth(); x += 1) {
@@ -120,7 +120,6 @@ public class PcmeConverter {
 		}
 		
 		// Feature layer pass
-		kfeatTiles = new HashMap<String, ArrayList<DcssTile>>();
 		for (int y = 0; y < featureLayer.getHeight(); y += 1) {
 			for (int x = 0; x < featureLayer.getHeight(); x += 1) {
 				Tile tile = featureLayer.getTileAt(x, y);
@@ -140,33 +139,17 @@ public class PcmeConverter {
 					Character glyph = glyphString.charAt(0);
 					unusedGlyphs.remove(glyph);
 					if (existingGlyph == ' ' || existingGlyph == '.' || existingGlyph == glyph) {
+						if (existingTile.getCosmeticTile() != null) {
+							unregisterCosmeticTile(existingTile);
+						}
 						existingTile.setGlyph(glyph);
+						if (existingTile.getCosmeticTile() != null) {
+							registerCosmeticTile(existingTile);
+						}
 					} else {
-						// an odd glyph has been placed above some terrain
-						unregisterTileGlyph(existingTile);
-						existingTile.addOverlaidGlyph(glyph);
-						registerTileGlyph(existingTile);
-						registerKfeatTile(existingTile);
+						System.err.println("kfeat not supported right now");
+						return null;
 					}
-				}
-			}
-		}
-		
-		// KFEAT fill-in-the-blank pass
-		// format is "xy" -> 'z' where z represents x lying on top of y
-		kfeatSubs = new HashMap<String, Character>();
-		for (String kfeatKey : kfeatTiles.keySet()) {
-			ArrayList<DcssTile> subbedTiles = kfeatTiles.get(kfeatKey);
-			DcssTile sampleTile = subbedTiles.get(0);
-			if (completelyCoveredByKfeat(sampleTile.getGlyph())) {
-				// we don't need to introduce a new glyph because all of them will be transformed
-				kfeatSubs.put(kfeatKey, sampleTile.getGlyph());
-			} else {
-				// some have the underlying feature, some don't
-				Character subChar = consumeUnusedGlyph();
-				kfeatSubs.put(kfeatKey, sampleTile.getGlyph());
-				for (DcssTile tile : subbedTiles) {
-					tile.kfeatSubstitute(subChar);
 				}
 			}
 		}
@@ -188,25 +171,11 @@ public class PcmeConverter {
 		appendPropertyIfExists("weight");
 		appendPropertyIfExists("chance");
 		appendPropertyIfExists("orient");
-		if (map.getProperties().getProperty("code") != null) {
-			result += map.getProperties().getProperty("code") + "\n";
-		}
-		
-		// Kfeat
-		for (String kfeatKey : kfeatSubs.keySet()) {
-			Character subChar = kfeatSubs.get(kfeatKey);
-			Character bottomGlyph = kfeatKey.charAt(0);
-			appendCode("kfeat", subChar + " : " + bottomGlyph);
-			// TODO: handle the top character
-			// I think eventually we'll need to parse $, d, and 1 etc to mons and items
-			// then kfeat those in
-			// At the moment this code just nukes the feature layer entirely
-			if (!kfeatKey.endsWith("" + subChar)) {
-				// non-uniform transformation
-			}
-		}
 		
 		// TILE fill-in-the-blank pass
+		tileSubsByTarget = new HashMap<String, String>();
+		ftileSubsByTarget = new HashMap<String, String>();
+		rtileSubsByTarget = new HashMap<String, String>();
 		for (Character glyph : cosmeticTiles.keySet()) {
 			HashMap<String, ArrayList<DcssTile>> cosmeticTypes = new HashMap<>();
 			for (DcssTile tile : cosmeticTiles.get(glyph)) {
@@ -221,19 +190,40 @@ public class PcmeConverter {
 			if (cosmeticTypes.size() == 1) {
 				// uniform substitution
 				DcssTile sampleTile = cosmeticTiles.get(glyph).get(0);
-				appendCosmetic(sampleTile.glyph, sampleTile.glyph, sampleTile.getCosmeticTile());
+				Character baseGlyph = sampleTile.getOriginalGlyph();
+				registerCosmetic(baseGlyph, sampleTile.getGlyph(), sampleTile.getCosmeticTile());
 			} else {
 				// nonuniform substitution
 				for (String cosmeticName : cosmeticTypes.keySet()) {
 					ArrayList<DcssTile> tiles = cosmeticTypes.get(cosmeticName);
 					Character subChar = consumeUnusedGlyph();
 					DcssTile sampleTile = tiles.get(0);
-					appendCosmetic(sampleTile.getGlyph(), subChar, sampleTile.getCosmeticTile());
+					Character baseGlyph = sampleTile.getOriginalGlyph();
+					registerCosmetic(baseGlyph, subChar, sampleTile.getCosmeticTile());
 					for (DcssTile tile : tiles) {
 						tile.setGlyph(subChar);
 					}
 				}
 			}
+		}
+		
+		// Tile combined printout
+		for (String target : tileSubsByTarget.keySet()) {
+			String subs = tileSubsByTarget.get(target);
+			appendCode("tile", subs + " : " + target);
+		}
+		for (String target : ftileSubsByTarget.keySet()) {
+			String subs = ftileSubsByTarget.get(target);
+			appendCode("ftile", subs + " : " + target);
+		}
+		for (String target : rtileSubsByTarget.keySet()) {
+			String subs = rtileSubsByTarget.get(target);
+			appendCode("rtile", subs + " : " + target);
+		}
+		
+		// Custom stuffs
+		if (map.getProperties().getProperty("code") != null) {
+			result += map.getProperties().getProperty("code") + "\n";
 		}
 		
 		// Map
@@ -291,23 +281,6 @@ public class PcmeConverter {
 	}
 	
 	/**
-	 * Appends the appropriate command to set the cosmetic tile value for the given glyph. For
-	 * instance, if given '.' as a base and 'p' as a sub, it'll set the ftile of p to the name.
-	 * @param	glyph			The base type of glyph being substituted, to determine command
-	 * @param	subGlyph		The glyph to declare the tile for
-	 * @param	cosmeticName	The tile to declare it as
-	 */
-	protected void appendCosmetic(Character baseGlyph, Character subGlyph, String cosmeticName) {
-		if (baseGlyph == '.') {
-			appendCode("ftile", subGlyph + " : " + cosmeticName);
-		} else if (baseGlyph == 'x') {
-			appendCode("rtile", subGlyph + " : " + cosmeticName);
-		} else {
-			appendCode("tile", subGlyph + " : " + cosmeticName);
-		}
-	}
-	
-	/**
 	 * Given a tile, adds it to the tilesByGlyph map.
 	 * @param	tile			The tile to add to the map
 	 */
@@ -329,33 +302,7 @@ public class PcmeConverter {
 	}
 	
 	/**
-	 * Given a glyph, checks if every glyph of that type will have the same kfeat transformation
-	 * applied to it. Basically, if every thing of gold is put in water, this will return true,
-	 * but if half the gold's on dry ground, it returns false.
-	 * @param	glyph			The glyph to check
-	 * @return					True if a uniform transformation will be applied
-	 */
-	protected boolean completelyCoveredByKfeat(Character glyph) {
-		return kfeatTiles.get(glyph).size() == tilesByGlyph.get(glyph).size(); 
-	}
-	
-	/**
-	 * Registers a given tile in the kfeat list. Assumes the tile has already had its kfeat tile
-	 * set.
-	 * @param	tile			The tile to register
-	 */
-	protected void registerKfeatTile(DcssTile tile) {
-		String key = "" + tile.getUnderlaidGlyph() + tile.getGlyph();
-		ArrayList<DcssTile> sameSub = kfeatTiles.get(key);
-		if (sameSub == null) {
-			sameSub = new ArrayList<DcssTile>();
-			kfeatTiles.put(key, sameSub);
-		}
-		sameSub.add(tile);
-	}
-	
-	/**
-	 * Registers a give tile in the cosmetic (tile, ftile, rtile) list. Assumes the tile already
+	 * Registers a given tile in the cosmetic (tile, ftile, rtile) list. Assumes the tile already
 	 * has had its cosmetic tile set.
 	 * @param	tile			The tile register
 	 */
@@ -369,6 +316,16 @@ public class PcmeConverter {
 	}
 	
 	/**
+	 * Unregisters a given tile from its by-glyph cosmetic associations. Necessary to call when a
+	 * tile changes glyph.
+	 * @param	tile			The tile to unregister
+	 */
+	protected void unregisterCosmeticTile(DcssTile tile) {
+		ArrayList<DcssTile> sameGlyph = cosmeticTiles.get(tile.getGlyph());
+		sameGlyph.remove(tile);
+	}
+	
+	/**
 	 * Picks a substitution character unused elsewhere on the map and returns it. Afterwards, that
 	 * glyph is marked used.
 	 * @return					A previously unused glyph
@@ -377,5 +334,32 @@ public class PcmeConverter {
 		Character subChar = (Character)unusedGlyphs.toArray()[0];
 		unusedGlyphs.remove(subChar);
 		return subChar;
+	}
+	
+	/**
+	 * Registers a cosmetic transformation to be combined into a ftile/rtile/whatever later on. It's
+	 * not printed out immediately so as to condense multiple tiles being subbed to the same thing.
+	 * The base glyph is used to determine the command, while the subglyph is the character to be
+	 * replaced.
+	 * @param	baseGlyph		The base type of glyph being substituted, to determine command
+	 * @param	subGlyph		The glyph to declare the tile for
+	 * @param	cosmeticName	The tile to declare it as
+	 */
+	protected void registerCosmetic(Character baseGlyph, Character subGlyph, String cosmeticName) {
+		HashMap<String, String> subsByTarget;
+		if (baseGlyph == '.') {
+			subsByTarget = ftileSubsByTarget;
+		} else if (baseGlyph == 'x') {
+			subsByTarget = rtileSubsByTarget;
+		} else {
+			subsByTarget = tileSubsByTarget;
+		}
+		String sameTarget = subsByTarget.get(cosmeticName);
+		if (sameTarget == null) {
+			sameTarget = "" + subGlyph;
+		} else {
+			sameTarget += subGlyph;
+		}
+		subsByTarget.put(cosmeticName, sameTarget);
 	}
 }

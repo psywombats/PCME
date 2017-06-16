@@ -31,6 +31,7 @@ public class PcmeConverter {
 	protected HashMap<Character, ArrayList<DcssTile>> cosmeticTiles;
 	protected HashMap<Character, ArrayList<DcssTile>> colorTiles;
 	protected HashMap<Character, ArrayList<DcssTile>> tilesByGlyph;
+	protected HashMap<String, ArrayList<DcssTile>> kmonsTiles;
 	protected HashMap<String, String> tileSubsByTarget;
 	protected HashMap<String, String> ftileSubsByTarget;
 	protected HashMap<String, String> rtileSubsByTarget;
@@ -49,6 +50,7 @@ public class PcmeConverter {
 		ftileSubsByTarget = new HashMap<String, String>();
 		rtileSubsByTarget = new HashMap<String, String>();
 		colorsByTarget = new HashMap<String, String>();
+		kmonsTiles = new HashMap<String, ArrayList<DcssTile>>();
 		
 		String characterString = "`~!&-_:;\"'pqrsuyzDEFHJKLMNOQRSTZ?";
 		unusedGlyphs = new HashSet<Character>();
@@ -127,6 +129,12 @@ public class PcmeConverter {
 					dcssMap[y][x].setColor(tile.getProperties().getProperty("color"));
 					registerColorTile(dcssMap[y][x]);
 				}
+				
+				// kmons
+				if (tile.getProperties().getProperty("kmons") != null) {
+					dcssMap[y][x].setKmons(tile.getProperties().getProperty("kmons"));
+					registerKmonsTile(dcssMap[y][x]);
+				}
 			}
 		}
 		
@@ -161,6 +169,12 @@ public class PcmeConverter {
 						System.err.println("kfeat not supported right now");
 						return null;
 					}
+				}
+				
+				// kmons
+				if (tile.getProperties().getProperty("kmons") != null) {
+					dcssMap[y][x].setKmons(tile.getProperties().getProperty("kmons"));
+					registerKmonsTile(dcssMap[y][x]);
 				}
 			}
 		}
@@ -244,6 +258,16 @@ public class PcmeConverter {
 					}
 				}
 			}
+		}
+		
+		// Kmons
+		for (String monster : kmonsTiles.keySet()) {
+			ArrayList<DcssTile> tiles = kmonsTiles.get(monster);
+			Character glyph = consumeUnusedGlyph();
+			for (DcssTile tile : tiles) {
+				tile.setGlyph(glyph);
+			}
+			appendCode("kmons", glyph + " = " + monster);
 		}
 		
 		// Tile combined printout
@@ -433,5 +457,18 @@ public class PcmeConverter {
 			sameTarget += subGlyph;
 		}
 		colorsByTarget.put(colorName, sameTarget);
+	}
+	
+	/**
+	 * Registers a kmons tile to have a command added later. It should have already have kmons set.
+	 * @param	tile			The tile to register
+	 */
+	protected void registerKmonsTile(DcssTile tile) {
+		ArrayList<DcssTile> sameMonster = kmonsTiles.get(tile.getKmons());
+		if (sameMonster == null) {
+			sameMonster = new ArrayList<DcssTile>();
+			kmonsTiles.put(tile.getKmons(), sameMonster);
+		}
+		sameMonster.add(tile);
 	}
 }

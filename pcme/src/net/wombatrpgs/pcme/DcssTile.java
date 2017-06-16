@@ -15,6 +15,7 @@ public class DcssTile {
 	protected Character originalGlyph;
 	protected String tileName;
 	protected String color;
+	protected String kmons;
 	
 	/**
 	 * Creates a new tile with the given glyph.
@@ -83,5 +84,22 @@ public class DcssTile {
 	 */
 	public String getColor() {
 		return this.color;
+	}
+	
+	/**
+	 * Sets the kmons value of this tile. This will eventually result in a kmons command setting its
+	 * glyph to the specified monster.
+	 * @param	monster			The monster to define this tile via kmons
+	 */
+	public void setKmons(String monster) {
+		this.kmons = monster;
+	}
+	
+	/**
+	 * Returns the monster defined via kmons as standing on this tile.
+	 * @return					The kmons monster of this tile
+	 */
+	public String getKmons() {
+		return kmons;
 	}
 }

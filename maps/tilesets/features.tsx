@@ -256,6 +256,30 @@
    <property name="glyph" value="="/>
   </properties>
  </tile>
+ <tile id="138">
+  <properties>
+   <property name="glyph" value="."/>
+   <property name="kmons" value="plant"/>
+  </properties>
+ </tile>
+ <tile id="139">
+  <properties>
+   <property name="glyph" value="."/>
+   <property name="kmons" value="bush"/>
+  </properties>
+ </tile>
+ <tile id="140">
+  <properties>
+   <property name="glyph" value="."/>
+   <property name="kmons" value="plant / bush"/>
+  </properties>
+ </tile>
+ <tile id="141">
+  <properties>
+   <property name="glyph" value="."/>
+   <property name="kmons" value="fungus"/>
+  </properties>
+ </tile>
  <tile id="156">
   <properties>
    <property name="glyph" value="!"/>

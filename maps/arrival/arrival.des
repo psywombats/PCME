@@ -1,27 +1,24 @@
 ##############################################################################
-NAME:       psy_arrival_statuary
-TAGS:       arrival no_monster_gen
+NAME:       psy_arrival_fountain
+TAGS:       arrival
 ORIENT:     float
-FTILE:      rqp{D : floor_pebble_darkgray
-FTILE:      E : floor_pebble_cyan
-SHUFFLE:    pqr
-SUBST:      p : GGU, qr : .
-SUBST:      s : Gxxxb
+KMONS:      D = plant
+FTILE:      Ttqp{. : floor_grass
+SHUFFE:     pq
+SUBST:      p = .D, q : .
 MAP
-xxxxxxx@xxxxxxx
-xxxxxxx+xxxxxxx
-xxqDEEDDDEEDqxx
-xxDDEEDrDEEDDxx
-xxEEpDEEEDpEExx
-xxEEDDEEEDDEExx
-xxDDEEDDDEEDDxx
-xsDrEED{DEErDsx
-xxDDEEDDDEEDDxx
-xxEEDDEEEDDEExx
-xxEEpDEEEDpEExx
-xxDDEEDrDEEDDxx
-xxqDEEDDDEEDqxx
-xxxxxxx+xxxxxxx
-xxxxxxx@xxxxxxx
+xxxxxxxxxxxxx
+xtttttttttttx
+xt{.........+
+xt...tttttqtx
+xt....DtDtqtx
+xt.t....qtqtx
+xt.tt.T...qtx
+xt.tD....tttx
+xt.ttD.pttttx
+xt.ttt.tttttx
+xt.pppptttttx
+xt.tttttttttx
+xx+xxxxxxxxxx
 ENDMAP
 

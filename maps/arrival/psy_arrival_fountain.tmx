@@ -4,7 +4,7 @@
   <property name="code">SHUFFLE:    pq
 SUBST:      p = .D, q : .</property>
   <property name="orient" value="float"/>
-  <property name="tags" value="arrival"/>
+  <property name="tags" value="arrival no_monster_gen"/>
  </properties>
  <tileset firstgid="1" source="../tilesets/features.tsx"/>
  <tileset firstgid="181" source="../tilesets/basic.tsx"/>

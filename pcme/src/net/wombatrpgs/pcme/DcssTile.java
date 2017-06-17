@@ -14,6 +14,7 @@ public class DcssTile {
 	protected Character glyph;
 	protected Character originalGlyph;
 	protected String tileName;
+	protected String frtileName;
 	protected String color;
 	protected String kmons;
 	
@@ -32,15 +33,32 @@ public class DcssTile {
 	 * @param	tileName		The cosmetic tilename used by this tile
 	 */
 	public void setCosmeticTile(String tileName) {
+		this.frtileName = tileName;
+	}
+	
+	/**
+	 * Sets the tile name used in a feature pass. Same as the cosmetic appearance, but for something
+	 * on the feature layer.
+	 * @param	tileName		The cosmetic tilename used by this tile
+	 */
+	public void setSecondaryTileName(String tileName) {
 		this.tileName = tileName;
 	}
 	
 	/**
-	 * Returns the cosmetic tile name of this tile, regardless of which command it will be set with.
-	 * @return					The ftile/tile/rtile cosmetic tile of this tile, or null if none
+	 * Returns the cosmetic tile name of this tile's feature on the feature layer.
+	 * @return					The tile name cosmetic of this tile
 	 */
-	public String getCosmeticTile() {
+	public String getTileName() {
 		return tileName;
+	}
+	
+	/**
+	 * Returns the cosmetic tile name of this tile's underlying lower chip tile, set with f/rtile.
+	 * @return					The tile name cosmetic of this tile
+	 */
+	public String getFrtileName() {
+		return frtileName;
 	}
 	
 	/**
@@ -101,5 +119,35 @@ public class DcssTile {
 	 */
 	public String getKmons() {
 		return kmons;
+	}
+	
+	/**
+	 * Checks if this tile shares a "prototype tile" with the supplied tile. Tiles sharing a
+	 * prototype can be represented with the same glyph.
+	 * @param	tile			The tile to check
+	 * @return					True if the tiles share a prototype
+	 */
+	public boolean sharesPrototype(DcssTile tile) {
+		return	nullCompare(glyph, tile.glyph) &&
+				nullCompare(originalGlyph, tile.originalGlyph) &&
+				nullCompare(tileName, tile.tileName) &&
+				nullCompare(frtileName, tile.frtileName) &&
+				nullCompare(kmons, tile.kmons) &&
+				nullCompare(color, tile.color);
+				
+	}
+	
+	/**
+	 * Checks o1 and o2 for equality in a null-safe way.
+	 * @param	o1				One of two objects to compare
+	 * @param	o2				One of two objects to compare
+	 * @return					True if both are equal, false otherwise
+	 */
+	protected boolean nullCompare(Object o1, Object o2) {
+		if (o1 == null) {
+			return o2 == null;
+		} else {
+			return o1.equals(o2);
+		}
 	}
 }

@@ -8,6 +8,8 @@ package net.wombatrpgs.pcme;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 
@@ -27,15 +29,8 @@ public class PcmeConverter {
 	protected String result;
 	protected DcssTile[][] dcssMap;
 	
-	protected HashSet<Character> unusedGlyphs;
-	protected HashMap<Character, ArrayList<DcssTile>> cosmeticTiles;
-	protected HashMap<Character, ArrayList<DcssTile>> colorTiles;
-	protected HashMap<Character, ArrayList<DcssTile>> tilesByGlyph;
-	protected HashMap<String, ArrayList<DcssTile>> kmonsTiles;
-	protected HashMap<String, String> tileSubsByTarget;
-	protected HashMap<String, String> ftileSubsByTarget;
-	protected HashMap<String, String> rtileSubsByTarget;
-	protected HashMap<String, String> colorsByTarget;
+	protected HashSet<Character> unseenGlyphs, usedGlyphs;
+	protected ArrayList<ArrayList<DcssTile>> tilesByPrototype;
 	
 	/**
 	 * Creates a new conversion job for a given file.
@@ -43,19 +38,13 @@ public class PcmeConverter {
 	 */
 	public PcmeConverter(File inputFile) {
 		this.inputFile = inputFile;
-		cosmeticTiles = new HashMap<Character, ArrayList<DcssTile>>();
-		colorTiles = new HashMap<Character, ArrayList<DcssTile>>();
-		tilesByGlyph = new HashMap<Character, ArrayList<DcssTile>>();
-		tileSubsByTarget = new HashMap<String, String>();
-		ftileSubsByTarget = new HashMap<String, String>();
-		rtileSubsByTarget = new HashMap<String, String>();
-		colorsByTarget = new HashMap<String, String>();
-		kmonsTiles = new HashMap<String, ArrayList<DcssTile>>();
+		tilesByPrototype = new ArrayList<ArrayList<DcssTile>>();
 		
 		String characterString = "`~!&-_:;\"'pqrsuyzDEFHJKLMNOQRSTZ?";
-		unusedGlyphs = new HashSet<Character>();
+		usedGlyphs = new HashSet<Character>();
+		unseenGlyphs = new HashSet<Character>();
 		for (int i = 0; i < characterString.length(); i += 1) {
-			unusedGlyphs.add(characterString.charAt(i));
+			unseenGlyphs.add(characterString.charAt(i));
 		}
 	}
 
@@ -115,32 +104,27 @@ public class PcmeConverter {
 					} else {
 						Character glyph = glyphString.charAt(0);
 						dcssMap[y][x] = new DcssTile(glyph);
-						unusedGlyphs.remove(glyph);
-						registerTileGlyph(dcssMap[y][x]);
 					}
 				}
 				
 				// cosmetic tile
 				if (tile.getProperties().getProperty("tile") != null) {
 					dcssMap[y][x].setCosmeticTile(tile.getProperties().getProperty("tile"));
-					registerCosmeticTile(dcssMap[y][x]);
 				}
 				if (tile.getProperties().getProperty("color") != null) {
 					dcssMap[y][x].setColor(tile.getProperties().getProperty("color"));
-					registerColorTile(dcssMap[y][x]);
 				}
 				
 				// kmons
 				if (tile.getProperties().getProperty("kmons") != null) {
 					dcssMap[y][x].setKmons(tile.getProperties().getProperty("kmons"));
-					registerKmonsTile(dcssMap[y][x]);
 				}
 			}
 		}
 		
 		// Feature layer pass
 		for (int y = 0; y < featureLayer.getHeight(); y += 1) {
-			for (int x = 0; x < featureLayer.getHeight(); x += 1) {
+			for (int x = 0; x < featureLayer.getWidth(); x += 1) {
 				Tile tile = featureLayer.getTileAt(x, y);
 				if (tile == null) {
 					continue;
@@ -156,15 +140,8 @@ public class PcmeConverter {
 						continue;
 					}
 					Character glyph = glyphString.charAt(0);
-					unusedGlyphs.remove(glyph);
 					if (existingGlyph == ' ' || existingGlyph == '.' || existingGlyph == glyph) {
-						if (existingTile.getCosmeticTile() != null) {
-							unregisterCosmeticTile(existingTile);
-						}
 						existingTile.setGlyph(glyph);
-						if (existingTile.getCosmeticTile() != null) {
-							registerCosmeticTile(existingTile);
-						}
 					} else {
 						System.err.println("kfeat not supported right now");
 						return null;
@@ -174,7 +151,53 @@ public class PcmeConverter {
 				// kmons
 				if (tile.getProperties().getProperty("kmons") != null) {
 					dcssMap[y][x].setKmons(tile.getProperties().getProperty("kmons"));
-					registerKmonsTile(dcssMap[y][x]);
+				}
+				
+				// tile
+				if (tile.getProperties().getProperty("tile") != null) {
+					dcssMap[y][x].setSecondaryTileName(tile.getProperties().getProperty("tile"));
+				}
+			}
+		}
+		
+		// Break up tiles by proto
+		for (int y = 0; y < featureLayer.getHeight(); y += 1) {
+			for (int x = 0; x < featureLayer.getWidth(); x += 1) {
+				DcssTile tile = dcssMap[y][x];
+				boolean foundProto = false;
+				for (ArrayList<DcssTile> prototypeSet : tilesByPrototype) {
+					if (tile.sharesPrototype(prototypeSet.get(0))) {
+						foundProto = true;
+						prototypeSet.add(tile);
+						break;
+					}
+				}
+				if (!foundProto) {
+					ArrayList<DcssTile> prototypeSet = new ArrayList<DcssTile>();
+					prototypeSet.add(tile);
+					tilesByPrototype.add(prototypeSet);
+				}
+			}
+		}
+		
+		// Assign glyphs to each proto
+		Collections.sort(tilesByPrototype, new Comparator<ArrayList<DcssTile>>() {
+			@Override public int compare(ArrayList<DcssTile> o1, ArrayList<DcssTile> o2) {
+				return o2.size() - o1.size();
+			}
+		});
+		for (ArrayList<DcssTile> tileSet : tilesByPrototype) {
+			DcssTile sampleTile = tileSet.get(0);
+			Character newGlyph;
+			if (!usedGlyphs.contains(sampleTile.getGlyph())) {
+				newGlyph = sampleTile.getGlyph();
+				usedGlyphs.add(newGlyph);
+			} else {
+				newGlyph = consumeUnseenGlyph();
+			}
+			if (sampleTile.getGlyph() != newGlyph) {
+				for (DcssTile tile : tileSet) {
+					tile.setGlyph(newGlyph);
 				}
 			}
 		}
@@ -197,96 +220,55 @@ public class PcmeConverter {
 		appendPropertyIfExists("chance");
 		appendPropertyIfExists("orient");
 		
-		// TILE fill-in-the-blank pass
-		for (Character glyph : cosmeticTiles.keySet()) {
-			HashMap<String, ArrayList<DcssTile>> cosmeticTypes = new HashMap<>();
-			for (DcssTile tile : cosmeticTiles.get(glyph)) {
-				String cosmeticName = tile.getCosmeticTile();
-				ArrayList<DcssTile> sameCosmetic = cosmeticTypes.get(cosmeticName);
-				if (sameCosmetic == null) {
-					sameCosmetic = new ArrayList<DcssTile>();
-					cosmeticTypes.put(cosmeticName, sameCosmetic);
-				}
-				sameCosmetic.add(tile);
+		// f/rtile
+		HashMap<String, String> cosmeticFtiles = new HashMap<String, String>();
+		HashMap<String, String> cosmeticRtiles = new HashMap<String, String>();
+		for (ArrayList<DcssTile> tiles : tilesByPrototype) {
+			DcssTile tile = tiles.get(0);
+			if (tile.getFrtileName() == null) {
+				continue;
 			}
-			if (cosmeticTypes.size() == 1) {
-				// uniform substitution
-				DcssTile sampleTile = cosmeticTiles.get(glyph).get(0);
-				Character baseGlyph = sampleTile.getOriginalGlyph();
-				registerCosmetic(baseGlyph, sampleTile.getGlyph(), sampleTile.getCosmeticTile());
+			if (tile.getGlyph() == 'x') {
+				addGlyphToCommand(cosmeticRtiles, tile.getFrtileName(), tile.glyph);
 			} else {
-				// nonuniform substitution
-				for (String cosmeticName : cosmeticTypes.keySet()) {
-					ArrayList<DcssTile> tiles = cosmeticTypes.get(cosmeticName);
-					Character subChar = consumeUnusedGlyph();
-					DcssTile sampleTile = tiles.get(0);
-					Character baseGlyph = sampleTile.getOriginalGlyph();
-					registerCosmetic(baseGlyph, subChar, sampleTile.getCosmeticTile());
-					for (DcssTile tile : tiles) {
-						tile.setGlyph(subChar);
-					}
-				}
+				addGlyphToCommand(cosmeticFtiles, tile.getFrtileName(), tile.glyph);
 			}
 		}
-		for (Character glyph : colorTiles.keySet()) {
-			HashMap<String, ArrayList<DcssTile>> colorTypes = new HashMap<>();
-			for (DcssTile tile : colorTiles.get(glyph)) {
-				if (tile.getOriginalGlyph() != tile.getGlyph()) {
-					// the color is only for the thing on top right now -- colored features not in
-					continue;
-				}
-				String colorName = tile.getColor();
-				ArrayList<DcssTile> sameColor = colorTypes.get(colorName);
-				if (sameColor == null) {
-					sameColor = new ArrayList<DcssTile>();
-					colorTypes.put(colorName, sameColor);
-				}
-				sameColor.add(tile);
+		printCommandMap(cosmeticFtiles, "ftile", "=");
+		printCommandMap(cosmeticRtiles, "rtile", "=");
+		
+		// tile
+		HashMap<String, String> costmeticTiles = new HashMap<String, String>();
+		for (ArrayList<DcssTile> tiles : tilesByPrototype) {
+			DcssTile tile = tiles.get(0);
+			if (tile.getTileName() == null) {
+				continue;
 			}
-			if (colorTypes.size() == 1) {
-				// uniform substitution
-				DcssTile sampleTile = colorTiles.get(glyph).get(0);
-				registerColor(sampleTile.getGlyph(), sampleTile.getColor());
-			} else {
-				// nonuniform substitution
-				for (String colorName : colorTypes.keySet()) {
-					ArrayList<DcssTile> tiles = colorTypes.get(colorName);
-					Character subChar = consumeUnusedGlyph();
-					registerColor(subChar, colorName);
-					for (DcssTile tile : tiles) {
-						tile.setGlyph(subChar);
-					}
-				}
-			}
+			addGlyphToCommand(costmeticTiles, tile.getTileName(), tile.glyph);
 		}
+		printCommandMap(costmeticTiles, "tile", "=");
+
+		// Colo(u)r
+		HashMap<String, String> colorTiles = new HashMap<String, String>();
+		for (ArrayList<DcssTile> tiles : tilesByPrototype) {
+			DcssTile tile = tiles.get(0);
+			if (tile.getColor() == null) {
+				continue;
+			}
+			addGlyphToCommand(colorTiles, tile.getColor(), tile.glyph);
+		}
+		printCommandMap(colorTiles, "colour", "=");
 		
 		// Kmons
-		for (String monster : kmonsTiles.keySet()) {
-			ArrayList<DcssTile> tiles = kmonsTiles.get(monster);
-			Character glyph = consumeUnusedGlyph();
-			for (DcssTile tile : tiles) {
-				tile.setGlyph(glyph);
+		HashMap<String, String> kmonsTiles = new HashMap<String, String>();
+		for (ArrayList<DcssTile> tiles : tilesByPrototype) {
+			DcssTile tile = tiles.get(0);
+			if (tile.getKmons() == null) {
+				continue;
 			}
-			appendCode("kmons", glyph + " = " + monster);
+			addGlyphToCommand(kmonsTiles, tile.getKmons(), tile.glyph);
 		}
-		
-		// Tile combined printout
-		for (String target : tileSubsByTarget.keySet()) {
-			String subs = tileSubsByTarget.get(target);
-			appendCode("tile", subs + " : " + target);
-		}
-		for (String target : ftileSubsByTarget.keySet()) {
-			String subs = ftileSubsByTarget.get(target);
-			appendCode("ftile", subs + " : " + target);
-		}
-		for (String target : rtileSubsByTarget.keySet()) {
-			String subs = rtileSubsByTarget.get(target);
-			appendCode("rtile", subs + " : " + target);
-		}
-		for (String target : colorsByTarget.keySet()) {
-			String subs = colorsByTarget.get(target);
-			appendCode("colour", subs + " : " + target);
-		}
+		printCommandMap(kmonsTiles, "kmons", "=");
 		
 		// Custom stuffs
 		if (map.getProperties().getProperty("code") != null) {
@@ -348,127 +330,42 @@ public class PcmeConverter {
 	}
 	
 	/**
-	 * Given a tile, adds it to the tilesByGlyph map.
-	 * @param	tile			The tile to add to the map
+	 * Picks a substitution character not used in the main map display. Afterwards, that glyph is
+	 * marked used.
+	 * @return					A previously unseen glyph
 	 */
-	protected void registerTileGlyph(DcssTile tile) {
-		ArrayList<DcssTile> sameTile = tilesByGlyph.get(tile.getGlyph());
-		if (sameTile == null) {
-			sameTile = new ArrayList<DcssTile>();
-			tilesByGlyph.put(tile.getGlyph(), sameTile);
-		}
-		sameTile.add(tile);
-	}
-	
-	/**
-	 * Given a tile, removes it from the tilesByGlyph map.
-	 * @param	tile			The tile to remove from the map
-	 */
-	protected void unregisterTileGlyph(DcssTile tile) {
-		tilesByGlyph.get(tile.getGlyph()).remove(tile);
-	}
-	
-	/**
-	 * Registers a given tile in the colored tile list. Assume the tile has already has its color.
-	 * @param	tile			The tile register
-	 */
-	protected void registerColorTile(DcssTile tile) {
-		ArrayList<DcssTile> sameGlyph = colorTiles.get(tile.getGlyph());
-		if (sameGlyph == null) {
-			sameGlyph = new ArrayList<DcssTile>();
-			colorTiles.put(tile.getGlyph(), sameGlyph);
-		}
-		sameGlyph.add(tile);
-	}
-	
-	/**
-	 * Registers a given tile in the cosmetic (tile, ftile, rtile) list. Assumes the tile already
-	 * has had its cosmetic tile set.
-	 * @param	tile			The tile register
-	 */
-	protected void registerCosmeticTile(DcssTile tile) {
-		ArrayList<DcssTile> sameGlyph = cosmeticTiles.get(tile.getGlyph());
-		if (sameGlyph == null) {
-			sameGlyph = new ArrayList<DcssTile>();
-			cosmeticTiles.put(tile.getGlyph(), sameGlyph);
-		}
-		sameGlyph.add(tile);
-	}
-	
-	/**
-	 * Unregisters a given tile from its by-glyph cosmetic associations. Necessary to call when a
-	 * tile changes glyph.
-	 * @param	tile			The tile to unregister
-	 */
-	protected void unregisterCosmeticTile(DcssTile tile) {
-		ArrayList<DcssTile> sameGlyph = cosmeticTiles.get(tile.getGlyph());
-		sameGlyph.remove(tile);
-	}
-	
-	/**
-	 * Picks a substitution character unused elsewhere on the map and returns it. Afterwards, that
-	 * glyph is marked used.
-	 * @return					A previously unused glyph
-	 */
-	protected Character consumeUnusedGlyph() {
-		Character subChar = (Character)unusedGlyphs.toArray()[0];
-		unusedGlyphs.remove(subChar);
+	protected Character consumeUnseenGlyph() {
+		Character subChar = (Character)unseenGlyphs.toArray()[0];
+		unseenGlyphs.remove(subChar);
+		usedGlyphs.add(subChar);
 		return subChar;
 	}
 	
 	/**
-	 * Registers a cosmetic transformation to be combined into a ftile/rtile/whatever later on. It's
-	 * not printed out immediately so as to condense multiple tiles being subbed to the same thing.
-	 * The base glyph is used to determine the command, while the subglyph is the character to be
-	 * replaced.
-	 * @param	baseGlyph		The base type of glyph being substituted, to determine command
-	 * @param	subGlyph		The glyph to declare the tile for
-	 * @param	cosmeticName	The tile to declare it as
+	 * Appends a glyph to a string based on a key value.
+	 * @param	command			The command map to append to
+	 * @param	key				The key to look up in the command map
+	 * @param	glyph			The glyph to append to the value found
 	 */
-	protected void registerCosmetic(Character baseGlyph, Character subGlyph, String cosmeticName) {
-		HashMap<String, String> subsByTarget;
-		if (baseGlyph == '.') {
-			subsByTarget = ftileSubsByTarget;
-		} else if (baseGlyph == 'x') {
-			subsByTarget = rtileSubsByTarget;
-		} else {
-			subsByTarget = tileSubsByTarget;
+	protected void addGlyphToCommand(HashMap<String, String> command, String key, Character glyph) {
+		String value = command.get(key);
+		if (value == null) {
+			value = "";
 		}
-		String sameTarget = subsByTarget.get(cosmeticName);
-		if (sameTarget == null) {
-			sameTarget = "" + subGlyph;
-		} else {
-			sameTarget += subGlyph;
-		}
-		subsByTarget.put(cosmeticName, sameTarget);
+		value += glyph;
+		command.put(key, value);
 	}
 	
 	/**
-	 * Registers a coloring to be combined into a color command later on. It's not printed out
-	 * immediately so as to condense multiple tiles using the same color.
-	 * @param	subGlyph		The glyph to be colored
-	 * @param	colorName		The name of the color to use
+	 * Appends codes to the result string based on the values in a command map. The map maps left
+	 * hand values to right hand values via the supplied op, that will appear between the two.
+	 * @param	map				The map of lvalues to rvalues
+	 * @param	command			The command name being printed
+	 * @param	op				The operation defining the lvalue/rvalue relation, usually : or =
 	 */
-	protected void registerColor(Character subGlyph, String colorName) {
-		String sameTarget = colorsByTarget.get(colorName);
-		if (sameTarget == null) {
-			sameTarget = "" + subGlyph;
-		} else {
-			sameTarget += subGlyph;
+	protected void printCommandMap(HashMap<String, String> map, String command, String op) {
+		for (String key : map.keySet()) {
+			appendCode(command, map.get(key) + " " + op + " " + key);
 		}
-		colorsByTarget.put(colorName, sameTarget);
-	}
-	
-	/**
-	 * Registers a kmons tile to have a command added later. It should have already have kmons set.
-	 * @param	tile			The tile to register
-	 */
-	protected void registerKmonsTile(DcssTile tile) {
-		ArrayList<DcssTile> sameMonster = kmonsTiles.get(tile.getKmons());
-		if (sameMonster == null) {
-			sameMonster = new ArrayList<DcssTile>();
-			kmonsTiles.put(tile.getKmons(), sameMonster);
-		}
-		sameMonster.add(tile);
 	}
 }

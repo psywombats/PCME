@@ -2,9 +2,9 @@
 NAME:       psy_arrival_fountain
 TAGS:       arrival
 ORIENT:     float
+FTILE:      t.qpD{T = floor_grass
 KMONS:      D = plant
-FTILE:      Ttqp{. : floor_grass
-SHUFFE:     pq
+SHUFFLE:    pq
 SUBST:      p = .D, q : .
 MAP
 xxxxxxxxxxxxx

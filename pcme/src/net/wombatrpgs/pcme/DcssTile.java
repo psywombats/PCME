@@ -17,6 +17,7 @@ public class DcssTile {
 	protected String frtileName;
 	protected String color;
 	protected String kmons;
+	protected String kfeat;
 	
 	/**
 	 * Creates a new tile with the given glyph.
@@ -122,6 +123,18 @@ public class DcssTile {
 	}
 	
 	/**
+	 * Sets the feature of this tile. Its glyph will be replaced.
+	 * @param	kfeat			The feature to be used be set as this tile
+	 */
+	public void setKfeat(String kfeat) {
+		this.kfeat = kfeat;
+	}
+	
+	public String getKfeat() {
+		return kfeat;
+	}
+	
+	/**
 	 * Checks if this tile shares a "prototype tile" with the supplied tile. Tiles sharing a
 	 * prototype can be represented with the same glyph.
 	 * @param	tile			The tile to check
@@ -133,7 +146,8 @@ public class DcssTile {
 				nullCompare(tileName, tile.tileName) &&
 				nullCompare(frtileName, tile.frtileName) &&
 				nullCompare(kmons, tile.kmons) &&
-				nullCompare(color, tile.color);
+				nullCompare(color, tile.color) &&
+				nullCompare(kfeat, tile.kfeat);
 				
 	}
 	

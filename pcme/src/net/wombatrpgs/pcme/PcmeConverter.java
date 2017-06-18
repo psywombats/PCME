@@ -89,13 +89,11 @@ public class PcmeConverter {
 			for (int x = 0; x < tileLayer.getWidth(); x += 1) {
 				Tile tile = tileLayer.getTileAt(x, y);
 				
-				// blank space
 				if (tile == null) {
 					dcssMap[y][x] = new DcssTile(' ');
 					continue;
 				}
 				
-				// raw glyph
 				String glyphString = tile.getProperties().getProperty("glyph");
 				if (glyphString != null) {
 					if (glyphString.length() != 1) {
@@ -107,17 +105,17 @@ public class PcmeConverter {
 					}
 				}
 				
-				// cosmetic tile
 				if (tile.getProperties().getProperty("tile") != null) {
 					dcssMap[y][x].setCosmeticTile(tile.getProperties().getProperty("tile"));
 				}
 				if (tile.getProperties().getProperty("color") != null) {
 					dcssMap[y][x].setColor(tile.getProperties().getProperty("color"));
 				}
-				
-				// kmons
 				if (tile.getProperties().getProperty("kmons") != null) {
 					dcssMap[y][x].setKmons(tile.getProperties().getProperty("kmons"));
+				}
+				if (tile.getProperties().getProperty("kfeat") != null) {
+					dcssMap[y][x].setKfeat(tile.getProperties().getProperty("kfeat"));
 				}
 			}
 		}
@@ -148,14 +146,14 @@ public class PcmeConverter {
 					}
 				}
 				
-				// kmons
 				if (tile.getProperties().getProperty("kmons") != null) {
 					dcssMap[y][x].setKmons(tile.getProperties().getProperty("kmons"));
 				}
-				
-				// tile
 				if (tile.getProperties().getProperty("tile") != null) {
 					dcssMap[y][x].setSecondaryTileName(tile.getProperties().getProperty("tile"));
+				}
+				if (tile.getProperties().getProperty("kfeat") != null) {
+					dcssMap[y][x].setKfeat(tile.getProperties().getProperty("kfeat"));
 				}
 			}
 		}

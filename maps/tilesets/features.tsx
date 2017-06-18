@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<tileset name="Features" tilewidth="32" tileheight="32" tilecount="180" columns="12">
- <image source="features.png" width="384" height="480"/>
+<tileset name="Features" tilewidth="32" tileheight="32" tilecount="204" columns="12">
+ <image source="features.png" width="384" height="544"/>
  <tile id="0">
   <properties>
    <property name="glyph" value="{"/>
@@ -44,6 +44,11 @@
  <tile id="8">
   <properties>
    <property name="glyph" value="{"/>
+  </properties>
+ </tile>
+ <tile id="9">
+  <properties>
+   <property name="glyph" value="O"/>
   </properties>
  </tile>
  <tile id="12">
@@ -163,12 +168,297 @@
  </tile>
  <tile id="37">
   <properties>
-   <property name="glyph" value="C"/>
+   <property name="kfeat" value="altar_ecumenical"/>
+  </properties>
+ </tile>
+ <tile id="38">
+  <properties>
+   <property name="kfeat" value="altar_ashenzari"/>
+  </properties>
+ </tile>
+ <tile id="39">
+  <properties>
+   <property name="kfeat" value="altar_beogh"/>
+  </properties>
+ </tile>
+ <tile id="40">
+  <properties>
+   <property name="kfeat" value="altar_cheibriados"/>
+  </properties>
+ </tile>
+ <tile id="41">
+  <properties>
+   <property name="kfeat" value="altar_dithmenos"/>
+  </properties>
+ </tile>
+ <tile id="42">
+  <properties>
+   <property name="kfeat" value="altar_elyvilon"/>
+  </properties>
+ </tile>
+ <tile id="43">
+  <properties>
+   <property name="kfeat" value="altar_fedhas"/>
+  </properties>
+ </tile>
+ <tile id="44">
+  <properties>
+   <property name="kfeat" value="altar_gozag"/>
+  </properties>
+ </tile>
+ <tile id="45">
+  <properties>
+   <property name="kfeat" value="altar_hepliaklqana"/>
+  </properties>
+ </tile>
+ <tile id="46">
+  <properties>
+   <property name="kfeat" value="altar_kikubaaqudgha"/>
+  </properties>
+ </tile>
+ <tile id="47">
+  <properties>
+   <property name="kfeat" value="altar_jiyva"/>
+  </properties>
+ </tile>
+ <tile id="48">
+  <properties>
+   <property name="kfeat" value="altar_lugonu"/>
+  </properties>
+ </tile>
+ <tile id="49">
+  <properties>
+   <property name="kfeat" value="altar_makhleb"/>
+  </properties>
+ </tile>
+ <tile id="50">
+  <properties>
+   <property name="kfeat" value="altar_nemelex_xobeh"/>
+  </properties>
+ </tile>
+ <tile id="51">
+  <properties>
+   <property name="kfeat" value="altar_okawaru"/>
+  </properties>
+ </tile>
+ <tile id="52">
+  <properties>
+   <property name="kfeat" value="altar_qazlal"/>
+  </properties>
+ </tile>
+ <tile id="53">
+  <properties>
+   <property name="kfeat" value="altar_ru"/>
+  </properties>
+ </tile>
+ <tile id="54">
+  <properties>
+   <property name="kfeat" value="altar_shining_one"/>
+  </properties>
+ </tile>
+ <tile id="55">
+  <properties>
+   <property name="kfeat" value="altar_sif_muna"/>
+  </properties>
+ </tile>
+ <tile id="56">
+  <properties>
+   <property name="kfeat" value="altar_trog"/>
+  </properties>
+ </tile>
+ <tile id="57">
+  <properties>
+   <property name="kfeat" value="altar_uskayaw"/>
+  </properties>
+ </tile>
+ <tile id="58">
+  <properties>
+   <property name="kfeat" value="altar_vehumet"/>
+  </properties>
+ </tile>
+ <tile id="59">
+  <properties>
+   <property name="kfeat" value="altar_xom"/>
+  </properties>
+ </tile>
+ <tile id="60">
+  <properties>
+   <property name="kfeat" value="altar_yredelemnul"/>
+  </properties>
+ </tile>
+ <tile id="61">
+  <properties>
+   <property name="kfeat" value="altar_zin"/>
   </properties>
  </tile>
  <tile id="72">
   <properties>
    <property name="glyph" value="G"/>
+  </properties>
+ </tile>
+ <tile id="73">
+  <properties>
+   <property name="tile" value="dngn_statue_ancient_evil"/>
+  </properties>
+ </tile>
+ <tile id="74">
+  <properties>
+   <property name="tile" value="dngn_statue_ancient_hero"/>
+  </properties>
+ </tile>
+ <tile id="75">
+  <properties>
+   <property name="tile" value="dngn_statue_angel"/>
+  </properties>
+ </tile>
+ <tile id="76">
+  <properties>
+   <property name="tile" value=""/>
+  </properties>
+ </tile>
+ <tile id="77">
+  <properties>
+   <property name="tile" value="dngn_statue_cat"/>
+  </properties>
+ </tile>
+ <tile id="78">
+  <properties>
+   <property name="tile" value="dngn_statue_centaur"/>
+  </properties>
+ </tile>
+ <tile id="79">
+  <properties>
+   <property name="tile" value=""/>
+  </properties>
+ </tile>
+ <tile id="80">
+  <properties>
+   <property name="tile" value="dngn_statue_demonic_bust"/>
+  </properties>
+ </tile>
+ <tile id="81">
+  <properties>
+   <property name="tile" value="dngn_statue_dragon"/>
+  </properties>
+ </tile>
+ <tile id="82">
+  <properties>
+   <property name="tile" value=""/>
+  </properties>
+ </tile>
+ <tile id="83">
+  <properties>
+   <property name="tile" value="dngn_statue_elephant"/>
+  </properties>
+ </tile>
+ <tile id="84">
+  <properties>
+   <property name="tile" value=""/>
+  </properties>
+ </tile>
+ <tile id="85">
+  <properties>
+   <property name="tile" value="dngn_statue_imp"/>
+  </properties>
+ </tile>
+ <tile id="86">
+  <properties>
+   <property name="tile" value="dngn_statue_mermaid"/>
+  </properties>
+ </tile>
+ <tile id="87">
+  <properties>
+   <property name="tile" value="dngn_statue_naga"/>
+  </properties>
+ </tile>
+ <tile id="88">
+  <properties>
+   <property name="tile" value=""/>
+  </properties>
+ </tile>
+ <tile id="89">
+  <properties>
+   <property name="tile" value=""/>
+  </properties>
+ </tile>
+ <tile id="90">
+  <properties>
+   <property name="tile" value=""/>
+  </properties>
+ </tile>
+ <tile id="91">
+  <properties>
+   <property name="tile" value=""/>
+  </properties>
+ </tile>
+ <tile id="92">
+  <properties>
+   <property name="tile" value="dngn_statue_snail"/>
+  </properties>
+ </tile>
+ <tile id="93">
+  <properties>
+   <property name="tile" value=""/>
+  </properties>
+ </tile>
+ <tile id="94">
+  <properties>
+   <property name="tile" value=""/>
+  </properties>
+ </tile>
+ <tile id="95">
+  <properties>
+   <property name="tile" value=""/>
+  </properties>
+ </tile>
+ <tile id="96">
+  <properties>
+   <property name="tile" value=""/>
+  </properties>
+ </tile>
+ <tile id="97">
+  <properties>
+   <property name="tile" value="dngn_statue_wraith"/>
+  </properties>
+ </tile>
+ <tile id="98">
+  <properties>
+   <property name="tile" value="dngn_golden_statue"/>
+  </properties>
+ </tile>
+ <tile id="99">
+  <properties>
+   <property name="tile" value="dngn_golden_statue"/>
+  </properties>
+ </tile>
+ <tile id="100">
+  <properties>
+   <property name="tile" value="dngn_gravestone"/>
+  </properties>
+ </tile>
+ <tile id="101">
+  <properties>
+   <property name="tile" value="dngn_gravestone"/>
+  </properties>
+ </tile>
+ <tile id="102">
+  <properties>
+   <property name="tile" value="dngn_gravestone"/>
+  </properties>
+ </tile>
+ <tile id="103">
+  <properties>
+   <property name="tile" value="dngn_sarcophagus_pedestal_left"/>
+  </properties>
+ </tile>
+ <tile id="104">
+  <properties>
+   <property name="tile" value="dngn_sarcophagus_pedestal_right"/>
+  </properties>
+ </tile>
+ <tile id="107">
+  <properties>
+   <property name="tile" value="dngn_crumbled_column"/>
   </properties>
  </tile>
  <tile id="108">
@@ -186,6 +476,11 @@
    <property name="glyph" value="Y"/>
   </properties>
  </tile>
+ <tile id="111">
+  <properties>
+   <property name="glyph" value="I"/>
+  </properties>
+ </tile>
  <tile id="112">
   <properties>
    <property name="glyph" value="A"/>
@@ -194,6 +489,11 @@
  <tile id="113">
   <properties>
    <property name="glyph" value="t"/>
+  </properties>
+ </tile>
+ <tile id="114">
+  <properties>
+   <property name="tile" value="dngn_tree_dead"/>
   </properties>
  </tile>
  <tile id="120">
@@ -224,6 +524,26 @@
  <tile id="125">
   <properties>
    <property name="glyph" value="="/>
+  </properties>
+ </tile>
+ <tile id="126">
+  <properties>
+   <property name="kfeat" value="random shop"/>
+  </properties>
+ </tile>
+ <tile id="127">
+  <properties>
+   <property name="kfeat" value="abandoned shop"/>
+  </properties>
+ </tile>
+ <tile id="128">
+  <properties>
+   <property name="kfeat" value="enter_hell"/>
+  </properties>
+ </tile>
+ <tile id="129">
+  <properties>
+   <property name="kfeat" value="enter_abyss"/>
   </properties>
  </tile>
  <tile id="132">
@@ -398,6 +718,126 @@
  <tile id="179">
   <properties>
    <property name="glyph" value="?"/>
+  </properties>
+ </tile>
+ <tile id="180">
+  <properties>
+   <property name="kfeat" value="arrow trap"/>
+  </properties>
+ </tile>
+ <tile id="181">
+  <properties>
+   <property name="kfeat" value="blade trap"/>
+  </properties>
+ </tile>
+ <tile id="182">
+  <properties>
+   <property name="kfeat" value="bolt trap"/>
+  </properties>
+ </tile>
+ <tile id="183">
+  <properties>
+   <property name="kfeat" value="dart trap"/>
+  </properties>
+ </tile>
+ <tile id="184">
+  <properties>
+   <property name="kfeat" value="needle trap"/>
+  </properties>
+ </tile>
+ <tile id="185">
+  <properties>
+   <property name="kfeat" value="spear trap"/>
+  </properties>
+ </tile>
+ <tile id="186">
+  <properties>
+   <property name="kfeat" value="alarm trap"/>
+  </properties>
+ </tile>
+ <tile id="187">
+  <properties>
+   <property name="kfeat" value="web"/>
+  </properties>
+ </tile>
+ <tile id="188">
+  <properties>
+   <property name="kfeat" value="shaft trap"/>
+  </properties>
+ </tile>
+ <tile id="189">
+  <properties>
+   <property name="kfeat" value="teleport trap"/>
+  </properties>
+ </tile>
+ <tile id="190">
+  <properties>
+   <property name="kfeat" value="permanent teleport trap"/>
+  </properties>
+ </tile>
+ <tile id="191">
+  <properties>
+   <property name="kfeat" value="zot trap"/>
+  </properties>
+ </tile>
+ <tile id="192">
+  <properties>
+   <property name="kfeat" value="known arrow trap"/>
+  </properties>
+ </tile>
+ <tile id="193">
+  <properties>
+   <property name="kfeat" value="known blade trap"/>
+  </properties>
+ </tile>
+ <tile id="194">
+  <properties>
+   <property name="kfeat" value="known bolt trap"/>
+  </properties>
+ </tile>
+ <tile id="195">
+  <properties>
+   <property name="kfeat" value="known dart trap"/>
+  </properties>
+ </tile>
+ <tile id="196">
+  <properties>
+   <property name="kfeat" value="known needle trap"/>
+  </properties>
+ </tile>
+ <tile id="197">
+  <properties>
+   <property name="kfeat" value="known spear trap"/>
+  </properties>
+ </tile>
+ <tile id="198">
+  <properties>
+   <property name="kfeat" value="known alarm trap"/>
+  </properties>
+ </tile>
+ <tile id="199">
+  <properties>
+   <property name="kfeat" value="known web"/>
+  </properties>
+ </tile>
+ <tile id="200">
+  <properties>
+   <property name="kfeat" value="known shaft trap"/>
+  </properties>
+ </tile>
+ <tile id="201">
+  <properties>
+   <property name="kfeat" value="known teleport trap"/>
+  </properties>
+ </tile>
+ <tile id="202">
+  <properties>
+   <property name="kfeat" value="known permanent teleport trap"/>
+  </properties>
+ </tile>
+ <tile id="203">
+  <properties>
+   <property name="kfeat" value="known zot trap"/>
   </properties>
  </tile>
 </tileset>

@@ -129,7 +129,6 @@ public class PcmeConverter {
 				}
 				
 				DcssTile existingTile = dcssMap[y][x];
-				Character existingGlyph = existingTile.getGlyph();
 				
 				String glyphString = tile.getProperties().getProperty("glyph");
 				if (glyphString != null) {
@@ -138,12 +137,7 @@ public class PcmeConverter {
 						continue;
 					}
 					Character glyph = glyphString.charAt(0);
-					if (existingGlyph == ' ' || existingGlyph == '.' || existingGlyph == glyph) {
-						existingTile.setGlyph(glyph);
-					} else {
-						System.err.println("kfeat not supported right now");
-						return null;
-					}
+					existingTile.addGlyph(glyph);
 				}
 				
 				if (tile.getProperties().getProperty("kmons") != null) {
@@ -195,7 +189,7 @@ public class PcmeConverter {
 			}
 			if (sampleTile.getGlyph() != newGlyph) {
 				for (DcssTile tile : tileSet) {
-					tile.setGlyph(newGlyph);
+					tile.assignGlyph(newGlyph);
 				}
 			}
 		}
@@ -267,6 +261,17 @@ public class PcmeConverter {
 			addGlyphToCommand(kmonsTiles, tile.getKmons(), tile.glyph);
 		}
 		printCommandMap(kmonsTiles, "kmons", "=");
+		
+		// Kfeat
+		HashMap<String, String> kfeatTiles = new HashMap<String, String>();
+		for (ArrayList<DcssTile> tiles : tilesByPrototype) {
+			DcssTile tile = tiles.get(0);
+			if (tile.getKfeat() == null) {
+				continue;
+			}
+			addGlyphToCommand(kfeatTiles, tile.getKfeat(), tile.glyph);
+		}
+		printCommandMap(kfeatTiles, "kfeat", "=");
 		
 		// Custom stuffs
 		if (map.getProperties().getProperty("code") != null) {

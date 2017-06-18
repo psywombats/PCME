@@ -81,11 +81,26 @@ public class DcssTile {
 	}
 	
 	/**
-	 * Overrides the currrent glyph and places something new in this tile.
-	 * @param	glyph			The new glyph to use
+	 * Adds a glyph from a further layer on to apply to this tile. Should not be called for
+	 * administrative glyph changes, just from the map
+	 * @param	newGlyph		The new glyph to use
 	 */
-	public void setGlyph(Character glyph) {
-		this.glyph = glyph;
+	public void addGlyph(Character newGlyph) {
+		if (glyph != null) {
+			if (glyph != '.' && glyph != ' ') {
+				kfeat = "" + glyph;
+			}
+		}
+		glyph = newGlyph;
+	}
+	
+	/**
+	 * Replaces the glyph used by this tile, forgetting the old one completely. Should only ever
+	 * be called once on a tile probably.
+	 * @param	newGlyph		The new glyph to use
+	 */
+	public void assignGlyph(Character newGlyph) {
+		this.glyph = newGlyph;
 	}
 	
 	/**
@@ -124,12 +139,16 @@ public class DcssTile {
 	
 	/**
 	 * Sets the feature of this tile. Its glyph will be replaced.
-	 * @param	kfeat			The feature to be used be set as this tile
+	 * @param	kfeat			The feature to be set as this tile
 	 */
 	public void setKfeat(String kfeat) {
 		this.kfeat = kfeat;
 	}
 	
+	/**
+	 * Returns the kfeat assigned to this tile.
+	 * @return					The feature to be set as this tile
+	 */
 	public String getKfeat() {
 		return kfeat;
 	}

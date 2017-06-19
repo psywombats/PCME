@@ -63,7 +63,7 @@ public class PcmeConverter {
 			return null;
 		}
 		
-		if (map.getLayerCount() != 3) {
+		if (map.getLayerCount() != 4) {
 			reportError("Expecting 3 layers, found " + map.getLayerCount());
 			return null;
 		}
@@ -158,9 +158,9 @@ public class PcmeConverter {
 		}
 		
 		// Tag layer pass
-		for (int y = 0; y < featureLayer.getHeight(); y += 1) {
-			for (int x = 0; x < featureLayer.getWidth(); x += 1) {
-				Tile tile = featureLayer.getTileAt(x, y);
+		for (int y = 0; y < tagLayer.getHeight(); y += 1) {
+			for (int x = 0; x < tagLayer.getWidth(); x += 1) {
+				Tile tile = tagLayer.getTileAt(x, y);
 				if (tile == null) {
 					continue;
 				}
@@ -221,6 +221,9 @@ public class PcmeConverter {
 		result = "";
 		result += "##############################################################################";
 		result += "\n";
+		if (map.getProperties().getProperty("comment") != null) {
+			result += "# " + map.getProperties().getProperty("comment") + "\n";
+		}
 		result += "NAME:       ";
 		if (map.getProperties().getProperty("name") != null) {
 			result += map.getProperties().getProperty("name");
@@ -314,7 +317,7 @@ public class PcmeConverter {
 			if (tile.getKprop() == null) {
 				continue;
 			}
-			addGlyphToCommand(kpropTiles, tile.getKfeat(), tile.glyph);
+			addGlyphToCommand(kpropTiles, tile.getKprop(), tile.glyph);
 		}
 		printSplitCommandMap(kpropTiles, "kprop", "=");
 		
@@ -322,6 +325,9 @@ public class PcmeConverter {
 		if (map.getProperties().getProperty("code") != null) {
 			result += map.getProperties().getProperty("code") + "\n";
 		}
+		
+		appendPropertyIfExists("items");
+		appendPropertyIfExists("mons");
 		
 		// Map
 		result += "MAP\n";

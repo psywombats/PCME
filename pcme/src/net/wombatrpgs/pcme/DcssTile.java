@@ -200,8 +200,8 @@ public class DcssTile {
 				nullCompare(kmons, tile.kmons) &&
 				nullCompare(color, tile.color) &&
 				nullCompare(kfeat, tile.kfeat) &&
-				nullCompare(kfeat, tile.kmask) &&
-				nullCompare(kfeat, tile.kprop);
+				nullCompare(kmask, tile.kmask) &&
+				nullCompare(kprop, tile.kprop);
 				
 	}
 	

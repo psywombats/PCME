@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="2017.05.26" orientation="orthogonal" renderorder="right-down" width="15" height="15" tilewidth="32" tileheight="32" backgroundcolor="#000000" nextobjectid="1">
  <properties>
-  <property name="code">SUBST:      q = EF
-SUBST:      r = EFF</property>
+  <property name="code" value="SUBST:      q = EF, r = EFF"/>
   <property name="orient" value="float"/>
   <property name="tags" value="arrival"/>
  </properties>

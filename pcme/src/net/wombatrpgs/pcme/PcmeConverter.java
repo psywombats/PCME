@@ -75,13 +75,18 @@ public class PcmeConverter {
 			reportError("Feature layer bad type " + map.getLayer(1).getClass());
 			return null;
 		}
-		if (!ObjectGroup.class.isAssignableFrom(map.getLayer(2).getClass())) {
-			reportError("Object layer bad type " + map.getLayer(2).getClass());
+		if (!TileLayer.class.isAssignableFrom(map.getLayer(2).getClass())) {
+			reportError("Tag layer bad type " + map.getLayer(1).getClass());
+			return null;
+		}
+		if (!ObjectGroup.class.isAssignableFrom(map.getLayer(3).getClass())) {
+			reportError("Object layer bad type " + map.getLayer(3).getClass());
 			return null;
 		}
 		TileLayer tileLayer = (TileLayer) map.getLayer(0);
 		TileLayer featureLayer = (TileLayer) map.getLayer(1);
-		// ObjectGroup objectLayer = (ObjectGroup) map.getLayer(2);
+		TileLayer tagLayer = (TileLayer) map.getLayer(2);
+		// ObjectGroup objectLayer = (ObjectGroup) map.getLayer(3);
 		
 		// Basic layer pass
 		dcssMap = new DcssTile[tileLayer.getHeight()][tileLayer.getWidth()];
@@ -141,13 +146,31 @@ public class PcmeConverter {
 				}
 				
 				if (tile.getProperties().getProperty("kmons") != null) {
-					dcssMap[y][x].setKmons(tile.getProperties().getProperty("kmons"));
+					existingTile.setKmons(tile.getProperties().getProperty("kmons"));
 				}
 				if (tile.getProperties().getProperty("tile") != null) {
-					dcssMap[y][x].setSecondaryTileName(tile.getProperties().getProperty("tile"));
+					existingTile.setSecondaryTileName(tile.getProperties().getProperty("tile"));
 				}
 				if (tile.getProperties().getProperty("kfeat") != null) {
-					dcssMap[y][x].setKfeat(tile.getProperties().getProperty("kfeat"));
+					existingTile.setKfeat(tile.getProperties().getProperty("kfeat"));
+				}
+			}
+		}
+		
+		// Tag layer pass
+		for (int y = 0; y < featureLayer.getHeight(); y += 1) {
+			for (int x = 0; x < featureLayer.getWidth(); x += 1) {
+				Tile tile = featureLayer.getTileAt(x, y);
+				if (tile == null) {
+					continue;
+				}
+				
+				DcssTile existingTile = dcssMap[y][x];
+				if (tile.getProperties().getProperty("kprop") != null) {
+					existingTile.setKprop(tile.getProperties().getProperty("kprop"));
+				}
+				if (tile.getProperties().getProperty("kmask") != null) {
+					existingTile.setKmask(tile.getProperties().getProperty("kmask"));
 				}
 			}
 		}
@@ -273,6 +296,28 @@ public class PcmeConverter {
 		}
 		printCommandMap(kfeatTiles, "kfeat", "=");
 		
+		// Kmask
+		HashMap<String, String> kmaskTiles = new HashMap<String, String>();
+		for (ArrayList<DcssTile> tiles : tilesByPrototype) {
+			DcssTile tile = tiles.get(0);
+			if (tile.getKmask() == null) {
+				continue;
+			}
+			addGlyphToCommand(kmaskTiles, tile.getKmask(), tile.glyph);
+		}
+		printSplitCommandMap(kmaskTiles, "kmask", "=");
+		
+		// Kprop
+		HashMap<String, String> kpropTiles = new HashMap<String, String>();
+		for (ArrayList<DcssTile> tiles : tilesByPrototype) {
+			DcssTile tile = tiles.get(0);
+			if (tile.getKprop() == null) {
+				continue;
+			}
+			addGlyphToCommand(kpropTiles, tile.getKfeat(), tile.glyph);
+		}
+		printSplitCommandMap(kpropTiles, "kprop", "=");
+		
 		// Custom stuffs
 		if (map.getProperties().getProperty("code") != null) {
 			result += map.getProperties().getProperty("code") + "\n";
@@ -369,6 +414,22 @@ public class PcmeConverter {
 	protected void printCommandMap(HashMap<String, String> map, String command, String op) {
 		for (String key : map.keySet()) {
 			appendCode(command, map.get(key) + " " + op + " " + key);
+		}
+	}
+	
+	/**
+	 * Appends codes to the result string based on the values in a command map. The right hand
+	 * side is split and the command is printed once per space-seperated value there.
+	 * @param	map				The map of lvalues to rvalues
+	 * @param	command			The command name being printed
+	 * @param	op				The operation defining the lvalue/rvalue relation, usually : or =
+	 */
+	protected void printSplitCommandMap(HashMap<String, String> map, String command, String op) {
+		for (String key : map.keySet()) {
+			String[] values = key.split("\\s+");
+			for (String value : values) {
+				appendCode(command, map.get(key) + " " + op + " " + value);
+			}
 		}
 	}
 }

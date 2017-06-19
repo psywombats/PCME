@@ -18,6 +18,7 @@ public class DcssTile {
 	protected String color;
 	protected String kmons;
 	protected String kfeat;
+	protected String kprop, kmask;
 	
 	/**
 	 * Creates a new tile with the given glyph.
@@ -154,6 +155,38 @@ public class DcssTile {
 	}
 	
 	/**
+	 * Sets the associated property data with this tile. Non-destructive.
+	 * @param	kprop			The property data to set
+	 */
+	public void setKprop(String kprop) {
+		this.kprop = kprop;
+	}
+	
+	/**
+	 * Returns the property data for this tile
+	 * @return					The tile property string
+	 */
+	public String getKprop() {
+		return kprop;
+	}
+	
+	/**
+	 * Sets the associated mask data with this tile. Non-destructive.
+	 * @param	kmask			The mask data to set
+	 */
+	public void setKmask(String kmask) {
+		this.kmask = kmask;
+	}
+	
+	/**
+	 * Returns the masking data for this tile.
+	 * @return				The masking property string
+	 */
+	public String getKmask() {
+		return kmask;
+	}
+	
+	/**
 	 * Checks if this tile shares a "prototype tile" with the supplied tile. Tiles sharing a
 	 * prototype can be represented with the same glyph.
 	 * @param	tile			The tile to check
@@ -166,7 +199,9 @@ public class DcssTile {
 				nullCompare(frtileName, tile.frtileName) &&
 				nullCompare(kmons, tile.kmons) &&
 				nullCompare(color, tile.color) &&
-				nullCompare(kfeat, tile.kfeat);
+				nullCompare(kfeat, tile.kfeat) &&
+				nullCompare(kfeat, tile.kmask) &&
+				nullCompare(kfeat, tile.kprop);
 				
 	}
 	

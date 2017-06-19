@@ -600,6 +600,17 @@
    <property name="kmons" value="fungus"/>
   </properties>
  </tile>
+ <tile id="144">
+  <properties>
+   <property name="kmask" value="no_item_gen no_monster_gen "/>
+   <property name="kprop" value="no_tele_into"/>
+  </properties>
+ </tile>
+ <tile id="145">
+  <properties>
+   <property name="kprop" value="bloody"/>
+  </properties>
+ </tile>
  <tile id="156">
   <properties>
    <property name="glyph" value="!"/>

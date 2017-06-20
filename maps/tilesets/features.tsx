@@ -169,126 +169,151 @@
  <tile id="37">
   <properties>
    <property name="kfeat" value="altar_ecumenical"/>
+   <property name="prefGlyphs" value="?"/>
   </properties>
  </tile>
  <tile id="38">
   <properties>
    <property name="kfeat" value="altar_ashenzari"/>
+   <property name="prefGlyphs" value="Aa"/>
   </properties>
  </tile>
  <tile id="39">
   <properties>
    <property name="kfeat" value="altar_beogh"/>
+   <property name="prefGlyphs" value="Bb"/>
   </properties>
  </tile>
  <tile id="40">
   <properties>
    <property name="kfeat" value="altar_cheibriados"/>
+   <property name="prefGlyphs" value="Cc"/>
   </properties>
  </tile>
  <tile id="41">
   <properties>
    <property name="kfeat" value="altar_dithmenos"/>
+   <property name="prefGlyphs" value="Dd"/>
   </properties>
  </tile>
  <tile id="42">
   <properties>
    <property name="kfeat" value="altar_elyvilon"/>
+   <property name="prefGlyphs" value="Ee"/>
   </properties>
  </tile>
  <tile id="43">
   <properties>
    <property name="kfeat" value="altar_fedhas"/>
+   <property name="prefGlyphs" value="Ff"/>
   </properties>
  </tile>
  <tile id="44">
   <properties>
    <property name="kfeat" value="altar_gozag"/>
+   <property name="prefGlyphs" value="Gg"/>
   </properties>
  </tile>
  <tile id="45">
   <properties>
    <property name="kfeat" value="altar_hepliaklqana"/>
+   <property name="prefGlyphs" value=""/>
   </properties>
  </tile>
  <tile id="46">
   <properties>
    <property name="kfeat" value="altar_kikubaaqudgha"/>
+   <property name="prefGlyphs" value="Kk"/>
   </properties>
  </tile>
  <tile id="47">
   <properties>
    <property name="kfeat" value="altar_jiyva"/>
+   <property name="prefGlyphs" value="Jj"/>
   </properties>
  </tile>
  <tile id="48">
   <properties>
    <property name="kfeat" value="altar_lugonu"/>
+   <property name="prefGlyphs" value="Ll"/>
   </properties>
  </tile>
  <tile id="49">
   <properties>
    <property name="kfeat" value="altar_makhleb"/>
+   <property name="prefGlyphs" value="Mm"/>
   </properties>
  </tile>
  <tile id="50">
   <properties>
    <property name="kfeat" value="altar_nemelex_xobeh"/>
+   <property name="prefGlyphs" value="Nn"/>
   </properties>
  </tile>
  <tile id="51">
   <properties>
    <property name="kfeat" value="altar_okawaru"/>
+   <property name="prefGlyphs" value="Oo"/>
   </properties>
  </tile>
  <tile id="52">
   <properties>
    <property name="kfeat" value="altar_qazlal"/>
+   <property name="prefGlyphs" value="Qq"/>
   </properties>
  </tile>
  <tile id="53">
   <properties>
    <property name="kfeat" value="altar_ru"/>
+   <property name="prefGlyphs" value="Rr"/>
   </properties>
  </tile>
  <tile id="54">
   <properties>
    <property name="kfeat" value="altar_shining_one"/>
+   <property name="prefGlyphs" value="Ss"/>
   </properties>
  </tile>
  <tile id="55">
   <properties>
    <property name="kfeat" value="altar_sif_muna"/>
+   <property name="prefGlyphs" value="sSMm"/>
   </properties>
  </tile>
  <tile id="56">
   <properties>
    <property name="kfeat" value="altar_trog"/>
+   <property name="prefGlyphs" value="Tt"/>
   </properties>
  </tile>
  <tile id="57">
   <properties>
    <property name="kfeat" value="altar_uskayaw"/>
+   <property name="prefGlyphs" value="Uu"/>
   </properties>
  </tile>
  <tile id="58">
   <properties>
    <property name="kfeat" value="altar_vehumet"/>
+   <property name="prefGlyphs" value="Vv"/>
   </properties>
  </tile>
  <tile id="59">
   <properties>
    <property name="kfeat" value="altar_xom"/>
+   <property name="prefGlyphs" value="Xo"/>
   </properties>
  </tile>
  <tile id="60">
   <properties>
    <property name="kfeat" value="altar_yredelemnul"/>
+   <property name="prefGlyphs" value="Yy"/>
   </properties>
  </tile>
  <tile id="61">
   <properties>
    <property name="kfeat" value="altar_zin"/>
+   <property name="prefGlyphs" value="Zz"/>
   </properties>
  </tile>
  <tile id="72">
@@ -448,16 +473,19 @@
  </tile>
  <tile id="103">
   <properties>
+   <property name="prefGlyphs" value="["/>
    <property name="tile" value="dngn_sarcophagus_pedestal_left"/>
   </properties>
  </tile>
  <tile id="104">
   <properties>
+   <property name="prefGlyphs" value="]"/>
    <property name="tile" value="dngn_sarcophagus_pedestal_right"/>
   </properties>
  </tile>
  <tile id="107">
   <properties>
+   <property name="prefGlyphs" value="CI"/>
    <property name="tile" value="dngn_crumbled_column"/>
   </properties>
  </tile>
@@ -493,6 +521,7 @@
  </tile>
  <tile id="114">
   <properties>
+   <property name="prefGlyphs" value="tTd"/>
    <property name="tile" value="dngn_tree_dead"/>
   </properties>
  </tile>
@@ -529,21 +558,25 @@
  <tile id="126">
   <properties>
    <property name="kfeat" value="random shop"/>
+   <property name="prefGlyphs" value="?!Ss"/>
   </properties>
  </tile>
  <tile id="127">
   <properties>
    <property name="kfeat" value="abandoned shop"/>
+   <property name="prefGlyphs" value="?!AaSs"/>
   </properties>
  </tile>
  <tile id="128">
   <properties>
    <property name="kfeat" value="enter_hell"/>
+   <property name="prefGlyphs" value="&gt;H"/>
   </properties>
  </tile>
  <tile id="129">
   <properties>
    <property name="kfeat" value="enter_abyss"/>
+   <property name="prefGlyphs" value="&gt;A"/>
   </properties>
  </tile>
  <tile id="132">
@@ -580,24 +613,28 @@
   <properties>
    <property name="glyph" value="."/>
    <property name="kmons" value="plant"/>
+   <property name="prefGlyphs" value="pP"/>
   </properties>
  </tile>
  <tile id="139">
   <properties>
    <property name="glyph" value="."/>
    <property name="kmons" value="bush"/>
+   <property name="prefGlyphs" value="Bb"/>
   </properties>
  </tile>
  <tile id="140">
   <properties>
    <property name="glyph" value="."/>
    <property name="kmons" value="plant / bush"/>
+   <property name="prefGlyphs" value="PpBB"/>
   </properties>
  </tile>
  <tile id="141">
   <properties>
    <property name="glyph" value="."/>
    <property name="kmons" value="fungus"/>
+   <property name="prefGlyphs" value="fF"/>
   </properties>
  </tile>
  <tile id="144">
@@ -734,121 +771,145 @@
  <tile id="180">
   <properties>
    <property name="kfeat" value="arrow trap"/>
+   <property name="prefGlyphs" value="^aA"/>
   </properties>
  </tile>
  <tile id="181">
   <properties>
    <property name="kfeat" value="blade trap"/>
+   <property name="prefGlyphs" value="^bB"/>
   </properties>
  </tile>
  <tile id="182">
   <properties>
    <property name="kfeat" value="bolt trap"/>
+   <property name="prefGlyphs" value="^bB"/>
   </properties>
  </tile>
  <tile id="183">
   <properties>
    <property name="kfeat" value="dart trap"/>
+   <property name="prefGlyphs" value="^dD"/>
   </properties>
  </tile>
  <tile id="184">
   <properties>
    <property name="kfeat" value="needle trap"/>
+   <property name="prefGlyphs" value="^nN"/>
   </properties>
  </tile>
  <tile id="185">
   <properties>
    <property name="kfeat" value="spear trap"/>
+   <property name="prefGlyphs" value="^sS"/>
   </properties>
  </tile>
  <tile id="186">
   <properties>
    <property name="kfeat" value="alarm trap"/>
+   <property name="prefGlyphs" value="^aAnN"/>
   </properties>
  </tile>
  <tile id="187">
   <properties>
    <property name="kfeat" value="web"/>
+   <property name="prefGlyphs" value="^wW"/>
   </properties>
  </tile>
  <tile id="188">
   <properties>
    <property name="kfeat" value="shaft trap"/>
+   <property name="prefGlyphs" value="^&gt;sS"/>
   </properties>
  </tile>
  <tile id="189">
   <properties>
    <property name="kfeat" value="teleport trap"/>
+   <property name="prefGlyphs" value="^tT?"/>
   </properties>
  </tile>
  <tile id="190">
   <properties>
    <property name="kfeat" value="permanent teleport trap"/>
+   <property name="prefGlyphs" value="^?Tt"/>
   </properties>
  </tile>
  <tile id="191">
   <properties>
    <property name="kfeat" value="zot trap"/>
+   <property name="prefGlyphs" value="^Zz"/>
   </properties>
  </tile>
  <tile id="192">
   <properties>
    <property name="kfeat" value="known arrow trap"/>
+   <property name="prefGlyphs" value="^aA"/>
   </properties>
  </tile>
  <tile id="193">
   <properties>
    <property name="kfeat" value="known blade trap"/>
+   <property name="prefGlyphs" value="^bB"/>
   </properties>
  </tile>
  <tile id="194">
   <properties>
    <property name="kfeat" value="known bolt trap"/>
+   <property name="prefGlyphs" value="^bB"/>
   </properties>
  </tile>
  <tile id="195">
   <properties>
    <property name="kfeat" value="known dart trap"/>
+   <property name="prefGlyphs" value="^dD"/>
   </properties>
  </tile>
  <tile id="196">
   <properties>
    <property name="kfeat" value="known needle trap"/>
+   <property name="prefGlyphs" value="^nN"/>
   </properties>
  </tile>
  <tile id="197">
   <properties>
    <property name="kfeat" value="known spear trap"/>
+   <property name="prefGlyphs" value="^sS"/>
   </properties>
  </tile>
  <tile id="198">
   <properties>
    <property name="kfeat" value="known alarm trap"/>
+   <property name="prefGlyphs" value="^aAnN"/>
   </properties>
  </tile>
  <tile id="199">
   <properties>
    <property name="kfeat" value="known web"/>
+   <property name="prefGlyphs" value="^wW"/>
   </properties>
  </tile>
  <tile id="200">
   <properties>
    <property name="kfeat" value="known shaft trap"/>
+   <property name="prefGlyphs" value="^&gt;sS"/>
   </properties>
  </tile>
  <tile id="201">
   <properties>
    <property name="kfeat" value="known teleport trap"/>
+   <property name="prefGlyphs" value="^tT?"/>
   </properties>
  </tile>
  <tile id="202">
   <properties>
    <property name="kfeat" value="known permanent teleport trap"/>
+   <property name="prefGlyphs" value="^?Tt"/>
   </properties>
  </tile>
  <tile id="203">
   <properties>
    <property name="kfeat" value="known zot trap"/>
+   <property name="prefGlyphs" value="^Zz"/>
   </properties>
  </tile>
 </tileset>

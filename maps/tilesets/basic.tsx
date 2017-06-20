@@ -419,36 +419,42 @@
  <tile id="96">
   <properties>
    <property name="glyph" value="x"/>
+   <property name="prefGlyphs" value="wW"/>
    <property name="tile" value="wall_wax"/>
   </properties>
  </tile>
  <tile id="97">
   <properties>
    <property name="glyph" value="x"/>
+   <property name="prefGlyphs" value="cC"/>
    <property name="tile" value="wall_church"/>
   </properties>
  </tile>
  <tile id="98">
   <properties>
    <property name="glyph" value="x"/>
+   <property name="prefGlyphs" value="iI"/>
    <property name="tile" value="wall_ice_block"/>
   </properties>
  </tile>
  <tile id="99">
   <properties>
    <property name="glyph" value="v"/>
+   <property name="prefGlyphs" value="mM"/>
    <property name="tile" value="dngn_metal_wall_white"/>
   </properties>
  </tile>
  <tile id="100">
   <properties>
    <property name="glyph" value="x"/>
+   <property name="prefGlyphs" value="vV"/>
    <property name="tile" value="wall_volcanic"/>
   </properties>
  </tile>
  <tile id="101">
   <properties>
    <property name="glyph" value="x"/>
+   <property name="prefGlyphs" value="H"/>
    <property name="tile" value="wall_hall"/>
   </properties>
  </tile>
@@ -684,6 +690,7 @@
   <properties>
    <property name="color" value="blue"/>
    <property name="glyph" value="b"/>
+   <property name="prefGlyphs" value="bB"/>
    <property name="tile" value="dngn_crystal_blue"/>
   </properties>
  </tile>
@@ -691,6 +698,7 @@
   <properties>
    <property name="color" value="brown"/>
    <property name="glyph" value="b"/>
+   <property name="prefGlyphs" value="Bb"/>
    <property name="tile" value="dngn_crystal_brown"/>
   </properties>
  </tile>
@@ -698,6 +706,7 @@
   <properties>
    <property name="color" value="cyan"/>
    <property name="glyph" value="b"/>
+   <property name="prefGlyphs" value="Cc"/>
    <property name="tile" value="dngn_crystal_cyan"/>
   </properties>
  </tile>
@@ -705,6 +714,7 @@
   <properties>
    <property name="color" value="darkgrey"/>
    <property name="glyph" value="b"/>
+   <property name="prefGlyphs" value="Gg"/>
    <property name="tile" value="dngn_crystal_dark_gray"/>
   </properties>
  </tile>
@@ -712,6 +722,7 @@
   <properties>
    <property name="color" value="green"/>
    <property name="glyph" value="b"/>
+   <property name="prefGlyphs" value="Gg"/>
    <property name="tile" value="dngn_crystal_green"/>
   </properties>
  </tile>
@@ -719,6 +730,7 @@
   <properties>
    <property name="color" value="lightblue"/>
    <property name="glyph" value="b"/>
+   <property name="prefGlyphs" value="bB"/>
    <property name="tile" value="dngn_crystal_lightblue"/>
   </properties>
  </tile>
@@ -726,6 +738,7 @@
   <properties>
    <property name="color" value="lightcyan"/>
    <property name="glyph" value="b"/>
+   <property name="prefGlyphs" value="cC"/>
    <property name="tile" value="dngn_crystal_lightcyan"/>
   </properties>
  </tile>
@@ -733,6 +746,7 @@
   <properties>
    <property name="color" value="lightgray"/>
    <property name="glyph" value="b"/>
+   <property name="prefGlyphs" value="gG"/>
    <property name="tile" value="dngn_crystal_lightgray"/>
   </properties>
  </tile>
@@ -740,6 +754,7 @@
   <properties>
    <property name="color" value="lightgreen"/>
    <property name="glyph" value="b"/>
+   <property name="prefGlyphs" value="gG"/>
    <property name="tile" value="dngn_crystal_lightgreen"/>
   </properties>
  </tile>
@@ -747,6 +762,7 @@
   <properties>
    <property name="color" value="lightmagenta"/>
    <property name="glyph" value="b"/>
+   <property name="prefGlyphs" value="mM"/>
    <property name="tile" value="dngn_crystal_lightmagenta"/>
   </properties>
  </tile>
@@ -754,6 +770,7 @@
   <properties>
    <property name="color" value="lightred"/>
    <property name="glyph" value="b"/>
+   <property name="prefGlyphs" value="rR"/>
    <property name="tile" value="dngn_crystal_lightred"/>
   </properties>
  </tile>
@@ -761,6 +778,7 @@
   <properties>
    <property name="color" value="magenta"/>
    <property name="glyph" value="b"/>
+   <property name="prefGlyphs" value="Mm"/>
    <property name="tile" value="dngn_crystal_magenta"/>
   </properties>
  </tile>
@@ -768,6 +786,7 @@
   <properties>
    <property name="color" value="brown"/>
    <property name="glyph" value="b"/>
+   <property name="prefGlyphs" value="Bb"/>
    <property name="tile" value="dngn_crystal_brown"/>
   </properties>
  </tile>
@@ -775,6 +794,7 @@
   <properties>
    <property name="color" value="white"/>
    <property name="glyph" value="b"/>
+   <property name="prefGlyphs" value="wW"/>
    <property name="tile" value="dngn_crystal_white"/>
   </properties>
  </tile>
@@ -782,6 +802,7 @@
   <properties>
    <property name="color" value="yellow"/>
    <property name="glyph" value="b"/>
+   <property name="prefGlyphs" value="yY"/>
    <property name="tile" value="dngn_crystal_yellow"/>
   </properties>
  </tile>

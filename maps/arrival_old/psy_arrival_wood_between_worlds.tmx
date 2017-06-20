@@ -2,8 +2,7 @@
 <map version="2017.05.26" orientation="orthogonal" renderorder="right-down" width="23" height="23" tilewidth="32" tileheight="32" backgroundcolor="#000000" nextobjectid="1">
  <properties>
   <property name="code">KMONS:      p = plant
-NSUBST:     p = 10:p / *:W
-NSUBST:     q = 10:E / *:.</property>
+NSUBST:     p = 10:p / *:W, q = 10:P / *:.</property>
   <property name="orient" value="float"/>
   <property name="tags" value="arrival no_monster_gen no_trap_gen no_pool_fixup"/>
   <property name="weight" value="3"/>

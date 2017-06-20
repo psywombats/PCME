@@ -26,10 +26,10 @@ public class PcmeConverter {
 	
 	protected File inputFile;
 	protected Map map;
-	protected String result;
+	protected StringBuilder result;
 	protected DcssTile[][] dcssMap;
 	
-	protected HashSet<Character> unseenGlyphs, usedGlyphs;
+	protected HashSet<Character> usedGlyphs, subGlyphs, firstPassGlyphs;
 	protected ArrayList<ArrayList<DcssTile>> tilesByPrototype;
 	
 	/**
@@ -38,13 +38,16 @@ public class PcmeConverter {
 	 */
 	public PcmeConverter(File inputFile) {
 		this.inputFile = inputFile;
+		
+		result = new StringBuilder();
 		tilesByPrototype = new ArrayList<ArrayList<DcssTile>>();
 		
 		String characterString = "`~!&-_:;\"'pqrsuyzDEFHJKLMNOQRSTZ?";
 		usedGlyphs = new HashSet<Character>();
-		unseenGlyphs = new HashSet<Character>();
+		subGlyphs = new HashSet<Character>();
+		firstPassGlyphs = new HashSet<Character>();
 		for (int i = 0; i < characterString.length(); i += 1) {
-			unseenGlyphs.add(characterString.charAt(i));
+			subGlyphs.add(characterString.charAt(i));
 		}
 	}
 
@@ -107,6 +110,7 @@ public class PcmeConverter {
 					} else {
 						Character glyph = glyphString.charAt(0);
 						dcssMap[y][x] = new DcssTile(glyph);
+						firstPassGlyphs.add(glyph);
 					}
 				}
 				
@@ -209,8 +213,13 @@ public class PcmeConverter {
 		});
 		for (ArrayList<DcssTile> tileSet : tilesByPrototype) {
 			DcssTile sampleTile = tileSet.get(0);
+			firstPassGlyphs.add(sampleTile.getGlyph());
+		}
+		for (ArrayList<DcssTile> tileSet : tilesByPrototype) {
+			DcssTile sampleTile = tileSet.get(0);
 			Character newGlyph;
-			if (!usedGlyphs.contains(sampleTile.getGlyph())) {
+			Character glyph = sampleTile.getGlyph();
+			if (!usedGlyphs.contains(glyph)) {
 				newGlyph = sampleTile.getGlyph();
 				usedGlyphs.add(newGlyph);
 			} else {
@@ -224,20 +233,19 @@ public class PcmeConverter {
 		}
 		
 		// Basic headers
-		result = "";
-		result += "##############################################################################";
-		result += "\n";
+		result.append("########################################");
+		result.append("########################################\n");
 		if (map.getProperties().getProperty("comment") != null) {
-			result += "# " + map.getProperties().getProperty("comment") + "\n";
+			result.append("# " + map.getProperties().getProperty("comment") + "\n");
 		}
-		result += "NAME:       ";
+		result.append("NAME:       ");
 		if (map.getProperties().getProperty("name") != null) {
-			result += map.getProperties().getProperty("name");
+			result.append(map.getProperties().getProperty("name"));
 		} else {
-			result += map.getFilename().substring(map.getFilename().lastIndexOf('\\') + 1,
-					map.getFilename().indexOf('.'));
+			result.append(map.getFilename().substring(map.getFilename().lastIndexOf('\\') + 1,
+					map.getFilename().indexOf('.')));
 		}
-		result += "\n";
+		result.append("\n");
 		appendPropertyIfExists("place");
 		appendPropertyIfExists("tags");
 		appendPropertyIfExists("weight");
@@ -329,24 +337,35 @@ public class PcmeConverter {
 		
 		// Custom stuffs
 		if (map.getProperties().getProperty("code") != null) {
-			result += map.getProperties().getProperty("code") + "\n";
+			result.append(map.getProperties().getProperty("code") + "\n");
 		}
 		
 		appendPropertyIfExists("items");
 		appendPropertyIfExists("mons");
 		
 		// Map
-		result += "MAP\n";
-		for (int y = 0; y < featureLayer.getHeight(); y += 1) {
-			String line = "";
-			for (int x = 0; x < featureLayer.getHeight(); x += 1) {
-				line += dcssMap[y][x].getGlyph();
+		result.append("MAP\n");
+		if (map.getHeight() <= map.getWidth()) {
+			for (int y = 0; y < map.getHeight(); y += 1) {
+				StringBuilder line = new StringBuilder();
+				for (int x = 0; x < map.getWidth(); x += 1) {
+					line.append(dcssMap[y][x].getGlyph());
+				}
+				result.append(line + "\n");
 			}
-			result += line + "\n";
+		} else {
+			for (int x = 0; x < map.getWidth(); x += 1) {
+				StringBuilder line =  new StringBuilder();
+				for (int y = 0; y < map.getHeight(); y += 1) {
+					line.append(dcssMap[y][x].getGlyph());
+				}
+				result.append(line + "\n");
+			}
 		}
-		result += "ENDMAP\n";
+
+		result.append("ENDMAP\n");
 		
-		return result;
+		return result.toString();
 	}
 	
 	/**
@@ -382,11 +401,11 @@ public class PcmeConverter {
 	 * @param	code			The code line following the colon
 	 */
 	protected void appendCode(String command, String code) {
-		result += command.toUpperCase() + ":";
+		result.append(command.toUpperCase() + ":");
 		for (int i = command.length(); i < 12 - 1; i += 1) {
-			result += " ";
+			result.append(" ");
 		}
-		result += code + "\n";
+		result.append(code + "\n");
 	}
 	
 	/**
@@ -400,15 +419,20 @@ public class PcmeConverter {
 		Character glyph = null;
 		for (int i = 0; i < preferredGlyphs.length(); i += 1) {
 			Character preferredGlyph = preferredGlyphs.charAt(i);
-			if (unseenGlyphs.contains(glyph)) {
+			if (!usedGlyphs.contains(preferredGlyph) && !firstPassGlyphs.contains(preferredGlyph)) {
 				glyph = preferredGlyph;
 				break;
 			}
 		}
 		if (glyph == null) {
-			glyph = (Character)unseenGlyphs.toArray()[0];
+			for (Character subGlyph : subGlyphs) {
+				if (!usedGlyphs.contains(subGlyph) && !firstPassGlyphs.contains(subGlyph)) {
+					glyph = subGlyph;
+					break;
+				}
+			}
 		}
-		unseenGlyphs.remove(glyph);
+		subGlyphs.remove(glyph);
 		usedGlyphs.add(glyph);
 		return glyph;
 	}

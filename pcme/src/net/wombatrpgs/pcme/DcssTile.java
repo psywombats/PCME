@@ -29,6 +29,8 @@ public class DcssTile {
 	public DcssTile(Character glyph) {
 		this.glyph = glyph;
 		this.originalGlyph = glyph;
+		
+		this.preferredGlyphs = "";
 		addGlyphSynonyms(glyph);
 	}
 	
@@ -299,5 +301,6 @@ public class DcssTile {
 														g = "!?e#o";				break;
 		default: 										g = "";						break;
 		}
+		preferredGlyphs = preferredGlyphs + g;
 	}
 }

@@ -122,6 +122,9 @@ public class PcmeConverter {
 				if (tile.getProperties().getProperty("kfeat") != null) {
 					dcssMap[y][x].setKfeat(tile.getProperties().getProperty("kfeat"));
 				}
+				if (tile.getProperties().getProperty("prefGlyphs") != null) {
+					dcssMap[y][x].addPreferredGlyphs(tile.getProperties().getProperty("prefGlyphs"));
+				}
 			}
 		}
 		
@@ -153,6 +156,9 @@ public class PcmeConverter {
 				}
 				if (tile.getProperties().getProperty("kfeat") != null) {
 					existingTile.setKfeat(tile.getProperties().getProperty("kfeat"));
+				}
+				if (tile.getProperties().getProperty("prefGlyphs") != null) {
+					existingTile.addPreferredGlyphs(tile.getProperties().getProperty("prefGlyphs"));
 				}
 			}
 		}
@@ -208,7 +214,7 @@ public class PcmeConverter {
 				newGlyph = sampleTile.getGlyph();
 				usedGlyphs.add(newGlyph);
 			} else {
-				newGlyph = consumeUnseenGlyph();
+				newGlyph = consumeUnseenGlyph(sampleTile.getPreferredGlyphs());
 			}
 			if (sampleTile.getGlyph() != newGlyph) {
 				for (DcssTile tile : tileSet) {
@@ -385,14 +391,26 @@ public class PcmeConverter {
 	
 	/**
 	 * Picks a substitution character not used in the main map display. Afterwards, that glyph is
-	 * marked used.
+	 * marked used. Can provide some preferred glyphs so that plants usually end up with 'p' etc,
+	 * where the first available in the string will be used.
+	 * @param	preferredGlyphs	A concatenated string of glyphs, to be checked in order
 	 * @return					A previously unseen glyph
 	 */
-	protected Character consumeUnseenGlyph() {
-		Character subChar = (Character)unseenGlyphs.toArray()[0];
-		unseenGlyphs.remove(subChar);
-		usedGlyphs.add(subChar);
-		return subChar;
+	protected Character consumeUnseenGlyph(String preferredGlyphs) {
+		Character glyph = null;
+		for (int i = 0; i < preferredGlyphs.length(); i += 1) {
+			Character preferredGlyph = preferredGlyphs.charAt(i);
+			if (unseenGlyphs.contains(glyph)) {
+				glyph = preferredGlyph;
+				break;
+			}
+		}
+		if (glyph == null) {
+			glyph = (Character)unseenGlyphs.toArray()[0];
+		}
+		unseenGlyphs.remove(glyph);
+		usedGlyphs.add(glyph);
+		return glyph;
 	}
 	
 	/**

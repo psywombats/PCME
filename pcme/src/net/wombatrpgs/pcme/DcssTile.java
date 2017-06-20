@@ -20,6 +20,8 @@ public class DcssTile {
 	protected String kfeat;
 	protected String kprop, kmask;
 	
+	protected String preferredGlyphs;
+	
 	/**
 	 * Creates a new tile with the given glyph.
 	 * @param	glyph			The glyph used by this tile, at least initially
@@ -27,6 +29,7 @@ public class DcssTile {
 	public DcssTile(Character glyph) {
 		this.glyph = glyph;
 		this.originalGlyph = glyph;
+		addGlyphSynonyms(glyph);
 	}
 	
 	/**
@@ -180,10 +183,27 @@ public class DcssTile {
 	
 	/**
 	 * Returns the masking data for this tile.
-	 * @return				The masking property string
+	 * @return					The masking property string
 	 */
 	public String getKmask() {
 		return kmask;
+	}
+	
+	/**
+	 * Adds some preferred glyphs to the beginning of this tile's preferred glyphs string.
+	 * @param	glyphString		The sequence of glyphs to prefer
+	 */
+	public void addPreferredGlyphs(String glyphString) {
+		this.preferredGlyphs = glyphString + this.preferredGlyphs;
+	}
+	
+	/**
+	 * Tiles keep track of what glyphs are best suited for their display should their original not
+	 * be available. These are not guaranteed to be unused.
+	 * @return					A set of glyphs preferred to be used, concatenated together
+	 */
+	public String getPreferredGlyphs() {
+		return this.preferredGlyphs;
 	}
 	
 	/**
@@ -216,6 +236,68 @@ public class DcssTile {
 			return o2 == null;
 		} else {
 			return o1.equals(o2);
+		}
+	}
+	
+	/**
+	 * Given a glyph, adds it and its lookalikes to the preferred glyphs string.
+	 * @param	glyph			The glyph to process
+	 */
+	protected void addGlyphSynonyms(Character glyph) {
+		preferredGlyphs += glyph;
+		String g;
+		switch (glyph) {
+		case '.':										g = "'\"`_";				break;
+		case 'x': case 'X':								g = "xX#+=Z";				break;
+		case 'c':										g = "CSs#";					break;
+		case 'm': case 'n': case 'o':					g = "mnoMNO";				break;
+		case 'v':										g = "VMm";					break;
+		case 'b':										g = "BcCyY";				break;
+		case 't':										g = "T!^/";					break;
+		case '+':										g = "=dD/";					break;
+		case '=':										g = "+rRdD/";				break;
+		case 'w': case 'W':								g = "WwYy~ZzO";				break;
+		case 'l':										g = "L^~_";					break;
+		case '{': case '[': case '(': case '<':			g = "{[(<uU^";				break;
+		case '}': case ']': case ')': case '>':			g = "}])>dDv";				break;
+		case 'A': case 'G': case 'I':					g = "gaiGAI/?!";			break;
+		case 'B': case 'C':								g = "BCbc_!?";				break;
+		case 'T': case 'U': case 'V': case 'Y':			g = "TUVYtuvy";				break;
+		case '!': case '?':								g = "!?O";					break;
+		case 'p':										g = "Pqrs";					break;
+		case 'q':										g = "Qprs";					break;
+		case 'r':										g = "Rqps";					break;
+		case 's':										g = "Spqr";					break;
+		case 'u':										g = "UvV";					break;
+		case 'y':										g = "YzZ";					break;
+		case 'z':										g = "ZyY";					break;
+		case 'J':										g = "jKLMN";				break;
+		case 'K':										g = "KJLMN";				break;
+		case 'L':										g = "lJKMN";				break;
+		case 'M':										g = "mJKLN";				break;
+		case 'N':										g = "nJKLM";				break;
+		case 'O':										g = "o0qQ";					break;
+		case 'Q':										g = "qo`";					break;
+		case 'R':										g = "rsS";					break;
+		case 'S':										g = "sr";					break;
+		case 'Z':										g = "zYy";					break;
+		case '^':										g = "tT6";					break;
+		case '8':										g = "!X\"";					break;
+		case '9':										g = "!?X\"";				break;
+		case '0':										g = "?!eo";					break;
+		case '%': case '*': case '|':					g = "$*?,i";				break;
+		case '$':										g = "%g,";					break;
+		case 'd':										g = "D,*";					break;
+		case 'e':										g = "E,*";					break;
+		case 'f':										g = "F,*";					break;
+		case 'g':										g = "G,*";					break;
+		case 'h':										g = "H,*";					break;
+		case 'i':										g = "I,*";					break;
+		case 'j':										g = "J,*";					break;
+		case 'k':										g = "K,*";					break;
+		case '1': case '2': case '3': case '4': case '5': case '6': case '7':
+														g = "!?e#o";				break;
+		default: 										g = "";						break;
 		}
 	}
 }

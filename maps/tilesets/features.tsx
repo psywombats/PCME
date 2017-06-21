@@ -3,42 +3,42 @@
  <image source="features.png" width="384" height="544"/>
  <tile id="0">
   <properties>
-   <property name="glyph" value="{"/>
+   <property name="glyph" value="}"/>
   </properties>
  </tile>
  <tile id="1">
   <properties>
-   <property name="glyph" value="}"/>
+   <property name="glyph" value="{"/>
   </properties>
  </tile>
  <tile id="2">
   <properties>
-   <property name="glyph" value="("/>
+   <property name="glyph" value=")"/>
   </properties>
  </tile>
  <tile id="3">
   <properties>
-   <property name="glyph" value=")"/>
+   <property name="glyph" value="("/>
   </properties>
  </tile>
  <tile id="4">
   <properties>
-   <property name="glyph" value="["/>
+   <property name="glyph" value="]"/>
   </properties>
  </tile>
  <tile id="5">
   <properties>
-   <property name="glyph" value="]"/>
+   <property name="glyph" value="["/>
   </properties>
  </tile>
  <tile id="6">
   <properties>
-   <property name="glyph" value="&lt;"/>
+   <property name="glyph" value="&gt;"/>
   </properties>
  </tile>
  <tile id="7">
   <properties>
-   <property name="glyph" value="&gt;"/>
+   <property name="glyph" value="&lt;"/>
   </properties>
  </tile>
  <tile id="8">

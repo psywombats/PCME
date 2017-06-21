@@ -79,6 +79,7 @@ public class PcmeMain {
 		
 		try {
 			writer.close();
+			fileWriter.close();
 		} catch (IOException e) {
 			System.out.println("Error closing output file");
 			e.printStackTrace();

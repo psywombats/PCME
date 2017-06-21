@@ -138,7 +138,7 @@
  </tile>
  <tile id="29">
   <properties>
-   <property name="glyph" value=""/>
+   <property name="glyph" value="3"/>
   </properties>
  </tile>
  <tile id="30">

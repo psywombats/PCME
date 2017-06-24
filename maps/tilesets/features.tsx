@@ -755,12 +755,12 @@
  </tile>
  <tile id="177">
   <properties>
-   <property name="glyph" value="T"/>
+   <property name="glyph" value="Z"/>
   </properties>
  </tile>
  <tile id="178">
   <properties>
-   <property name="glyph" value="Z"/>
+   <property name="glyph" value="^"/>
   </properties>
  </tile>
  <tile id="179">

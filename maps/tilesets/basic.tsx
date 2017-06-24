@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<tileset name="Basic" tilewidth="32" tileheight="32" tilecount="180" columns="12">
- <image source="basic.png" width="384" height="480"/>
+<tileset name="Basic" tilewidth="32" tileheight="32" tilecount="204" columns="12">
+ <image source="basic.png" width="384" height="544"/>
  <tile id="0">
   <properties>
    <property name="glyph" value="."/>
@@ -804,6 +804,110 @@
    <property name="glyph" value="b"/>
    <property name="prefGlyphs" value="yY"/>
    <property name="tile" value="dngn_crystal_yellow"/>
+  </properties>
+ </tile>
+ <tile id="180">
+  <properties>
+   <property name="glyph" value="x"/>
+   <property name="rtile" value="wall_pebble"/>
+  </properties>
+ </tile>
+ <tile id="181">
+  <properties>
+   <property name="color" value="brown"/>
+   <property name="glyph" value="x"/>
+   <property name="rtile" value="wall_pebble_brown"/>
+  </properties>
+ </tile>
+ <tile id="182">
+  <properties>
+   <property name="color" value="blue"/>
+   <property name="glyph" value="x"/>
+   <property name="rtile" value="wall_pebble_blue"/>
+  </properties>
+ </tile>
+ <tile id="183">
+  <properties>
+   <property name="color" value="green"/>
+   <property name="glyph" value="x"/>
+   <property name="rtile" value="wall_pebble_green"/>
+  </properties>
+ </tile>
+ <tile id="184">
+  <properties>
+   <property name="color" value="cyan"/>
+   <property name="glyph" value="x"/>
+   <property name="rtile" value="wall_pebble_cyan"/>
+  </properties>
+ </tile>
+ <tile id="185">
+  <properties>
+   <property name="color" value="red"/>
+   <property name="glyph" value="x"/>
+   <property name="rtile" value="wall_pebble_red"/>
+  </properties>
+ </tile>
+ <tile id="186">
+  <properties>
+   <property name="color" value="magenta"/>
+   <property name="glyph" value="x"/>
+   <property name="rtile" value="wall_pebble_magenta"/>
+  </properties>
+ </tile>
+ <tile id="187">
+  <properties>
+   <property name="color" value="darkgrey"/>
+   <property name="glyph" value="x"/>
+   <property name="rtile" value="wall_pebble_darkgrey"/>
+  </properties>
+ </tile>
+ <tile id="188">
+  <properties>
+   <property name="color" value="lightblue"/>
+   <property name="glyph" value="x"/>
+   <property name="rtile" value="wall_pebble_lightblue"/>
+  </properties>
+ </tile>
+ <tile id="189">
+  <properties>
+   <property name="color" value="lightgreen"/>
+   <property name="glyph" value="x"/>
+   <property name="rtile" value="wall_pebble_lightgreen"/>
+  </properties>
+ </tile>
+ <tile id="190">
+  <properties>
+   <property name="color" value="lightcyan"/>
+   <property name="glyph" value="x"/>
+   <property name="rtile" value="wall_pebble_lightcyan"/>
+  </properties>
+ </tile>
+ <tile id="191">
+  <properties>
+   <property name="color" value="lightred"/>
+   <property name="glyph" value="x"/>
+   <property name="rtile" value="wall_pebble_lightred"/>
+  </properties>
+ </tile>
+ <tile id="192">
+  <properties>
+   <property name="color" value="lightmagenta"/>
+   <property name="glyph" value="x"/>
+   <property name="rtile" value="wall_pebble_lightmagenta"/>
+  </properties>
+ </tile>
+ <tile id="193">
+  <properties>
+   <property name="color" value="yellow"/>
+   <property name="glyph" value="x"/>
+   <property name="rtile" value="wall_pebble_yellow"/>
+  </properties>
+ </tile>
+ <tile id="194">
+  <properties>
+   <property name="color" value="white"/>
+   <property name="glyph" value="x"/>
+   <property name="rtile" value="wall_pebble_white"/>
   </properties>
  </tile>
 </tileset>

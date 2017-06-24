@@ -2,7 +2,7 @@
 <map version="2017.05.26" orientation="orthogonal" renderorder="right-down" width="9" height="19" tilewidth="32" tileheight="32" backgroundcolor="#000000" nextobjectid="1">
  <properties>
   <property name="orient" value="float"/>
-  <property name="tags" value="uniq_overflow_hepliaklqana temple_overflow_hepliaklqana decor"/>
+  <property name="tags" value="uniq_overflow_hepliaklqana temple_overflow_hepliaklqana decor no_monster_gen"/>
  </properties>
  <tileset firstgid="1" source="../tilesets/features.tsx"/>
  <tileset firstgid="205" source="../tilesets/basic.tsx"/>

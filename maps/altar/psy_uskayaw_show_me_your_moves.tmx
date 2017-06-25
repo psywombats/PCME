@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="2017.05.26" orientation="orthogonal" renderorder="right-down" width="13" height="13" tilewidth="32" tileheight="32" backgroundcolor="#000000" nextobjectid="1">
+ <properties>
+  <property name="code">KFEAT:      N!? = c
+: if you.absdepth() &lt; 6 then
+KMONS:      1L = rat / nothing w:3
+KMONS:      2 = river rat
+: else
+KMONS:      1L = goblin ; nothing / nothing w:3
+KMONS:      2 = hobgoblin
+: end
+{{
+    function callback.uskayaw_smym(data, triggerable, triggerer, marker, ev)
+      if not dgn.persist.uskayaw_smym_triggered and you.god() == &quot;Uskayaw&quot; then
+        crawl.god_speaks(&quot;Uskayaw&quot;, 'Uskayaw says &quot;Welcome, mortal! Now... ' ..
+                                    'Let me see you dance!');
+        for slave in iter.slave_iterator(&quot;to_door&quot;, 1) do
+          dgn.terrain_changed(slave.x, slave.y, &quot;closed_door&quot;, false)
+        end
+        for slave in iter.slave_iterator(&quot;to_floor&quot;, 1) do
+          dgn.terrain_changed(slave.x, slave.y, &quot;floor&quot;, false)
+        end
+        for slave in iter.slave_iterator(&quot;to_glass&quot;, 1) do
+          dgn.terrain_changed(slave.x, slave.y, &quot;clear_stone_wall&quot;, false)
+        end
+        crawl.god_speaks(&quot;Uskayaw&quot;, &quot;A pounding rhythm fills the dungeon!&quot;)
+        dgn.persist.uskayaw_smym_triggered = true
+      end
+    end
+
+    dgn.persist.uskayaw_smym_triggered = false
+    local los_marker = TriggerableFunction:new {
+      func=&quot;callback.uskayaw_smym&quot;,
+      repeated=true
+    }
+    los_marker:add_triggerer(DgnTriggerer:new {type=&quot;player_los&quot;})
+    lua_marker('U', los_marker)
+    lua_marker('!', props_marker {to_floor=1})
+    lua_marker('?', props_marker {to_door=1})
+    lua_marker('N', props_marker {to_glass=1})
+}}</property>
+  <property name="orient" value="float"/>
+  <property name="tags" value="temple_overflow_1 temple_overflow_uskayaw no_item_gen no_trap_gen"/>
+ </properties>
+ <tileset firstgid="1" source="../tilesets/features.tsx"/>
+ <tileset firstgid="205" source="../tilesets/basic.tsx"/>
+ <layer name="Tile Layer" width="13" height="13">
+  <data encoding="csv">
+206,206,206,206,206,206,206,206,206,206,206,206,206,
+206,209,209,209,209,209,209,209,209,209,209,209,206,
+206,209,217,217,217,217,217,217,217,217,217,209,206,
+206,209,217,217,205,205,205,205,205,217,217,209,206,
+206,209,217,205,205,205,205,205,205,205,217,209,206,
+206,209,205,205,205,205,205,205,205,205,205,209,206,
+206,209,205,205,205,205,205,205,205,205,205,209,206,
+206,209,205,205,205,173,157,173,205,205,205,209,206,
+206,209,217,205,205,180,205,180,205,205,217,209,206,
+206,209,217,205,205,209,205,209,205,205,217,209,206,
+206,209,217,217,205,209,205,209,205,217,217,209,206,
+206,209,209,209,209,209,205,209,209,209,209,209,206,
+206,206,206,206,206,206,205,206,206,206,206,206,206
+</data>
+ </layer>
+ <layer name="Feature Layer" width="13" height="13">
+  <data encoding="csv">
+0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,29,171,171,171,171,171,171,171,29,0,0,
+0,0,171,171,28,28,28,28,28,171,171,0,0,
+0,0,171,28,28,28,28,28,28,28,171,0,0,
+0,0,28,28,28,28,28,28,28,28,28,0,0,
+0,0,28,28,13,28,28,28,13,28,28,0,0,
+0,0,28,28,28,0,0,0,28,28,28,0,0,
+0,0,171,28,28,0,58,0,28,28,171,0,0,
+0,0,171,28,28,0,0,0,28,28,171,0,0,
+0,0,171,171,13,0,0,0,13,171,171,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0
+</data>
+ </layer>
+ <layer name="Tag Layer" width="13" height="13">
+  <data encoding="csv">
+0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0
+</data>
+ </layer>
+ <objectgroup name="Scripting Layer"/>
+</map>

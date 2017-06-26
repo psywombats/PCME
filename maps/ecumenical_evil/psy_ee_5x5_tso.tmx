@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="2017.05.26" orientation="orthogonal" renderorder="right-down" width="5" height="5" tilewidth="32" tileheight="32" backgroundcolor="#000000" nextobjectid="1">
+ <properties>
+  <property name="code" value=": ee_ely_monsters()"/>
+  <property name="orient" value="float"/>
+  <property name="tags" value="ee_5x5 unrand uniq_ee_ely"/>
+ </properties>
+ <tileset firstgid="1" source="../tilesets/features.tsx"/>
+ <tileset firstgid="205" source="../tilesets/basic.tsx"/>
+ <layer name="Tile Layer" width="5" height="5">
+  <data encoding="csv">
+205,205,205,205,205,
+205,205,28,205,205,
+205,76,55,76,205,
+205,205,28,205,205,
+205,205,205,205,205
+</data>
+ </layer>
+ <layer name="Feature Layer" width="5" height="5">
+  <data encoding="csv">
+0,0,0,0,0,
+0,0,0,0,0,
+0,0,0,0,0,
+0,0,0,0,0,
+0,0,0,0,0
+</data>
+ </layer>
+ <layer name="Tag Layer" width="5" height="5">
+  <data encoding="csv">
+0,0,0,0,0,
+0,0,0,0,0,
+0,0,0,0,0,
+0,0,0,0,0,
+0,0,0,0,0
+</data>
+ </layer>
+ <objectgroup name="Scripting Layer"/>
+</map>

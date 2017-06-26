@@ -270,7 +270,7 @@
  </tile>
  <tile id="54">
   <properties>
-   <property name="kfeat" value="altar_shining_one"/>
+   <property name="kfeat" value="altar_the_shining_one"/>
    <property name="prefGlyphs" value="Ss"/>
   </properties>
  </tile>

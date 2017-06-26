@@ -36,11 +36,12 @@ KMONS:      2 = hobgoblin
     los_marker:add_triggerer(DgnTriggerer:new {type=&quot;player_los&quot;})
     lua_marker('U', los_marker)
     lua_marker('!', props_marker {to_floor=1})
-    lua_marker('?', props_marker {to_door=1})
+    lua_marker('?', props_marker {to_door=1, door_restrict=&quot;veto&quot;})
     lua_marker('N', props_marker {to_glass=1})
 }}</property>
   <property name="orient" value="float"/>
   <property name="tags" value="temple_overflow_1 temple_overflow_uskayaw no_item_gen no_trap_gen"/>
+  <property name="weight" value="3"/>
  </properties>
  <tileset firstgid="1" source="../tilesets/features.tsx"/>
  <tileset firstgid="205" source="../tilesets/basic.tsx"/>
@@ -82,15 +83,15 @@ KMONS:      2 = hobgoblin
   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,145,145,145,145,145,145,145,145,145,0,0,
+0,0,145,145,145,145,145,145,145,145,145,0,0,
+0,0,145,145,145,145,145,145,145,145,145,0,0,
+0,0,145,145,145,145,145,145,145,145,145,0,0,
+0,0,145,145,145,145,145,145,145,145,145,0,0,
+0,0,145,145,145,0,0,0,145,145,145,0,0,
+0,0,145,145,145,0,0,0,145,145,145,0,0,
+0,0,145,145,145,0,0,0,145,145,145,0,0,
+0,0,145,145,145,0,0,0,145,145,145,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>

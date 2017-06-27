@@ -316,6 +316,11 @@
    <property name="prefGlyphs" value="Zz"/>
   </properties>
  </tile>
+ <tile id="71">
+  <properties>
+   <property name="glyph" value="_"/>
+  </properties>
+ </tile>
  <tile id="72">
   <properties>
    <property name="glyph" value="G"/>
@@ -323,136 +328,163 @@
  </tile>
  <tile id="73">
   <properties>
+   <property name="glyph" value="G"/>
    <property name="tile" value="dngn_statue_ancient_evil"/>
   </properties>
  </tile>
  <tile id="74">
   <properties>
+   <property name="glyph" value="G"/>
    <property name="tile" value="dngn_statue_ancient_hero"/>
   </properties>
  </tile>
  <tile id="75">
   <properties>
+   <property name="glyph" value="G"/>
    <property name="tile" value="dngn_statue_angel"/>
   </properties>
  </tile>
  <tile id="76">
   <properties>
+   <property name="glyph" value="G"/>
    <property name="tile" value=""/>
   </properties>
  </tile>
  <tile id="77">
   <properties>
+   <property name="glyph" value="G"/>
    <property name="tile" value="dngn_statue_cat"/>
   </properties>
  </tile>
  <tile id="78">
   <properties>
+   <property name="glyph" value="G"/>
    <property name="tile" value="dngn_statue_centaur"/>
   </properties>
  </tile>
  <tile id="79">
   <properties>
+   <property name="glyph" value="G"/>
    <property name="tile" value=""/>
   </properties>
  </tile>
  <tile id="80">
   <properties>
+   <property name="glyph" value="G"/>
    <property name="tile" value="dngn_statue_demonic_bust"/>
   </properties>
  </tile>
  <tile id="81">
   <properties>
+   <property name="glyph" value="G"/>
    <property name="tile" value="dngn_statue_dragon"/>
   </properties>
  </tile>
  <tile id="82">
   <properties>
+   <property name="glyph" value="G"/>
    <property name="tile" value=""/>
   </properties>
  </tile>
  <tile id="83">
   <properties>
+   <property name="glyph" value="G"/>
    <property name="tile" value="dngn_statue_elephant"/>
   </properties>
  </tile>
  <tile id="84">
   <properties>
+   <property name="glyph" value="G"/>
    <property name="tile" value=""/>
   </properties>
  </tile>
  <tile id="85">
   <properties>
+   <property name="glyph" value="G"/>
    <property name="tile" value="dngn_statue_imp"/>
   </properties>
  </tile>
  <tile id="86">
   <properties>
+   <property name="glyph" value="G"/>
    <property name="tile" value="dngn_statue_mermaid"/>
   </properties>
  </tile>
  <tile id="87">
   <properties>
+   <property name="glyph" value="G"/>
    <property name="tile" value="dngn_statue_naga"/>
   </properties>
  </tile>
  <tile id="88">
   <properties>
+   <property name="glyph" value="G"/>
    <property name="tile" value=""/>
   </properties>
  </tile>
  <tile id="89">
   <properties>
+   <property name="glyph" value="G"/>
    <property name="tile" value=""/>
   </properties>
  </tile>
  <tile id="90">
   <properties>
+   <property name="glyph" value="G"/>
    <property name="tile" value=""/>
   </properties>
  </tile>
  <tile id="91">
   <properties>
+   <property name="glyph" value="G"/>
    <property name="tile" value=""/>
   </properties>
  </tile>
  <tile id="92">
   <properties>
+   <property name="glyph" value="G"/>
    <property name="tile" value="dngn_statue_snail"/>
   </properties>
  </tile>
  <tile id="93">
   <properties>
+   <property name="glyph" value="G"/>
    <property name="tile" value=""/>
   </properties>
  </tile>
  <tile id="94">
   <properties>
+   <property name="glyph" value="G"/>
    <property name="tile" value=""/>
   </properties>
  </tile>
  <tile id="95">
   <properties>
+   <property name="glyph" value="G"/>
    <property name="tile" value=""/>
   </properties>
  </tile>
  <tile id="96">
   <properties>
+   <property name="glyph" value="G"/>
    <property name="tile" value=""/>
   </properties>
  </tile>
  <tile id="97">
   <properties>
+   <property name="glyph" value="G"/>
    <property name="tile" value="dngn_statue_wraith"/>
   </properties>
  </tile>
  <tile id="98">
   <properties>
+   <property name="glyph" value="G"/>
    <property name="tile" value="dngn_golden_statue"/>
   </properties>
  </tile>
  <tile id="99">
   <properties>
+   <property name="glyph" value="G"/>
    <property name="tile" value="dngn_golden_statue"/>
   </properties>
  </tile>
@@ -485,7 +517,7 @@
  </tile>
  <tile id="107">
   <properties>
-   <property name="prefGlyphs" value="CI"/>
+   <property name="glyph" value="G"/>
    <property name="tile" value="dngn_crumbled_column"/>
   </properties>
  </tile>
@@ -646,6 +678,16 @@
  <tile id="145">
   <properties>
    <property name="kprop" value="bloody"/>
+  </properties>
+ </tile>
+ <tile id="148">
+  <properties>
+   <property name="glyph" value="+"/>
+  </properties>
+ </tile>
+ <tile id="149">
+  <properties>
+   <property name="glyph" value="="/>
   </properties>
  </tile>
  <tile id="156">

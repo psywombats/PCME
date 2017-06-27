@@ -2,8 +2,8 @@
 <map version="2017.05.26" orientation="orthogonal" renderorder="right-down" width="5" height="5" tilewidth="32" tileheight="32" backgroundcolor="#000000" nextobjectid="1">
  <properties>
   <property name="code">NSUBST:     1 = 2:1 / *:.
-: ee_trog_monsters()</property>
-  <property name="tags" value="ee_5x5 unrand uniq_ee_trog"/>
+: ee_trog(_G)</property>
+  <property name="tags" value="ee_5x5"/>
  </properties>
  <tileset firstgid="1" source="../tilesets/features.tsx"/>
  <tileset firstgid="205" source="../tilesets/basic.tsx"/>
@@ -12,7 +12,7 @@
 205,205,205,205,205,
 205,205,111,205,205,
 205,28,28,28,205,
-205,205,57,205,205,
+205,205,72,205,205,
 205,205,205,205,205
 </data>
  </layer>
@@ -29,7 +29,7 @@
   <data encoding="csv">
 0,0,0,0,0,
 0,0,0,0,0,
-0,146,0,146,0,
+0,0,0,0,0,
 0,0,0,0,0,
 0,0,0,0,0
 </data>

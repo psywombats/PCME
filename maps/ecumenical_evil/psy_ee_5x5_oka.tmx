@@ -3,8 +3,8 @@
  <properties>
   <property name="code">NSUBST:     1 = 2:1 / *:.
 KITEM:      ? = mundane longsword / mundane falchion / mundane scimitar
-: ee_oka_monsters()</property>
-  <property name="tags" value="ee_5x5 unrand uniq_ee_oka"/>
+: ee_oka(_G)</property>
+  <property name="tags" value="ee_5x5"/>
  </properties>
  <tileset firstgid="1" source="../tilesets/features.tsx"/>
  <tileset firstgid="205" source="../tilesets/basic.tsx"/>
@@ -21,7 +21,7 @@ KITEM:      ? = mundane longsword / mundane falchion / mundane scimitar
   <data encoding="csv">
 0,0,0,0,0,
 0,28,180,28,0,
-0,180,52,180,0,
+0,180,72,180,0,
 0,28,180,28,0,
 0,0,0,0,0
 </data>

@@ -3,8 +3,8 @@
  <properties>
   <property name="code">NSUBST:     1 = 2:1 / 5:? / *:.
 : dgn.delayed_decay(_G, &quot;?&quot;,&quot;human skeleton / elf skeleton&quot;)
-: ee_kiku_monsters()</property>
-  <property name="tags" value="ee_5x5 unrand uniq_ee_kiku"/>
+: ee_kiku(_G)</property>
+  <property name="tags" value="ee_5x5"/>
  </properties>
  <tileset firstgid="1" source="../tilesets/features.tsx"/>
  <tileset firstgid="205" source="../tilesets/basic.tsx"/>
@@ -12,7 +12,7 @@
   <data encoding="csv">
 205,205,205,205,205,
 205,180,180,180,205,
-205,180,47,180,205,
+205,180,72,180,205,
 205,180,180,180,205,
 205,205,205,205,205
 </data>

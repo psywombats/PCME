@@ -3,8 +3,8 @@
  <properties>
   <property name="code">SHUFFLE:    1?
 SUBST:      ? = .
-: ee_fedhas_monsters()</property>
-  <property name="tags" value="ee_5x5 unrand uniq_ee_fedhas"/>
+: ee_fedhas(_G)</property>
+  <property name="tags" value="ee_5x5"/>
  </properties>
  <tileset firstgid="1" source="../tilesets/features.tsx"/>
  <tileset firstgid="205" source="../tilesets/basic.tsx"/>
@@ -12,7 +12,7 @@ SUBST:      ? = .
   <data encoding="csv">
 205,28,205,28,205,
 205,141,141,141,205,
-205,141,44,141,205,
+205,141,72,141,205,
 205,141,141,141,205,
 205,180,205,180,205
 </data>

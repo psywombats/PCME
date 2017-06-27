@@ -2,8 +2,8 @@
 <map version="2017.05.26" orientation="orthogonal" renderorder="right-down" width="5" height="5" tilewidth="32" tileheight="32" backgroundcolor="#000000" nextobjectid="1">
  <properties>
   <property name="code">NSUBST:     1 = 2:1 / *:.
-: ee_sif_monsters()</property>
-  <property name="tags" value="ee_5x5 unrand uniq_ee_sif"/>
+: ee_sif(_G)</property>
+  <property name="tags" value="ee_5x5"/>
  </properties>
  <tileset firstgid="1" source="../tilesets/features.tsx"/>
  <tileset firstgid="205" source="../tilesets/basic.tsx"/>
@@ -20,7 +20,7 @@
   <data encoding="csv">
 28,285,0,285,28,
 285,0,285,0,285,
-0,285,56,285,0,
+0,285,72,285,0,
 285,0,285,0,285,
 28,285,0,285,28
 </data>

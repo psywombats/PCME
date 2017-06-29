@@ -1,23 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="2017.05.26" orientation="orthogonal" renderorder="right-down" width="9" height="10" tilewidth="32" tileheight="32" backgroundcolor="#000000" nextobjectid="1">
  <properties>
-  <property name="code" value=": ee_ecumenical(_G)"/>
+  <property name="code">NSUBST:     ? = 3:_ / 6:w / 8:x / 4:W / 3:l / 3:t / 4:b / 1:U / 4:v / 4:n / *:.
+NSUBST:     ! = 5:! / 1:d / 1:e / 1:f / 4:| / 4:* / *:.
+: ee_xom(_G)</property>
   <property name="tags" value="ee_9x9"/>
-  <property name="weight" value="1"/>
  </properties>
  <tileset firstgid="1" source="../tilesets/features.tsx"/>
  <tileset firstgid="205" source="../tilesets/basic.tsx"/>
  <layer name="Tile Layer" width="9" height="10">
   <data encoding="csv">
-205,205,205,205,205,205,205,205,205,
-205,205,205,205,205,205,205,205,205,
-205,205,205,205,205,205,205,205,205,
-205,205,205,205,205,205,205,205,205,
-205,205,205,205,205,205,205,205,205,
-205,205,205,205,205,205,205,205,205,
-205,205,205,205,205,205,205,205,205,
-205,205,205,205,205,205,205,205,205,
-205,205,205,205,205,205,205,205,205,
+180,180,180,157,180,157,180,180,180,
+180,157,180,180,157,180,180,157,180,
+157,180,157,180,157,180,157,180,180,
+180,180,180,205,180,205,180,157,180,
+180,157,205,180,180,157,180,180,157,
+180,180,180,205,180,180,180,157,180,
+180,180,180,205,180,180,157,180,180,
+180,157,157,180,205,180,180,157,180,
+180,180,180,180,205,180,180,180,180,
 0,0,0,205,205,205,0,0,0
 </data>
  </layer>

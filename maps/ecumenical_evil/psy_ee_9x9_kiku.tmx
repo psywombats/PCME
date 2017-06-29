@@ -1,23 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="2017.05.26" orientation="orthogonal" renderorder="right-down" width="9" height="10" tilewidth="32" tileheight="32" backgroundcolor="#000000" nextobjectid="1">
  <properties>
-  <property name="code" value=": ee_ecumenical(_G)"/>
+  <property name="code">SHUFFLE:    1?
+KITEM:      ? = *
+: dgn.delayed_decay(_G, &quot;?&quot;, &quot;human skeleton / elf skeleton&quot;)
+: ee_kiku(_G)</property>
   <property name="tags" value="ee_9x9"/>
-  <property name="weight" value="1"/>
  </properties>
  <tileset firstgid="1" source="../tilesets/features.tsx"/>
  <tileset firstgid="205" source="../tilesets/basic.tsx"/>
  <layer name="Tile Layer" width="9" height="10">
   <data encoding="csv">
-205,205,205,205,205,205,205,205,205,
-205,205,205,205,205,205,205,205,205,
-205,205,205,205,205,205,205,205,205,
-205,205,205,205,205,205,205,205,205,
-205,205,205,205,205,205,205,205,205,
-205,205,205,205,205,205,205,205,205,
-205,205,205,205,205,205,205,205,205,
-205,205,205,205,205,205,205,205,205,
-205,205,205,205,205,205,205,205,205,
+29,121,17,206,206,206,19,121,29,
+121,206,206,206,18,206,206,206,121,
+28,121,205,205,205,205,205,121,180,
+206,206,205,205,205,205,205,206,206,
+28,121,205,205,72,205,205,121,180,
+206,206,205,205,205,205,205,206,206,
+28,121,205,205,205,205,205,121,180,
+206,206,205,205,205,205,205,206,206,
+28,121,205,205,205,205,205,121,180,
 0,0,0,205,205,205,0,0,0
 </data>
  </layer>

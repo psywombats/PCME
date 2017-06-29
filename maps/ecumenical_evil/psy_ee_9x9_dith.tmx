@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="2017.05.26" orientation="orthogonal" renderorder="right-down" width="9" height="10" tilewidth="32" tileheight="32" backgroundcolor="#000000" nextobjectid="1">
  <properties>
-  <property name="code" value=": ee_ecumenical(_G)"/>
+  <property name="code">MARKER: _ = lua:fog_machine { cloud_type = &quot;black smoke&quot;, \
+                              pow_min = 10, pow_max = 20, \
+                              delay = 100, size = 1, walk_dist = 1 }
+: ee_dith(_G)</property>
   <property name="tags" value="ee_9x9"/>
   <property name="weight" value="1"/>
  </properties>
@@ -9,15 +12,15 @@
  <tileset firstgid="205" source="../tilesets/basic.tsx"/>
  <layer name="Tile Layer" width="9" height="10">
   <data encoding="csv">
+206,205,205,205,205,205,205,205,206,
+205,205,205,73,18,73,205,205,205,
+205,205,205,28,28,28,205,205,205,
 205,205,205,205,205,205,205,205,205,
-205,205,205,205,205,205,205,205,205,
-205,205,205,205,205,205,205,205,205,
-205,205,205,205,205,205,205,205,205,
-205,205,205,205,205,205,205,205,205,
-205,205,205,205,205,205,205,205,205,
-205,205,205,205,205,205,205,205,205,
-205,205,205,205,205,205,205,205,205,
-205,205,205,205,205,205,205,205,205,
+205,205,212,205,205,205,212,205,205,
+28,29,206,205,205,205,206,29,28,
+29,72,206,205,205,205,206,72,29,
+16,17,206,205,205,205,206,19,16,
+206,206,206,205,205,205,206,206,206,
 0,0,0,205,205,205,0,0,0
 </data>
  </layer>

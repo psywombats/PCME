@@ -1,22 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="2017.05.26" orientation="orthogonal" renderorder="right-down" width="9" height="10" tilewidth="32" tileheight="32" backgroundcolor="#000000" nextobjectid="1">
  <properties>
-  <property name="code" value=": ee_ecumenical(_G)"/>
+  <property name="code" value=": ee_hep(_G)"/>
   <property name="tags" value="ee_9x9"/>
-  <property name="weight" value="1"/>
  </properties>
  <tileset firstgid="1" source="../tilesets/features.tsx"/>
  <tileset firstgid="205" source="../tilesets/basic.tsx"/>
  <layer name="Tile Layer" width="9" height="10">
   <data encoding="csv">
+16,15,205,205,205,205,205,15,16,
+13,205,205,205,72,205,205,205,13,
+205,205,29,17,18,19,29,205,205,
+205,73,205,205,29,205,205,73,205,
 205,205,205,205,205,205,205,205,205,
+205,73,205,205,205,205,205,73,205,
 205,205,205,205,205,205,205,205,205,
-205,205,205,205,205,205,205,205,205,
-205,205,205,205,205,205,205,205,205,
-205,205,205,205,205,205,205,205,205,
-205,205,205,205,205,205,205,205,205,
-205,205,205,205,205,205,205,205,205,
-205,205,205,205,205,205,205,205,205,
+205,73,205,205,205,205,205,73,205,
 205,205,205,205,205,205,205,205,205,
 0,0,0,205,205,205,0,0,0
 </data>

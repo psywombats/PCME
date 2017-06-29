@@ -1,23 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="2017.05.26" orientation="orthogonal" renderorder="right-down" width="9" height="10" tilewidth="32" tileheight="32" backgroundcolor="#000000" nextobjectid="1">
  <properties>
-  <property name="code" value=": ee_ecumenical(_G)"/>
+  <property name="code">SHUFFLE:    JKLM
+TILE:       JKLM = wall_hall
+COLOUR:     J = magenta
+COLOUR:     K = lightblue
+COLOUR:     L = lightcyan
+COLOUR:     M = lightred
+KFEAT:      JKLM = c
+: ee_lugonu(_G)</property>
   <property name="tags" value="ee_9x9"/>
-  <property name="weight" value="1"/>
  </properties>
  <tileset firstgid="1" source="../tilesets/features.tsx"/>
  <tileset firstgid="205" source="../tilesets/basic.tsx"/>
  <layer name="Tile Layer" width="9" height="10">
   <data encoding="csv">
-205,205,205,205,205,205,205,205,205,
-205,205,205,205,205,205,205,205,205,
-205,205,205,205,205,205,205,205,205,
-205,205,205,205,205,205,205,205,205,
-205,205,205,205,205,205,205,205,205,
-205,205,205,205,205,205,205,205,205,
-205,205,205,205,205,205,205,205,205,
-205,205,205,205,205,205,205,205,205,
-205,205,205,205,205,205,205,205,205,
+169,16,205,205,205,205,205,16,170,
+16,205,205,205,205,205,205,205,16,
+205,205,28,205,205,205,28,205,205,
+205,205,205,205,29,205,205,205,205,
+205,205,205,17,72,19,205,205,205,
+205,205,205,205,18,205,205,205,205,
+205,205,205,205,28,205,205,205,205,
+16,205,205,205,205,205,205,205,16,
+171,15,205,205,205,205,205,15,172,
 0,0,0,205,205,205,0,0,0
 </data>
  </layer>

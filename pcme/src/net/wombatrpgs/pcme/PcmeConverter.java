@@ -112,10 +112,16 @@ public class PcmeConverter {
 						dcssMap[y][x] = new DcssTile(glyph);
 						firstPassGlyphs.add(glyph);
 					}
+				} else {
+					dcssMap[y][x] = new DcssTile('.');
 				}
 				
 				if (tile.getProperties().getProperty("tile") != null) {
-					dcssMap[y][x].setCosmeticTile(tile.getProperties().getProperty("tile"));
+					if (dcssMap[y][x].glyph == '.') {
+						dcssMap[y][x].setCosmeticTile(tile.getProperties().getProperty("tile"));
+					} else {
+						dcssMap[y][x].setSecondaryTileName(tile.getProperties().getProperty("tile"));
+					}
 				}
 				if (tile.getProperties().getProperty("color") != null) {
 					dcssMap[y][x].setColor(tile.getProperties().getProperty("color"));
@@ -246,8 +252,9 @@ public class PcmeConverter {
 					map.getFilename().indexOf('.')));
 		}
 		result.append("\n");
-		appendPropertyIfExists("place");
 		appendPropertyIfExists("tags");
+		appendPropertyIfExists("place");
+		appendPropertyIfExists("depth");
 		appendPropertyIfExists("weight");
 		appendPropertyIfExists("chance");
 		appendPropertyIfExists("orient");
@@ -306,10 +313,14 @@ public class PcmeConverter {
 		HashMap<String, String> kfeatTiles = new HashMap<String, String>();
 		for (ArrayList<DcssTile> tiles : tilesByPrototype) {
 			DcssTile tile = tiles.get(0);
-			if (tile.getKfeat() == null) {
-				continue;
+			if (tile.getKfeat() != null) {
+				addGlyphToCommand(kfeatTiles, tile.getKfeat(), tile.glyph);
+			} else if (tile.getFrtileName() != null && tile.getOriginalGlyph() != '.') {
+				addGlyphToCommand(kfeatTiles, "" + tile.getOriginalGlyph(), tile.glyph);
+			} else if (tile.getTileName() != null) {
+				addGlyphToCommand(kfeatTiles, "" + tile.getOriginalGlyph(), tile.glyph);
 			}
-			addGlyphToCommand(kfeatTiles, tile.getKfeat(), tile.glyph);
+			
 		}
 		printCommandMap(kfeatTiles, "kfeat", "=");
 		
@@ -345,7 +356,11 @@ public class PcmeConverter {
 		
 		// Map
 		result.append("MAP\n");
-		if (map.getHeight() <= map.getWidth()) {
+		boolean noRotate = false;
+		if (map.getProperties().getProperty("tags") != null) {
+			noRotate = map.getProperties().getProperty("tags").contains("no_rotate");
+		}
+		if (map.getHeight() <= map.getWidth() || noRotate) {
 			for (int y = 0; y < map.getHeight(); y += 1) {
 				StringBuilder line = new StringBuilder();
 				for (int x = 0; x < map.getWidth(); x += 1) {

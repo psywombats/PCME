@@ -250,7 +250,7 @@ public class DcssTile {
 		String g;
 		switch (glyph) {
 		case '.':										g = "'\"`_";				break;
-		case 'x': case 'X':								g = "xX#+=Z";				break;
+		case 'x': case 'X':								g = "x#+=Z";				break;
 		case 'c':										g = "CSs#";					break;
 		case 'm': case 'n': case 'o':					g = "mnoMNO";				break;
 		case 'v':										g = "VMm";					break;

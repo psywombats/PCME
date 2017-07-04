@@ -38,10 +38,6 @@ public class PcmeMain {
 			System.err.println("Directory " + inputDirectory + " not found");
 			return;
 		}
-		if (!inputDirectory.isDirectory()) {
-			System.err.println(inputDirectory + " is not a directory");
-			return;
-		}
 		
 		File outFile = new File(outputFilePath);
 		if (!outFile.exists()) {
@@ -63,7 +59,22 @@ public class PcmeMain {
 		}
 		BufferedWriter writer = new BufferedWriter(fileWriter);
 		
-		for (File inputFile : recursivelyFindTmxFiles(inputDirectory)) {
+		if (inputDirectory.isDirectory()) {
+			for (File inputFile : recursivelyFindTmxFiles(inputDirectory)) {
+				System.out.println("Converting " + inputFile.getName() + "...");
+				PcmeConverter converter = new PcmeConverter(inputFile);
+				String output = converter.convertToDcssString();
+				try {
+					writer.write(output);
+					writer.write("\n");
+				} catch (IOException e) {
+					System.err.println("IO error");
+					e.printStackTrace();
+				}
+				
+			}
+		} else {
+			File inputFile = inputDirectory;
 			System.out.println("Converting " + inputFile.getName() + "...");
 			PcmeConverter converter = new PcmeConverter(inputFile);
 			String output = converter.convertToDcssString();
@@ -74,7 +85,6 @@ public class PcmeMain {
 				System.err.println("IO error");
 				e.printStackTrace();
 			}
-			
 		}
 		
 		try {

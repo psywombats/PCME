@@ -316,6 +316,11 @@
    <property name="prefGlyphs" value="Zz"/>
   </properties>
  </tile>
+ <tile id="70">
+  <properties>
+   <property name="glyph" value="C"/>
+  </properties>
+ </tile>
  <tile id="71">
   <properties>
    <property name="glyph" value="_"/>

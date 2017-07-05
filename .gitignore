@@ -44,4 +44,5 @@ Temporary Items
 
 # PCME
 *.class
-*.des
+out.des
+pcme.jar

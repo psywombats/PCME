@@ -1,0 +1,1503 @@
+################################################################################
+# The Temple of Ecumenical Evil. Sort of like the ecumenical temple in that
+# there are a bunch of altars but uh everything wants to kill you.
+# It's a composite vault that uses themed altar subvaults of 5x5 and prize rooms
+# of 9x9 to fill template layouts, heavily inspired by The Grid.
+#
+# Monsters: while this beast is obviously built for flavor, it mostly shows up
+# in the depths, so to keep things a little under control, the generic monster
+# spawns are all taken from the stuff that normally shows up there and the
+# more exoctic worshippers are limited to the boss rooms.
+#
+# Only one temple can show up per game, and only one altar to each god per
+# temple. Just in case there's a default allow_dup vault for each room type.
+#
+
+
+################################################################################
+# Setup functions. These set the altar appropriately, represented by the '_'
+# glyph, and also define a spawn list. '1' is for average (if nasty) depths
+# spawns that populate the average room, while '2' can be more offbeat and is
+# limited to big reward rooms. Also defines 'd', 'e', and 'f' as thematic loot
+# although this is often the same item drop list 3 times if it's non-unique.
+
+{{
+-- Main layout setup. Some styling is applied to substitute standard walls with
+-- stone and then skin it to look like temple wall. Floor would probably too
+-- gaudy to ftile.
+function ee_cosmetic(e)
+  e.subst("x = #")
+  e.kfeat("# = stone_wall")
+  e.tile("# = wall_vines")
+  e.tags("no_monster_gen no_item_gen")
+end
+function ee_setup(e)
+  e.tags("uniq_ee")
+  ee_cosmetic(e)
+end
+
+-- Individual room setups
+function ee_generic_room(e, god)
+  e.tags("unrand uniq_ee_" .. god)
+  e.kfeat("_ = altar_" .. god);
+  ee_cosmetic(e)
+end
+function ee_generic_tags()
+  return "unrand";
+end
+
+function ee_ecumenical(e)
+  e.kfeat("_ = altar_ecumenical")
+  ee_cosmetic(e)
+  e.tags("unrand allow_dup")
+end
+function ee_ash(e)
+  ee_generic_room(e, "ashenzari")
+  e.kmons("1 = great orb of eyes / glowing orange brain")
+  e.kmons("2 = Mara, rakshasa")
+  e.kitem("d = scroll of remove curse")
+  e.kitem("ef = scythe of curses w:2 / |")
+end
+function ee_beogh(e)
+  ee_generic_room(e, "beogh")
+  -- orcs don't really show up in depths, so deep troll normals but mean boss
+  e.kmons("1 = deep troll / deep troll shaman / deep troll earth mage")
+  e.kmons("2 = orc high priest / orc knight w:5")
+  e.kmons("3 = Saint Roka, orc warlord")
+  e.kitem("df = plate armour randart")
+  e.kitem("e = executioner's axe good_item")
+end
+function ee_chei(e)
+  ee_generic_room(e, "cheibriados")
+  e.kmons("1 = ettin / stone giant")
+  e.kmons("2 = torpor snail")
+  e.kitem("df = plate armour good_item ego:ponderousness / " ..
+          "crystal plate armour good_item ego:ponderousness w:5")
+  e.kitem("e = dark maul")
+end
+function ee_dith(e)
+  ee_generic_room(e, "dithmenos")
+  e.kmons("1 = shadow wraith / phantasmal warrior")
+  e.kmons("2 = shadow dragon")
+  e.kitem("e = ring of shadows,*,*,*,*")
+  e.kitem("df = ring of stealth randart")
+end
+function ee_ely(e)
+  ee_generic_room(e, "elyvilon")
+  e.kmons("1 = frost giant / quicksilver dragon w:5")
+  e.kmons("2 = apis")
+  e.kitem("d = potion of heal wounds q:4")
+  e.kitem("e = potion of curing q:4")
+  e.kitem("f = potion of resistance q:4")
+end
+function ee_fedhas(e)
+  ee_generic_room(e, "fedhas")
+  e.kmons("1 = boggart / spriggan defender")
+  e.kmons("2 = oklob plant")
+  e.kitem("e = robe of vines")
+  e.kitem("df = *,*")
+end
+function ee_gozag(e)
+  ee_generic_room(e, "gozag")
+  e.kmons("1 = golden dragon / quicksilver dragon")
+  -- there's only one stereotypical gozag worshipper, really
+  e.kmons("2 = mummy priest ; gold dragon scales good_item . any randart " ..
+          "weapon")
+  e.kitem("def = gold q:27")
+end
+function ee_hep(e)
+  ee_generic_room(e, "hepliaklqana")
+  e.kmons("1 = skeletal warrior / vampire mage / lich")
+  e.kmons("2 = ancient champion")
+  e.kitem("d = quick blade ego:antimagic")
+  e.kitem("e = large shield ego:reflection")  -- no broad axe of speed, sorry
+  e.kitem("f = lajatang ego:freezing")
+end
+function ee_jiyva(e)
+  ee_generic_room(e, "jiyva")
+  e.kmons("1 = slime creature band / great orb of eyes")
+  e.kmons("2 = glowing orange brain / floating eye")
+  e.kitem("def = ring of resist corrosion randart")
+end
+function ee_kiku(e)
+  ee_generic_room(e, "kikubaaqudgha")
+  e.kmons("1 = necromancer / deep elf death mage / lich")
+  e.kmons("2 = lich")
+  e.kitem("e = necronomicon")
+  e.kitem("df = any weapon ego:pain")
+end
+function ee_lugonu(e)
+  ee_generic_room(e, "lugonu")
+  e.kmons("1 = tentacled monstrosity / very ugly thing band")
+  e.kmons("2 = Louise, hell knight ; trident ego:distortion")
+  e.kitem("d = demon trident ego:distortion")
+  e.kitem("e = demon blade ego:distortion")
+  e.kitem("f = demon whip ego:distortion")
+end
+function ee_makhleb(e)
+  ee_generic_room(e, "makhleb")
+  e.kmons("1 = fire giant w:20 / deep elf high priest god:makhleb")
+  e.kmons("2 = deep elf demonologist")
+  e.kitem("e = damnation w:5 / demon blade randart")
+  e.kitem("df = scroll of summoning")
+end
+function ee_nemelex(e)
+  ee_generic_room(e, "nemelex_xobeh")
+  e.kmons("1 = fire dragon / shadow dragon")
+  e.kmons("2 = very ugly thing band")
+  e.kitem("e = *")
+end
+function ee_oka(e)
+  ee_generic_room(e, "okawaru")
+  e.kmons("1 = ettin / iron dragon w:5")
+  e.kmons("2 = juggernaut")
+  local rnd = crawl.random2(3)
+  if rnd == 0 then
+    e.kitem("def = scimitar randart")
+  elseif rnd == 1 then
+    e.kitem("def = eveningstar randart")
+  else
+    e.kitem("def = glaive randart")
+  end
+end
+function ee_qaz(e)
+  ee_generic_room(e, "qazlal")
+  e.kmons("1 = storm dragon / spriggan air mage")
+  e.kmons("2 = deep elf elementalist")
+  e.kitem("e = maxwell's thermic engine")
+  e.kitem("f = any weapon randart ego:freezing")
+  e.kitem("d = any weapon randart ego:flaming")
+end
+function ee_ru(e)
+  ee_generic_room(e, "ru")
+  -- really isn't much Ru flavor to work with, sphinx in number are nasty though
+  e.kmons("1 = rakshasa / sphinx god:ru")
+  e.kmons("2 = great orb of eyes")
+  -- ironically worthless to real ru worshippers but w/e
+  e.kitem("df = amulet of faith randart")
+  e.kitem("e = potion of experience")
+end
+function ee_sif(e)
+  ee_generic_room(e, "sif_muna")
+  e.kmons("1 = deep elf sorcerer / ogre mage")
+  e.kmons("2 = deep elf annihilator / vampire mage")
+  e.kitem("d = robe good_item randart")
+  e.kitem("e = randbook owner:Sif_Muna slevels:16")
+  e.kitem("f = lajatang randart")
+end
+function ee_trog(e)
+  ee_generic_room(e, "trog")
+  e.kmons("1 = spriggan berserker w:20 / stone giant")
+  e.kmons("2 = spriggan berserker band / juggernaut")
+  e.kitem("d = triple sword randart")
+  e.kitem("e = wrath of trog")
+  e.kitem("f = great mace randart")
+end
+function ee_tso(e)
+  ee_generic_room(e, "the_shining_one")
+  e.kmons("1 = tengu warrior ; long sword ego:holy_wrath / " ..
+          "tengu reaver ; war axe ego:holy_wrath")
+  e.kmons("2 = daeva")
+  e.kitem("df = any weapon good_item ego:holy_wrath")
+  e.kitem("e = pearl dragon scales")
+end
+function ee_usk(e)
+  ee_generic_room(e, "uskayaw")
+  e.kmons("1 = spark wasp / rakshasa")
+  -- maybe some fast nasties
+  if rnd == 0 then
+    e.kmons("2 = spark wasp")
+  elseif rnd == 1 then
+    e.kmons("2 = caustic shrike")
+  else
+    e.kmons("2 = tengu reaver")
+  end
+  e.kitem("e = singing sword")
+  e.kitem("df = quick blade good_item")
+end
+function ee_vehumet(e)
+  ee_generic_room(e, "vehumet")
+  e.kmons("1 = deep elf annihilator / deep elf elementalist / " .. 
+          "tengu conjurer w:20")
+  e.kmons("2 = deep elf elementalist")
+  e.kitem("e = randbook disc:conjuration slevels:18 owner:Vehumet")
+  e.kitem("d = book of annihilations")
+  e.kitem("f = book of power")
+end
+function ee_xom(e)
+  ee_generic_room(e, "xom")
+  e.kmons("1 = glowing shapeshifter / shapeshifter")
+  e.kmons("2 = glowing shapeshifter")
+  e.kitem("e = mace of variability")
+  e.kitem("df = any randart")
+end
+function ee_yred(e)
+  ee_generic_room(e, "yredelemnul")
+  e.kmons("1 = flayed ghost / vampire knight")
+  e.kmons("2 = bone dragon")
+  e.kitem("df = scroll of torment q:2")
+  e.kitem("e = sceptre of torment")
+end
+function ee_zin(e)
+  ee_generic_room(e, "zin")
+  e.kmons("1 = sphinx god:zin / golden dragon / titan w:20")
+  e.kmons("2 = Mennas, angel")
+  e.kitem("d = scroll of holy word q:3")
+  e.kitem("f = potion of cancellation q:3")
+  e.kitem("e = eos")
+end
+}}
+
+################################################################################
+# 5x5 altar chambers
+# Each should have one alter '_' and two or so basic enemies '1'. Setup
+# functions are all under ee_godshortname(_G). Map also needs to be navigable in
+# this shape:
+#    @
+#  ?????
+#  ?????
+# @?????@
+#  ?????
+#  ?????
+#    @
+
+NAME:       psy_ee_5x5_ash
+TAGS:       ee_5x5
+KMASK:      _ = no_item_gen
+KMASK:      _ = no_monster_gen
+KPROP:      _ = no_tele_into
+NSUBST:     1 = 2:1 / *:.
+: ee_ash(_G)
+MAP
+1...1
+.xmx.
+.m_m.
+.xmx.
+1...1
+ENDMAP
+
+NAME:       psy_ee_5x5_beogh
+TAGS:       ee_5x5
+: ee_beogh(_G)
+MAP
+ll...
+llll.
+.1_1.
+.llll
+...ll
+ENDMAP
+
+NAME:       psy_ee_5x5_chei
+TAGS:       ee_5x5
+: ee_chei(_G)
+MAP
+x.WW1
+WWWW.
+WW_WW
+.WWWW
+1WW.x
+ENDMAP
+
+NAME:       psy_ee_5x5_dith
+TAGS:       ee_5x5
+: ee_dith(_G)
+MAP
+.....
+.1.1.
+.x_x.
+.xxx.
+.....
+ENDMAP
+
+NAME:       psy_ee_5x5_ecumenical
+TAGS:       ee_5x5
+WEIGHT:     1
+: ee_ecumenical(_G)
+MAP
+.....
+.....
+.0_0.
+.....
+.....
+ENDMAP
+
+NAME:       psy_ee_5x5_ely
+TAGS:       ee_5x5
+: ee_ely(_G)
+MAP
+UWWW1
+WW.WW
+W.x.W
+WW.WW
+1WWW_
+ENDMAP
+
+NAME:       psy_ee_5x5_fedhas
+TAGS:       ee_5x5
+KMONS:      P = plant / bush
+SHUFFLE:    1?
+SUBST:      ? = .
+: ee_fedhas(_G)
+MAP
+.1.1.
+.PPP.
+.P_P.
+.PPP.
+.?.?.
+ENDMAP
+
+NAME:       psy_ee_5x5_gozag
+TAGS:       ee_5x5
+TILE:       G = dngn_golden_statue
+: ee_gozag(_G)
+MAP
+.....
+.G1_.
+..$1.
+.G.G.
+.....
+ENDMAP
+
+NAME:       psy_ee_5x5_hep
+TAGS:       ee_5x5
+NSUBST:     1 = 2:1 / *:.
+: ee_hep(_G)
+MAP
+xt.tx
+t1.1t
+.._..
+t1.1t
+xt.tx
+ENDMAP
+
+NAME:       psy_ee_5x5_jiyva
+TAGS:       ee_5x5
+KFEAT:      ' = .
+FTILE:      'a_ = floor_slime
+: ee_jiyva(_G)
+MAP
+'''''
+'1'''
+''_''
+'''1'
+'''''
+ENDMAP
+
+NAME:       psy_ee_5x5_kiku
+TAGS:       ee_5x5
+NSUBST:     ? = 2:1 / 3:! / *:.
+: dgn.delayed_decay(_G, "!","human skeleton / elf skeleton")
+: ee_kiku(_G)
+MAP
+.....
+.???.
+.?_?.
+.???.
+.....
+ENDMAP
+
+NAME:       psy_ee_5x5_lugonu
+TAGS:       ee_5x5
+TILE:       H = wall_hall
+KFEAT:      H = x
+: ee_lugonu(_G)
+MAP
+x1.Hx
+b....
+.._..
+....v
+xH.1x
+ENDMAP
+
+NAME:       psy_ee_5x5_makhleb
+TAGS:       ee_5x5
+: ee_makhleb(_G)
+MAP
+xxAxx
+x._.x
+.....
+.1.1.
+.....
+ENDMAP
+
+NAME:       psy_ee_5x5_nemelex
+TAGS:       ee_5x5
+RTILE:      a = wall_pebble_lightred
+RTILE:      b = wall_pebble_darkgray
+COLOUR:     b = darkgrey
+COLOUR:     a = lightred
+KFEAT:      ab = x
+: ee_nemelex(_G)
+MAP
+a...b
+.1...
+.._..
+...1.
+b...a
+ENDMAP
+
+NAME:       psy_ee_5x5_oka
+TAGS:       ee_5x5
+NSUBST:     1 = 2:1 / *:.
+KITEM:      ? = mundane longsword / mundane falchion / mundane scimitar
+: ee_oka(_G)
+MAP
+.....
+.1?1.
+.?_?.
+.1?1.
+.....
+ENDMAP
+
+NAME:       psy_ee_5x5_qaz
+TAGS:       ee_5x5
+: ee_qaz(_G)
+MAP
+.....
+.b.b.
+.1_1.
+.b.b.
+.....
+ENDMAP
+
+NAME:       psy_ee_5x5_ru
+TAGS:       ee_5x5
+: ee_ru(_G)
+MAP
+_1..v
+1....
+..vv.
+..vv.
+v....
+ENDMAP
+
+NAME:       psy_ee_5x5_sif
+TAGS:       ee_5x5
+NSUBST:     1 = 2:1 / *:'
+FTILE:      '1_ = floor_pebble_blue
+FTILE:      " = floor_pebble_lightblue
+COLOUR:     '1_ = blue
+COLOUR:     " = lightblue
+KFEAT:      '" = .
+: ee_sif(_G)
+MAP
+1"'"1
+"'"'"
+'"_"'
+"'"'"
+1"'"1
+ENDMAP
+
+NAME:       psy_ee_5x5_trog
+TAGS:       ee_5x5
+NSUBST:     1 = 2:1 / *:.
+: ee_trog(_G)
+MAP
+.....
+..Y..
+.111.
+.._..
+.....
+ENDMAP
+
+NAME:       psy_ee_5x5_tso
+TAGS:       ee_5x5
+ORIENT:     float
+FTILE:      G = dngn_statue_angel
+: ee_tso(_G)
+MAP
+.....
+..1..
+.G_G.
+..1..
+.....
+ENDMAP
+
+NAME:       psy_ee_5x5_usk
+TAGS:       ee_5x5
+: ee_usk(_G)
+MAP
+....1
+..xxx
+.._..
+xxx..
+1....
+ENDMAP
+
+NAME:       psy_ee_5x5_vehumet
+TAGS:       ee_5x5
+: ee_vehumet(_G)
+MAP
+.....
+.1_1.
+.....
+xG.Gx
+xx.xx
+ENDMAP
+
+NAME:       psy_ee_5x5_xom
+TAGS:       ee_5x5 no_pool_fixup
+ORIENT:     float
+NSUBST:     ? = 1:_ / 1:w / 2:x / 2:W / 1:l / 1:t / 1:b / 1:U / 1:v / 2:1 / *:.
+: ee_xom(_G)
+MAP
+??.??
+???.?
+.???.
+?.??.
+??..?
+ENDMAP
+
+NAME:       psy_ee_5x5_yred
+TAGS:       ee_5x5
+KMONS:      p = withered plant
+: ee_yred(_G)
+MAP
+.....
+.p_p.
+.p1p.
+..1..
+.....
+ENDMAP
+
+NAME:       psy_ee_5x5_zin
+TAGS:       ee_5x5
+: ee_zin(_G)
+MAP
+v...v
+.v1v.
+.._..
+.v1v.
+v...v
+ENDMAP
+
+################################################################################
+# 9x9 treasure rooms.
+# They're actually not square, each has a 3x1 entry area so it's placed in the
+# proper direction relative to the main map. As such it's always a dead ends,
+# which is why it makes sense to put treasure there. Contains good stuff, an
+# altar with _, boss-ish monsters on 2, and thematic loot on d/e/f.
+
+NAME:       psy_ee_9x9_ash
+TAGS:       ee_9x9
+KMASK:      d'_ = no_item_gen
+KMASK:      d'_ = no_monster_gen
+KPROP:      d'_ = no_tele_into
+: ee_ash(_G)
+MAP
+cc.....cc 
+ce.....fc 
+..mmmmm.. 
+..md'dm.*.
+.2m'_'m.1.
+..md'dm.*.
+..mmmmm.. 
+ce.....fc 
+cc.....cc 
+ENDMAP
+
+NAME:       psy_ee_9x9_beogh
+TAGS:       ee_9x9
+: ee_beogh(_G)
+MAP
+...2.2.1. 
+..llll.l. 
+..I|*lll. 
+d.........
+e.3_......
+f.........
+..I|*lll. 
+..llll.l. 
+...2.2.1. 
+ENDMAP
+
+NAME:       psy_ee_9x9_chei
+TAGS:       ee_9x9 no_pool_fixup
+TILE:       G = dngn_statue_snail
+KFEAT:      2dfe = W
+: ee_chei(_G)
+MAP
+G|WWWWWWw 
+|WW...WWW 
+WW1.W1.WW 
+W..WdW..WW
+W1W2_eW.WW
+W..Wf.W.WW
+WW1.W1W.W 
+|WW...WWW 
+G|WWWWWWw 
+ENDMAP
+
+NAME:       psy_ee_9x9_dith
+TAGS:       ee_9x9
+# obligatory smoke machine for dith
+MARKER: _ = lua:fog_machine { cloud_type = "black smoke", \
+                              pow_min = 10, pow_max = 20, \
+                              delay = 100, size = 1, walk_dist = 1 }
+: ee_dith(_G)
+MAP
+x....12|x 
+......_dx 
+....vxxxx 
+.G1.......
+.e2.......
+.G1.......
+....vxxxx 
+......_fx 
+x....12|x 
+ENDMAP
+
+NAME:       psy_ee_9x9_ecumenical
+TAGS:       ee_9x9
+WEIGHT:     1
+: ee_ecumenical(_G)
+MAP
+......... 
+....|.... 
+..9...9.. 
+..........
+.|.._.....
+..........
+..9...9.. 
+....|.... 
+......... 
+ENDMAP
+
+NAME:       psy_ee_9x9_ely
+TAGS:       ee_9x9
+FTILE:      ' = floor_w_marble
+KFEAT:      E = altar_elyvilon
+KFEAT:      S = W
+KITEM:      S = |
+KFEAT:      ' = .
+: ee_ely(_G)
+MAP
+x'''''''x 
+''SWWWW'' 
+'SW.2.WW' 
+'W.1d2.W'.
+'W1eE..W'.
+'W.1f2.W'.
+'SW.2.WW' 
+''SWWWW'' 
+x'''''''x 
+ENDMAP
+
+NAME:       psy_ee_9x9_fedhas
+TAGS:       ee_9x9
+KMONS:      P = plant / bush
+: ee_fedhas(_G)
+MAP
+xqqq.1P2P 
+q..P.|P.P 
+q.PPPPP.. 
+q.Pd1.....
+q.e._1....
+q.Pf1.....
+q.PPPPP.. 
+q..P.|P.P 
+xqqq.1P2P 
+ENDMAP
+
+NAME:       psy_ee_9x9_gozag
+TAGS:       ee_9x9
+: ee_gozag(_G)
+MAP
+xxxxxx$$$ 
+x$$$$x1$d 
+x$$$.x..$ 
+x$$..x+xxx
+xe_2.+....
+x$$..x+xxx
+x$$$.x..$ 
+x$$$$x1$f 
+xxxxxx$$$ 
+ENDMAP
+
+NAME:       psy_ee_9x9_hep
+TAGS:       ee_9x9
+: ee_hep(_G)
+MAP
+|$....... 
+*..G.G.G. 
+..2...... 
+..d.......
+._e2......
+..f.......
+..2...... 
+*..G.G.G. 
+|$....... 
+ENDMAP
+
+NAME:       psy_ee_9x9_jiyva
+TAGS:       ee_9x9
+WEIGHT:     1
+FTILE:      '1|2*d_fe = floor_slime
+KFEAT:      ' = .
+: ee_jiyva(_G)
+MAP
+''''''''x 
+''1''2''' 
+'ccccc1'x 
+'c|d*c'''x
+''|_ec2''.
+'c|f*c'''x
+'ccccc1'x 
+''1''2''' 
+''''''''x 
+ENDMAP
+
+NAME:       psy_ee_9x9_kiku
+TAGS:       ee_9x9
+NSUBST:     ? = 4:? / 4:1 / *:.
+KITEM:      ? = *
+: dgn.delayed_decay(_G, "?", "human skeleton / elf skeleton")
+: ee_kiku(_G)
+MAP
+2+?x?x?x? 
++x+x+x+x+ 
+dx....... 
+xx........
+xe.._.....
+xx........
+fx....... 
++x+x+x+x+ 
+2+?x?x?x? 
+ENDMAP
+
+NAME:       psy_ee_9x9_lugonu
+TAGS:       ee_9x9
+SHUFFLE:    JKLM
+TILE:       JKLM = wall_hall
+COLOUR:     J = magenta
+COLOUR:     K = lightblue
+COLOUR:     L = lightcyan
+COLOUR:     M = lightred
+KFEAT:      JKLM = c
+: ee_lugonu(_G)
+MAP
+J|.....|L 
+|.......* 
+..1...... 
+....d.....
+...2_e1...
+....f.....
+..1...... 
+|.......* 
+K|.....|M 
+ENDMAP
+
+NAME:       psy_ee_9x9_makhleb
+TAGS:       ee_9x9
+: ee_makhleb(_G)
+MAP
+xx.....ll 
+x..x1...l 
+.2dl1.... 
+*x|x.x....
+e_|..l....
+*x|x.x....
+.2fl1.... 
+x..x1...l 
+xx.....ll 
+ENDMAP
+
+NAME:       psy_ee_9x9_nemelex
+TAGS:       ee_9x9
+RTILE:      X = wall_pebble_lightred
+RTILE:      # = wall_pebble_darkgray
+COLOUR:     # = darkgrey
+COLOUR:     X = lightred
+KFEAT:      X# = x
+SHUFFLE:    1*
+: ee_nemelex(_G)
+MAP
+xx#**X11# 
+xxx**x11x 
+..X++#++X 
+|d+.......
+e2+.._....
+|f+.......
+..#++X++# 
+xxx11x**x 
+xxX11#**X 
+ENDMAP
+
+NAME:       psy_ee_9x9_oka
+TAGS:       ee_9x9
+: ee_oka(_G)
+MAP
+vvvvvvvvv 
+v.......v 
+v.......v 
+d.1.|.|...
+._e2.G....
+f.1.|.|...
+v.......v 
+v.......v 
+vvvvvvvvv 
+ENDMAP
+
+NAME:       psy_ee_9x9_qaz
+TAGS:       ee_9x9
+TILE:       C = wall_icy_stone
+KFEAT:      C = c
+: ee_qaz(_G)
+MAP
+llllCCCCC 
+lll...CCC 
+l|2.....C 
+d|*2......
+_e*....1..
+f|*2......
+C|2.....l 
+CCC...lll 
+CCCCCllll 
+ENDMAP
+
+NAME:       psy_ee_9x9_ru
+TAGS:       ee_9x9
+: ee_ru(_G)
+MAP
+xx.*1+x+d 
+|xx.xxWxx 
+*.xxxW.Wx 
+*1.xW...W.
+2.e+W._.W.
+*1.xW...W.
+*.xxxW.Wx 
+|xx.xxWxx 
+xx.*1+x+f 
+ENDMAP
+
+NAME:       psy_ee_9x9_sif
+TAGS:       ee_9x9
+FTILE:      '*21dfs = floor_pebble_blue
+FTILE:      .|e` = floor_pebble_lightblue
+COLOUR:     '*21dfs = blue
+COLOUR:     .|e` = lightblue
+KFEAT:      " = .
+: ee_sif(_G)
+MAP
+bbbbbbbbb 
+bb|*.'.bb 
+b|*.2.'.b 
+bd.'.1.'."
+be_.1.'.'"
+bf.'.1.'."
+b|*.2.'.b 
+bb|*.'.bb 
+bbbbbbbbb 
+ENDMAP
+
+NAME:       psy_ee_9x9_trog
+TAGS:       ee_9x9
+WEIGHT:     1
+KPROP:      #e = bloody
+KFEAT:      # = x
+: ee_trog(_G)
+MAP
+G.....||# 
+......|d_ 
+...11xxx# 
+...1.+....
+.e2..+.Y..
+...1.+....
+...11xxx# 
+......|f_ 
+G.....||# 
+ENDMAP
+
+NAME:       psy_ee_9x9_tso
+TAGS:       ee_9x9
+: ee_tso(_G)
+MAP
+xxx...xxx 
+xxx...xxx 
+xxx.1.xxx 
+d|*.......
+e|*2_.....
+f|*.......
+xxx.1.xxx 
+xxx...xxx 
+xxx...xxx 
+ENDMAP
+
+NAME:       psy_ee_9x9_uskayaw
+TAGS:       ee_9x9
+FTILE:      ' = floor_pebble_brown
+COLOUR:     ' = brown
+KFEAT:      ' = .
+: ee_usk(_G)
+MAP
+d''''..'. 
+'.1..'2.' 
+..''..'.' 
+.'.*|*'.'.
+1e.'_|.2'.
+'.'*|*.'..
+'.'..''.. 
+'.1'..2.' 
+f'..''''. 
+ENDMAP
+
+NAME:       psy_ee_9x9_vehumet
+TAGS:       ee_9x9
+: ee_vehumet(_G)
+MAP
+x..121.*| 
+.......*| 
+......xxx 
+d.mvmvx...
+e......._.
+f.vmvmx...
+......xxx 
+.......*| 
+x..121.*| 
+ENDMAP
+
+# constructed with passability in mind
+NAME:       psy_ee_9x9_xom
+TAGS:       ee_9x9
+NSUBST:     ? = 3:_ / 6:w / 8:x / 4:W / 3:l / 3:t / 4:b / 1:U / 4:v / 4:n / *:.
+NSUBST:     ! = 5:2 / 1:d / 1:e / 1:f / 4:| / 4:* / *:.
+: ee_xom(_G)
+MAP
+??!?????? 
+?!??!??!? 
+??!?.??!? 
+!??.?..??.
+?!!????...
+!??.!????.
+??!???!?? 
+?!?!?!?!? 
+????!???? 
+ENDMAP
+
+NAME:       psy_ee_9x9_yred
+TAGS:       ee_9x9
+KMONS:      P = withered plant
+: ee_yred(_G)
+MAP
+cc..11..c 
+c...1...c 
+|.cc...cc 
+|dc.......
+|eP2._....
+|fc.......
+|.cc...cc 
+c...1...c 
+cc..11..c 
+ENDMAP
+
+NAME:       psy_ee_9x9_zin
+TAGS:       ee_9x9
+: ee_zin(_G)
+MAP
+vv.*d*.vv 
+vvv...vvv 
+.vvv.vvv. 
+|.vv.vv...
+e.2._.....
+|.vv.vv...
+.vvv.vvv. 
+vvv...vvv 
+vv.*f*.vv 
+ENDMAP
+
+################################################################################
+# Templates for altar-including vaults. Setup function is ee_setup(_G).
+#
+
+################################################################################
+# Mini-layouts with one or two altars
+
+NAME:       psy_ee_mini_altar
+DEPTH:      Depths, D:13-
+WEIGHT:     5
+ORIENT:     float
+SUBVAULT:   1 : ee_5x5
+KFEAT:      X = x
+: ee_setup(_G)
+MAP
+ XXXXXXXXX 
+ XxxxxxxxX 
+XXx11111xXX
+Xxx11111xxX
+Xx%11111%xX
+Xxx11111xxX
+XXx11111xXX
+ Xxxx+xxxX 
+ XXXx.xXXX 
+    x.x    
+    x+x    
+ENDMAP
+
+NAME:       psy_ee_mini_double
+DEPTH:      Depths, D:13-
+WEIGHT:     5
+ORIENT:     float
+SUBVAULT:   1 : ee_5x5
+SUBVAULT:   2 : ee_5x5
+KFEAT:      X = x
+: ee_setup(_G)
+MAP
+     XXXXXXXXX 
+ XXXXXxxxxxxxX 
+XXxxxxx.....xXX
+xxx*xxx.xxx.xxx
+x11111x.x22222x
+x11111x.x22222x
+@11111...22222@
+x11111x.x22222x
+x11111x.x22222x
+xxx.xxx.xxx*xxx
+XXx.....xxxxxXX
+ XxxxxxxxXXXXX 
+ XXXXXXXXX     
+ENDMAP
+
+NAME:       psy_ee_mini_exposed
+DEPTH:      Depths, D:14-
+ORIENT:     float
+SUBVAULT:   1 : ee_5x5
+: ee_setup(_G)
+MAP
+.......
+.11111.
+.11111.
+.11111.
+.11111.
+.11111.
+.......
+ENDMAP
+
+NAME:       psy_ee_mini_quad
+DEPTH:      Depths, D:13-
+WEIGHT:     5
+ORIENT:     float
+SUBVAULT:   1 : ee_5x5
+KFEAT:      X = x
+: ee_setup(_G)
+MAP
+XXXX+XXXX
+Xxxx.xxxX
+Xx11111xX
+Xx11111xX
++.11111.+
+Xx11111xX
+Xx11111xX
+Xxxx.xxxX
+XXXX+XXXX
+ENDMAP
+
+NAME:       psy_ee_mini_treasure
+DEPTH:      Depths
+WEIGHT:     3
+ORIENT:     float
+SUBVAULT:   1 : ee_9x9
+KFEAT:      X = x
+: ee_setup(_G)
+MAP
+XXXXXXXXXXXXX
+XxxxxxxxxxxxX
+Xx111111111xX
+Xx111111111xX
+Xx111111111xX
+Xx111111111xX
+Xx111111111xX
+Xx111111111xX
+Xx111111111xX
+Xx111111111xX
+Xx111111111xX
+Xxxxx111xxxxX
+XXXXX...XXXXX
+    X...X    
+    X+++X    
+ENDMAP
+
+################################################################################
+# Main layouts and some mini-temples inspired by actual temple designs
+#
+
+NAME:       psy_ee_main_boxy
+DEPTH:      Depths
+WEIGHT:     3
+ORIENT:     float
+SUBVAULT:   1 : ee_5x5
+SUBVAULT:   2 : ee_5x5
+SUBVAULT:   3 : ee_5x5
+SUBVAULT:   4 : ee_5x5
+SUBVAULT:   5 : ee_5x5
+SUBVAULT:   6 : ee_9x9
+KFEAT:      X = x
+: ee_setup(_G)
+MAP
+          XXXXXXXXXX    
+          Xxxxxxxxxx+xxx
+          Xx44444x11111x
+          Xx44444x11111x
+XXXXXXXXXXXx44444.11111+
+Xxxxxxxxxxxx44444x11111x
+Xx666666666x44444x11111x
+Xx666666666xxx.xxxxx.xxx
+Xx666666666xx...xx22222x
+Xx6666666666.....x22222x
+Xx6666666666..T..+22222x
+Xx6666666666.....x22222x
+Xx666666666xx...xx22222x
+Xx666666666xxx.xxxxx.xxx
+Xx666666666x55555x33333x
+Xxxxxxxxxxxx55555x33333x
+XXXXXXXXXXXx55555.33333+
+          Xx55555x33333x
+          Xx55555x33333x
+          Xxxxxxxxxx+xxx
+          XXXXXXXXXX    
+ENDMAP
+
+NAME:       psy_ee_main_cathedral
+DEPTH:      Depths:2-, !Depths:$
+WEIGHT:     3
+ORIENT:     float
+SUBVAULT:   M : ee_5x5
+SUBVAULT:   J : ee_5x5
+SUBVAULT:   H : ee_5x5
+SUBVAULT:   K : ee_5x5
+SUBVAULT:   F : ee_5x5
+SUBVAULT:   E : ee_5x5
+SUBVAULT:   D : ee_5x5
+SUBVAULT:   1 : ee_9x9
+SUBVAULT:   2 : ee_9x9
+SUBVAULT:   3 : ee_9x9
+: ee_setup(_G)
+MAP
+         xxxxxxxxxxx                      
+         x111111111x                      
+         x111111111x                      
+         x111111111x                      
+         x111111111x                      
+         x111111111x                      
+         x111111111x                      
+         x111111111x                      
+         x111111111x                      
+         x111111111x                      
+         xxxx111xxxxxxxx                  
+           xx+++xxJJJJJx                  
+           xx...xxJJJJJx                  
+           xx.T...JJJJJx                  
+xxxxxxxxxxxxx...xxJJJJJx                  
+x222222222xxx.T.xxJJJJJx                  
+x222222222xxx...xxxx+xxxxxxxxxxxxxxxxxxxxx
+x222222222xxMMMMMxHHHHHxFFFFFxEEEEExDDDDDx
+x2222222222+MMMMMxHHHHHxFFFFFxEEEEExDDDDDx
+x2222222222+MMMMMxHHHHH.FFFFF.EEEEE+DDDDD+
+x2222222222+MMMMMxHHHHHxFFFFFxEEEEExDDDDDx
+x222222222xxMMMMMxHHHHHxFFFFFxEEEEExDDDDDx
+x222222222xxx...xxxx+xxxxxxxxxxxxxxxxxxxxx
+x222222222xxx.T.xxKKKKKx                  
+xxxxxxxxxxxxx...xxKKKKKx                  
+           xx.T...KKKKKx                  
+           xx...xxKKKKKx                  
+           xx+++xxKKKKKx                  
+         xxxx333xxxxxxxx                  
+         x333333333x                      
+         x333333333x                      
+         x333333333x                      
+         x333333333x                      
+         x333333333x                      
+         x333333333x                      
+         x333333333x                      
+         x333333333x                      
+         x333333333x                      
+         xxxxxxxxxxx                      
+ENDMAP
+
+# Ripoff of nicolae_temple_figure_zero
+NAME:       psy_ee_main_figure_zero
+DEPTH:      Depths
+WEIGHT:     3
+ORIENT:     float
+SUBVAULT:   1 : ee_5x5
+SUBVAULT:   2 : ee_5x5
+SUBVAULT:   3 : ee_5x5
+SUBVAULT:   4 : ee_5x5
+SUBVAULT:   5 : ee_5x5
+SUBVAULT:   6 : ee_5x5
+SUBVAULT:   7 : ee_5x5
+SUBVAULT:   9 : ee_9x9
+KFEAT:      X = x
+: ee_setup(_G)
+MAP
+             XXXXXXXXX             
+             XvvvvvvvX             
+             Xv44444vX             
+   XXXXXXXXX Xv44444vX XXXXXXXXX   
+   XvvvvvvvX Xv44444vX XvvvvvvvX   
+   Xv33333vX Xv44444vX Xv55555vX   
+   Xv33333vXXXv44444vXXXv55555vX   
+   Xv33333vvvvvvv.vvvvvvv55555vX   
+   Xv33333.vv.........vv.55555vX   
+   Xv33333...............55555vX   
+   Xvvvv.......v+++v.......vvvvX   
+   XXXXvv....vvv...vvv....vvXXXX   
+      Xvv...vvvv999vvvv...vvX      
+XXXXXXXv...vv999999999vv...vXXXXXXX
+Xvvvvvvv...vv999999999vv...vvvvvvvX
+Xv22222v..vvv999999999vvv..v66666vX
+Xv22222v..vvv999999999vvv..v66666vX
+Xv22222...vvv999999999vvv...66666vX
+Xv22222v..vvv999999999vvv..v66666vX
+Xv22222v..vvv999999999vvv..v66666vX
+Xvvvvvvv...vv999999999vv...vvvvvvvX
+XXXXXXXv...vv999999999vv...vXXXXXXX
+      Xvv...vvvvvvvvvvv...vvX      
+   XXXXvv....vvvvvvvvv....vvXXXX   
+   Xvvvv.......vvvvv.......vvvvX   
+   Xv11111...............77777vX   
+   Xv11111.vv.........vv.77777vX   
+   Xv11111vvvvvvv+vvvvvvv77777vX   
+   Xv11111vXXXv.....vXXXv77777vX   
+   Xv11111vX  v.....v  Xv77777vX   
+   XvvvvvvvX  v..{..v  XvvvvvvvX   
+   XXXXXXXXX  v.....v  XXXXXXXXX   
+              v.....v              
+              vvv+vvv              
+ENDMAP
+
+# Ripoff of dpeg_five_rooms_temple
+NAME:       psy_ee_main_five_rooms
+TAGS:       transparent no_rotate
+DEPTH:      Depths
+WEIGHT:     3
+ORIENT:     float
+SUBVAULT:   1 : ee_5x5
+SUBVAULT:   2 : ee_5x5
+SUBVAULT:   3 : ee_5x5
+SUBVAULT:   4 : ee_5x5
+SUBVAULT:   5 : ee_5x5
+KFEAT:      X = x
+: ee_setup(_G)
+MAP
+          .......          
+      .....xx+xx.....      
+    ...xxxxx...xxxxx...    
+   ..xxxxxx11111xxxxxx..   
+  ..xxxxxx.11111.xxxxxx..  
+  .xxxxxxx.11111.xxxxxxx.  
+ ..xxxxxxx.11111.xxxxxxx.. 
+ .xxxxxxxxx11111xxxxxxxxx. 
+ .xxx...xxxx.*.xxxx...xxx. 
+ .+x55555xxxxxxxxx22222x+. 
+..x.55555.xxxxxxx.22222.x..
+.xx.55555*xxxxxxx*22222.xx.
+.xx.55555.xxxxxxx.22222.xx.
+.xxx55555xxxxxxxxx22222xxx.
+.xxxx...xxxxxxxxxxx...xxxx.
+.xxxxxxxxxxxxxxxxxxxxxxxxx.
+..xxxxxx.*.xxxxx.*.xxxxxx..
+ .xxxxx44444xxx33333xxxxx. 
+ .xxxx.44444.x.33333.xxxx. 
+ .xxxx.44444.x.33333.xxxx. 
+ ..xxx.44444.x.33333.xxx.. 
+  .xxxx44444xxx33333xxxx.  
+  ..xxxx...xxxxx...xxxx..  
+   ..xx+xxxxxxxxxxx+xx..   
+    ...xxxxxxxxxxxxx...    
+      .....xxxxx.....      
+          .......          
+ENDMAP
+
+NAME:       psy_ee_main_hallway
+DEPTH:      Depths
+WEIGHT:     5
+ORIENT:     float
+SUBVAULT:   1 : ee_5x5
+SUBVAULT:   2 : ee_5x5
+SUBVAULT:   3 : ee_5x5
+SUBVAULT:   4 : ee_9x9
+KFEAT:      X = x
+: ee_setup(_G)
+MAP
+XXXXXXXXXXXXXXXXXXXXX  
+XxxxxxxxxxxxxxxxxxxxX  
+Xx11111x22222x33333xX  
+Xx11111x22222x33333xX  
+Xx11111x22222x33333xX  
+Xx11111x22222x33333xX  
+Xx11111x22222x33333xX  
+Xxxx.xxxxx.xxxxx.xxxX  
+ ................xxxXXX
+ xGxGxGxGxGxxxx444xxxxX
+ xxxxxxxxxxx444444444xX
+ XXXXXXXXXXx444444444xX
+          Xx444444444xX
+          Xx444444444xX
+          Xx444444444xX
+          Xx444444444xX
+          Xx444444444xX
+          Xx444444444xX
+          Xx444444444xX
+          XxxxxxxxxxxxX
+          XXXXXXXXXXXXX
+ENDMAP
+
+NAME:       psy_ee_main_temple
+DEPTH:      Depths:2-, !Depths:$
+WEIGHT:     5
+ORIENT:     float
+SUBVAULT:   1 : ee_5x5
+SUBVAULT:   2 : ee_5x5
+SUBVAULT:   3 : ee_5x5
+SUBVAULT:   4 : ee_5x5
+SUBVAULT:   5 : ee_5x5
+SUBVAULT:   6 : ee_5x5
+SUBVAULT:   7 : ee_9x9
+KFEAT:      X = x
+: ee_setup(_G)
+MAP
+           XXXXXXXXXXXXXXXXXXXXX
+           XxxxxxxxxxxxxxxxxxxxX
+XXXXXXXXXXXXx55555x33333x11111xX
+Xxxxxxxxxxxxx55555x33333x11111xX
+Xx777777777xx55555x33333x11111xX
+Xx777777777xx55555x33333x11111xX
+Xx777777777xx55555x33333x11111xX
+Xx7777777777xxx.xxxxx.xxxxx.xxx@
+Xx7777777777...................@
+Xx7777777777xxx.xxxxx.xxxxx.xxx@
+Xx777777777xx66666x44444x22222xX
+Xx777777777xx66666x44444x22222xX
+Xx777777777xx66666x44444x22222xX
+Xxxxxxxxxxxxx66666x44444x22222xX
+XXXXXXXXXXXXx66666x44444x22222xX
+           XxxxxxxxxxxxxxxxxxxxX
+           XXXXXXXXXXXXXXXXXXXXX
+ENDMAP
+
+NAME:       psy_ee_main_trinity
+DEPTH:      Depths
+WEIGHT:     5
+ORIENT:     float
+SUBVAULT:   1 : ee_5x5
+SUBVAULT:   2 : ee_5x5
+SUBVAULT:   3 : ee_5x5
+KFEAT:      X = x
+: ee_setup(_G)
+MAP
+    XXXX@XXXX    
+    Xxxx+xxxX    
+    Xx11111xX    
+    Xx11111xX    
+    Xx11111xX    
+    Xx11111xX    
+    Xx11111xX    
+  XXXxx...xxXXX  
+XXXxxx..*..xxxXXX
+Xxxx...*T*...xxxX
+Xx22222...33333xX
+Xx22222.x.33333xX
+@+22222.x.33333+@
+Xx22222xxx33333xX
+Xx22222xxx33333xX
+Xxxx+xxxxxxx+xxxX
+XXXX@XXXXXXX@XXXX
+ENDMAP
+
+
+
+################################################################################
+# The true Temple of Ecumenical Evil -- currently 24 gods represented
+NAME:       psy_ee_encompass
+DEPTH:      Depths:2-, !Depths:$
+WEIGHT:     5
+TAGS:       uniq_d_encompass arrival
+ORIENT:     encompass
+KFEAT:      ' = altar_ecumenical
+NSUBST:     ? = 1:) / 1:] / 1:>>< / 1:<<> / 1:| / 1:' / *=..00%$*
+SUBVAULT:   1 : ee_9x9
+SUBVAULT:   2 : ee_9x9
+SUBVAULT:   3 : ee_9x9
+SUBVAULT:   4 : ee_9x9
+SUBVAULT:   5 : ee_5x5
+SUBVAULT:   6 : ee_5x5
+SUBVAULT:   7 : ee_5x5
+SUBVAULT:   8 : ee_5x5
+SUBVAULT:   9 : ee_5x5
+SUBVAULT:   A : ee_5x5
+SUBVAULT:   B : ee_5x5
+SUBVAULT:   C : ee_5x5
+SUBVAULT:   D : ee_5x5
+SUBVAULT:   E : ee_5x5
+SUBVAULT:   F : ee_5x5
+SUBVAULT:   H : ee_5x5
+SUBVAULT:   I : ee_5x5
+SUBVAULT:   J : ee_5x5
+SUBVAULT:   K : ee_5x5
+SUBVAULT:   L : ee_5x5
+SUBVAULT:   M : ee_5x5
+SUBVAULT:   N : ee_5x5
+SUBVAULT:   O : ee_5x5
+SUBVAULT:   Q : ee_5x5
+SUBST:      z = 0, Z = 9
+: ee_setup(_G)
+MAP
+                                  xxxxxxx                                 
+                      xxxxxxxxxxxxxx.}.xxxxxxxxxxxxxx                     
+                      x222222222xxx.....xxx333333333x                     
+                      x222222222xxbbb.bbbxx333333333x                     
+                   xxxx222222222xxb.....bxx333333333x   ccccc ccccc       
+       xxxxxxxxxxxxx?xx222222222x.b.Z.Z.b.x333333333x  cc.?.ccc.?.cc      
+       x111111111xxx.xx222222222x....'....x333333333xxxc.....G.....c      
+       x111111111xxxx.x222222222x.b.....b.x333333333xxxc..T.....T..c      
+       x111111111xxx.xx222222222xxb.....bxx333333333xxxcc....Z....cc      
+       x111111111xx.xxx222222222xxbbb.bbbxx333333333xxxxcc.......ccc      
+       x111111111xxx'xx222222222xxx.....xxx333333333xxxxxccc...ccc?cc     
+       x111111111xxxx.xxxx222xxxxxxx...xxxxxxx333xxxxxxxxcccc.ccc...cc    
+       x111111111xxx.xxx.......xx..99999..xx.......xxcccccccc.ccG...Gc    
+       x111111111xx.xxx.........n..99999..n.........xc...cccc.ccc...cc    
+       x111111111xxx.xx..77777..n..99999..n..IIIII..xc...cccc.cccc.cc     
+       xxxx111xxxxxx.xx..77777..x..99999..x..IIIII.......cccc.ccTc.cc     
+     xxxxxx...xxxxxx.xxz.77777.zxT.99999.Tx..IIIII.....z...........Tc     
+     x55555...66666x.xx..77777..x..88888..x..IIIII.......cccc.ccTc.cc     
+     x55555...66666x.xx..77777..x..88888..x..IIIII..xc...cc...cccc.cc     
+     x55555...66666..xx.........n..88888..n.........xc...cAAAAAcc...cc    
+     x55555...66666xxxx.........n..88888..n...z.z...xc...cAAAAAcG...Gc    
+     x55555...66666xxxxxxx...xxxx..88888..xxxxx.xxxxxcc.ccAAAAAcc...cc    
+     xxxxxx...xxxxxxxxxxxx...xxxxxxxx+xxxxxxxGx.xGxxxxc.ccAAAAAccc?cc     
+     xccccc...cccccxxxxxx...xxxxxxxBBBBBxxxxx.....xxxcc.ccAAAAAccccc      
+     cc...cc.cc...ccxxxx...xxxxxx.+BBBBB+.xxx..?..xxxc...ccc?ccc          
+     c.G.G.c.c.G.G.cxxx...xxxxxx..+BBBBB+..xx.....xxxcc.ccxcccxxxxxxxxxxx 
+     c..?..c.c..?..cxx...xxxxxx...xBBBBBx...xxxxxxxxxx...xxxxxx444444444x 
+  cccc.G...c.c...G.cx...xxxxxx...xxBBBBBxx...xxxxxxxxx...xxxxxx444444444x 
+  c?wcc...+c.c+...cc...xx.......xxxxx+xxxxx.......xxxCCCCCxxxxx444444444x 
+  c.ccccccc...ccccc...xx.......xxx.......xxx.......x.CCCCC....4444444444x 
+  c.....z...T...z....xxx.......xxx.......xxx.......x.CCCCC....4444444444x 
+  c.ccccccc...ccccc.xxxx...[...xxx.b...b.xxx...(...x.CCCCC....4444444444x 
+  c?lcc...+c.ccxxxccxxxx.......xxx.......xxx.......xxCCCCCxxxxx444444444x 
+  cccc.G...c.cxxxxxxxxxx.......xxx.......xxx.......xxx...xxxxxx444444444x 
+     c..?..c.cxxxxxx?xxxx.....xxxx.b...b.xxxx.....xxxx...xxxxxx444444444x 
+     c.G.G.c.cxxxxx...xxxxx+xxxxxx.......xxxxxx+xxxxxcc.ccxxxxxxxxxxxxxxx 
+     cc...cc.cxx....z....xx..xxxxx...>...xxxxx..xxxxxc...cxxxxxxxxxcccccc 
+      ccccc..xx..cc...cc..xx...xxx.b...b.xxx...xxxxxxcc.ccxxFFFFFxcc.?..cc
+        xx...x?.ccc?.?ccc.?xDDDDDx.......xEEEEExxxxxxx...xxxFFFFFxc?.....c
+       xx....xx..ccccccc..xxDDDDDx.......xEEEEEx?..xx.....x.FFFFFxcc....cc
+      xx....xxxx.........xxxDDDDDx.b...b.xEEEEEx..xx.......xFFFFFxc.....?c
+      x....xxxxxxxxx.xxxxxxxDDDDDx.......xEEEEEx.x+....z....FFFFFxcc....cc
+      x...xxxx.............xDDDDDx.......xEEEEExxx...........x.xxxc?..Z..c
+      x....xxx....z...z....xxx...xxxx.xxxx...xxxx.........z...xxxxcc....cc
+      xx....x...WWWWWWWWW...xHHHHHxJJJJJxKKKKKxx.......G.......xxxc.....?c
+      cc.......WWWW...WWWW...HHHHHxJJJJJxKKKKKx.......G.G.......xxccG..Gcc
+     cc........WW...'...WW...HHHHH+JJJJJ+KKKKK.......G.'.G..z...........c 
+    cc...cx....WWWW...WWWW...HHHHHxJJJJJxKKKKKx.......G.G.......xxccG..Gcc
+ccccc...ccxxx...WWWWWWWWW...xHHHHHxJJJJJxKKKKKxx.......G.......xxxc.....?c
+c....Z.cc   xx....z...z....xxx...xxxx+xxxx...xxxx.........z...xxxxcc....cc
+c.....cc     x.............xNNNNNxx.....xxOOOOOxxx...........x.xxxc?.....c
+c..?..c      xx...xxxxx...xxNNNNNx.......xOOOOOx.x+....z....QQQQQxcc..z.cc
+c.....c      xLLLLLxxxMMMMMxNNNNNx.......xOOOOOx..xx.......xQQQQQxc.....?c
+c.....c      xLLLLLG.GMMMMMxNNNNNx...{...xOOOOOx?..xx.....x.QQQQQxcc....cc
+ccccccc      xLLLLL...MMMMMxNNNNNx.......xOOOOOxxxxxxx...xxxQQQQQxc?.....c
+             xLLLLLG.GMMMMMxxxxxxx.......xxxxxxxxxxxxxx.xxxxQQQQQxcc..?.cc
+             xLLLLLxxxMMMMMx     xx.....xx            xxxxxxxxxxxxxcccccc 
+             xxxxxxxxxxxxxxx      xxxxxxx                                 
+ENDMAP

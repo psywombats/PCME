@@ -13,7 +13,6 @@ public class DcssTile {
 
 	protected Character glyph;
 	protected Character originalGlyph;
-	protected String tileName;
 	protected String frtileName;
 	protected String color;
 	protected String kmons;
@@ -44,27 +43,10 @@ public class DcssTile {
 	}
 	
 	/**
-	 * Sets the tile name used in a feature pass. Same as the cosmetic appearance, but for something
-	 * on the feature layer.
-	 * @param	tileName		The cosmetic tilename used by this tile
-	 */
-	public void setSecondaryTileName(String tileName) {
-		this.tileName = tileName;
-	}
-	
-	/**
-	 * Returns the cosmetic tile name of this tile's feature on the feature layer.
-	 * @return					The tile name cosmetic of this tile
-	 */
-	public String getTileName() {
-		return tileName;
-	}
-	
-	/**
 	 * Returns the cosmetic tile name of this tile's underlying lower chip tile, set with f/rtile.
 	 * @return					The tile name cosmetic of this tile
 	 */
-	public String getFrtileName() {
+	public String getCosmeticTile() {
 		return frtileName;
 	}
 	

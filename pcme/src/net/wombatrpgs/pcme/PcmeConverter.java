@@ -119,8 +119,6 @@ public class PcmeConverter {
 				if (tile.getProperties().getProperty("tile") != null) {
 					if (dcssMap[y][x].glyph == '.') {
 						dcssMap[y][x].setCosmeticTile(tile.getProperties().getProperty("tile"));
-					} else {
-						dcssMap[y][x].setSecondaryTileName(tile.getProperties().getProperty("tile"));
 					}
 				}
 				if (tile.getProperties().getProperty("color") != null) {
@@ -162,7 +160,7 @@ public class PcmeConverter {
 					existingTile.setKmons(tile.getProperties().getProperty("kmons"));
 				}
 				if (tile.getProperties().getProperty("tile") != null) {
-					existingTile.setSecondaryTileName(tile.getProperties().getProperty("tile"));
+					existingTile.setCosmeticTile(tile.getProperties().getProperty("tile"));
 				}
 				if (tile.getProperties().getProperty("kfeat") != null) {
 					existingTile.setKfeat(tile.getProperties().getProperty("kfeat"));
@@ -259,33 +257,26 @@ public class PcmeConverter {
 		appendPropertyIfExists("chance");
 		appendPropertyIfExists("orient");
 		
-		// f/rtile
+		// f/r/tile
 		HashMap<String, String> cosmeticFtiles = new HashMap<String, String>();
 		HashMap<String, String> cosmeticRtiles = new HashMap<String, String>();
+		HashMap<String, String> cosmeticTiles = new HashMap<String, String>();
 		for (ArrayList<DcssTile> tiles : tilesByPrototype) {
 			DcssTile tile = tiles.get(0);
-			if (tile.getFrtileName() == null) {
+			if (tile.getCosmeticTile() == null) {
 				continue;
 			}
-			if (tile.getGlyph() == 'x') {
-				addGlyphToCommand(cosmeticRtiles, tile.getFrtileName(), tile.glyph);
+			if (tile.getOriginalGlyph() == 'x') {
+				addGlyphToCommand(cosmeticRtiles, tile.getCosmeticTile(), tile.glyph);
+			} else if (tile.getOriginalGlyph() == '.') {
+				addGlyphToCommand(cosmeticFtiles, tile.getCosmeticTile(), tile.glyph);
 			} else {
-				addGlyphToCommand(cosmeticFtiles, tile.getFrtileName(), tile.glyph);
+				addGlyphToCommand(cosmeticTiles, tile.getCosmeticTile(), tile.glyph);
 			}
 		}
 		printCommandMap(cosmeticFtiles, "ftile", "=");
 		printCommandMap(cosmeticRtiles, "rtile", "=");
-		
-		// tile
-		HashMap<String, String> costmeticTiles = new HashMap<String, String>();
-		for (ArrayList<DcssTile> tiles : tilesByPrototype) {
-			DcssTile tile = tiles.get(0);
-			if (tile.getTileName() == null) {
-				continue;
-			}
-			addGlyphToCommand(costmeticTiles, tile.getTileName(), tile.glyph);
-		}
-		printCommandMap(costmeticTiles, "tile", "=");
+		printCommandMap(cosmeticTiles, "tile", "=");
 
 		// Colo(u)r
 		HashMap<String, String> colorTiles = new HashMap<String, String>();
@@ -315,12 +306,9 @@ public class PcmeConverter {
 			DcssTile tile = tiles.get(0);
 			if (tile.getKfeat() != null) {
 				addGlyphToCommand(kfeatTiles, tile.getKfeat(), tile.glyph);
-			} else if (tile.getFrtileName() != null && tile.getOriginalGlyph() != '.') {
-				addGlyphToCommand(kfeatTiles, "" + tile.getOriginalGlyph(), tile.glyph);
-			} else if (tile.getTileName() != null) {
-				addGlyphToCommand(kfeatTiles, "" + tile.getOriginalGlyph(), tile.glyph);
+			} else if (tile.getGlyph() != tile.getOriginalGlyph()) {
+				addGlyphToCommand(kfeatTiles, tile.getOriginalGlyph() + "", tile.glyph);
 			}
-			
 		}
 		printCommandMap(kfeatTiles, "kfeat", "=");
 		

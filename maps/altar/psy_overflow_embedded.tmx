@@ -4,6 +4,7 @@
   <property name="code" value="SUBST:      c : cvbn"/>
   <property name="orient" value="float"/>
   <property name="tags" value="temple_overflow_generic_1 transparent decor"/>
+  <property name="weight" value="5"/>
  </properties>
  <tileset firstgid="1" source="../tilesets/features.tsx"/>
  <tileset firstgid="205" source="../tilesets/basic.tsx"/>

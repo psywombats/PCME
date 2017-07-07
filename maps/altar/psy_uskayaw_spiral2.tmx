@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="2017.05.26" orientation="orthogonal" renderorder="right-down" width="13" height="13" tilewidth="32" tileheight="32" backgroundcolor="#000000" nextobjectid="1">
  <properties>
+  <property name="depth" value="D:2-"/>
   <property name="orient" value="float"/>
-  <property name="tags" value="temple_overflow_1 temple_overflow_uskayaw transparent decor"/>
+  <property name="tags" value="uniq_altar_uskaway temple_overflow_1 temple_overflow_uskayaw transparent decor"/>
+  <property name="weight" value="5"/>
  </properties>
  <tileset firstgid="1" source="../tilesets/features.tsx"/>
  <tileset firstgid="205" source="../tilesets/basic.tsx"/>

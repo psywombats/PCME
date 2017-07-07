@@ -6,8 +6,9 @@ SUBST:      ! : xxxxxnG++
 KMONS:      p = plant / nothing w:5 / bush w:5 / fungus w:3
 NSUBST:     ^ = 5:^ / *:.
 KFEAT:      ^ = known web trap</property>
+  <property name="depth" value="D:3-"/>
   <property name="orient" value="float"/>
-  <property name="tags" value="temple_overflow_1 temple_overflow_hepliaklqana decor no_monster_gen"/>
+  <property name="tags" value="temple_overflow_1 temple_overflow_hepliaklqana no_monster_gen"/>
  </properties>
  <tileset firstgid="1" source="../tilesets/features.tsx"/>
  <tileset firstgid="205" source="../tilesets/basic.tsx"/>

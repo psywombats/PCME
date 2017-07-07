@@ -39,6 +39,7 @@ KMONS:      2 = hobgoblin
     lua_marker('?', props_marker {to_door=1, door_restrict=&quot;veto&quot;})
     lua_marker('N', props_marker {to_glass=1})
 }}</property>
+  <property name="depth" value="D:4-"/>
   <property name="orient" value="float"/>
   <property name="tags" value="temple_overflow_1 temple_overflow_uskayaw no_item_gen no_trap_gen"/>
   <property name="weight" value="3"/>

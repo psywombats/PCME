@@ -199,7 +199,6 @@ public class DcssTile {
 	public boolean sharesPrototype(DcssTile tile) {
 		return	nullCompare(glyph, tile.glyph) &&
 				nullCompare(originalGlyph, tile.originalGlyph) &&
-				nullCompare(tileName, tile.tileName) &&
 				nullCompare(frtileName, tile.frtileName) &&
 				nullCompare(kmons, tile.kmons) &&
 				nullCompare(color, tile.color) &&
